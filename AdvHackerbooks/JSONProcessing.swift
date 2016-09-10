@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 /*
  {
@@ -28,26 +29,30 @@ let urlHackerBooks = "https://t.co/K9ziV0z3SJ"
 let fileBooks = "HackerBooks.txt"
 let favouriteBooks = "FavouriteBooks.txt"
 
-func decode(book json: JSONDictionary) throws  -> Book {
+func decode(book json: JSONDictionary, context: NSManagedObjectContext) throws  -> Book {
     
     //Validamos el dict
     guard let author = json["authors"] as? String else{
         throw BookErrors.wrongJSONFormat
     }
     
-    let components = author.components(separatedBy: ",")
-    var aut = Set<String>()
-    for each in components{
-        aut.insert(each.trimmingCharacters(in: NSCharacterSet.whitespaces))
-    }
+    _ = author.components(separatedBy: ",")
+//    var aut = Set<String>()
+//    for each in components{
+//        aut.insert(each.trimmingCharacters(in: NSCharacterSet.whitespaces))
+//    }
     
     guard let imageString = json["image_url"] as? String else{
       throw BookErrors.wrongJSONFormat
     }
     
+    let imageData = try loadDataFromRemoteFile(fileURL: imageString)
+    
     guard let pdfString = json["pdf_url"] as? String else{
             throw  BookErrors.wrongJSONFormat
     }
+    
+    let pdfData = try loadDataFromRemoteFile(fileURL: pdfString)
     
     guard let tags = json["tags"] as? String else{
         throw BookErrors.wrongJSONFormat
@@ -59,33 +64,35 @@ func decode(book json: JSONDictionary) throws  -> Book {
     for each in tagArray{
         tagSet.insert(each.trimmingCharacters(in: NSCharacterSet.whitespaces))
     }
-    let tag = Tag(context: tagSet)
+//    let tag = Tag(context: tagSet)
     
     
     guard let title = json["title"] as? String else{
             throw BookErrors.wrongJSONFormat
     }
     
-    return Book(authors: aut, image: imageString, pdf: pdfString, tags: tag, title: title, isFavourite: false)
+//    return Book(authors: aut, image: imageString, pdf: pdfString, tags: tag, title: title, isFavourite: false)
+    
+    return Book(withTitle: title, inAuthors: author, inTags: tagSet, inPdf: pdfData, inPhoto: imageData, inFavourite: false, inAnnotation: nil, context: context)
 }
 
 
-func encode(book: Book) throws  -> AnyObject {
-    
-    //creamos el json
-    let json : AnyObject = [
-            "authors": Array(book.authors).joinWithSeparator(","),
-            "image_url":book.image,
-            "pdf_url":book.pdf,
-            "tags":Array(book.tags.tags).joinWithSeparator(","),
-            "title": book.title
-        
-    ]
-    
-    return json
-}
+//func encode(book: Book) throws  -> AnyObject {
+//    
+//    //creamos el json
+//    let json : AnyObject = [
+//            "authors": Array(book.authors).joinWithSeparator(","),
+//            "image_url":book.image,
+//            "pdf_url":book.pdf,
+//            "tags":Array(book.tags.tags).joinWithSeparator(","),
+//            "title": book.title
+//        
+//    ]
+//    
+//    return json
+//}
 
-func readJSON() throws -> [Book]{
+func readJSON(context: NSManagedObjectContext) throws -> [Book]{
     
     var json : JSONArray = JSONArray()
     let defaults = UserDefaults.standard
@@ -117,7 +124,7 @@ func readJSON() throws -> [Book]{
         var chars = [Book]()
         for dict in json{
             do{
-                let char = try decode(book: dict)
+                let char = try decode(book: dict, context: context)
                 chars.append(char)
             }catch{
                 print("error al procesar \(dict)")

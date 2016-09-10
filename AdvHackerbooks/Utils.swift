@@ -42,6 +42,27 @@ func loadFromRemoteFile(fileURL name: String, bundle: Bundle = Bundle.main) thro
     }
 }
 
+func loadDataFromRemoteFile(fileURL name: String, bundle: Bundle = Bundle.main) throws -> NSData{
+    
+    if let url = NSURL(string: name),
+        let data = NSData(contentsOf: url as URL){
+        
+        //Guardamos en cache y en local
+        try  data.write(to: obtainLocalCacheUrlDocumentsFile(file: fileBooks) as URL, options: NSData.WritingOptions.atomicWrite)
+        try  data.write(to: obtainLocalUrlDocumentsFile(file: fileBooks) as URL, options: NSData.WritingOptions.atomicWrite)
+        
+        let defaults = UserDefaults.standard
+        defaults.set(urlHackerBooks, forKey: "JSON_Data")
+        
+        
+        return data
+        
+    }else{
+        throw BookErrors.jsonParsingError
+    }
+}
+
+
 func obtainLocalUrlDocumentsFile(file: String) -> NSURL{
     
     //Obtenemos una ruta local de la carpeta documentos y componemos una URL con el fochero que nos dan de entrada

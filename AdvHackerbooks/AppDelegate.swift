@@ -13,6 +13,9 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    //Creamos una instancia del modelo
+    let model = CoreDataStack(modelName: "AdvHackerbooks")!
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -20,6 +23,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Create the window
         let window = UIWindow(frame: UIScreen.main.bounds)
+        
+        do {
+            let books = try readJSON(context: self.model.context)
+            print(books)
+        }
+        catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        
         
         /*
         //Create the Core Data Model
