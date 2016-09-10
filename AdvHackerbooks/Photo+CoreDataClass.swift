@@ -24,5 +24,7 @@ public class Photo: NSManagedObject {
         self.addToBook(book)
         self.photoData = photoData
         
+        
     }
 }
+

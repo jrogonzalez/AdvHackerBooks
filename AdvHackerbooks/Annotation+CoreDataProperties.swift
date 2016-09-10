@@ -24,7 +24,7 @@ extension Annotation {
 //Mark: - KVO
 extension Annotation{
     
-    @nonobjc static let observableKeyNames = ["text", "photo.photoData"]
+    @nonobjc static let observableKeyNames = ["text"]
     
     //Nos vamos a observar a nosotros mismos para cuando cambie alguna propiedad podar actualizar la vista
     func setupKVO(){

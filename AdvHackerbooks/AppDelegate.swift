@@ -13,6 +13,9 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    final var autoSave : Bool = true
+    final let autoSaveDelayInSeconds : Int = 13
+    
     
     //Creamos una instancia del modelo
     let model = CoreDataStack(modelName: "AdvHackerbooks")!
@@ -33,21 +36,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         
-        /*
+        
         //Create the Core Data Model
         let model = CoreDataStack(modelName: "AdvHackerbooks")
         
-        //Create the viewController
-        let 
+        //Create the fetchedRequest
+        let req = NSFetchRequest<Book>(entityName: Book.entityName)
+        req.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
+        do {
+            let res = try model?.context.execute(req)
+        }
+        catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        
+        //Create the fetchedRequestController
+        let reqCtrl = NSFetchedResultsController(fetchRequest: req,
+                                                 managedObjectContext: self.model.context,
+                                                 sectionNameKeyPath: nil, //puede crear los nombres de secciones de las tablas
+                                                 cacheName: nil)
+        
+        //Create the viewController
+        let VC = BooksTableViewController.init(WithFetchedResultsController: reqCtrl, style: UITableViewStyle.plain)
         
         //Create the navController
         let navVC = UINavigationController(rootViewController: <#T##UIViewController#>)
         
+         
+         
         //Assign rootViewcontroller
         window.rootViewController = navVC
         
- */
+ 
+        // make an autosave
+        self.saveDelayContext()
+        
         //Make the window visible
         window.makeKeyAndVisible()
         
@@ -57,11 +81,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        
+          self.saveContext()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        self.saveContext()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -75,7 +103,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        self.saveContext()
+        //self.saveContext()
+        print("Cagada, no debemos gurdar aqui porque ya no tenemos time enough")
     }
 
     // MARK: - Core Data stack
@@ -109,18 +138,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Core Data Saving support
 
-    func saveContext () {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
+    func saveDelayContext () {
+        
+        if (self.autoSave){
+            //Guardamos cada 13 segundos lo que haya en la pila del Contexto
+            self.model.autoSave(self.autoSaveDelayInSeconds)
+            
         }
+        
+//        let context = persistentContainer.viewContext
+//        if context.hasChanges {
+//            do {
+//                try context.save()
+//            } catch {
+//                // Replace this implementation with code to handle the error appropriately.
+//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+//                let nserror = error as NSError
+//                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+//            }
+//        }
+    }
+    
+    func saveContext(){
+        
+        // call the CoreDataStack save method (not with delay)
+        self.model.save()
     }
 
 }

@@ -19,7 +19,6 @@
 		130980BF1D83332C000244E5 /* BookViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130980BE1D83332C000244E5 /* BookViewCell.swift */; };
 		130980C21D8333A6000244E5 /* filledStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 130980C01D8333A6000244E5 /* filledStar.png */; };
 		130980C31D8333A6000244E5 /* EmptyStar.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 130980C11D8333A6000244E5 /* EmptyStar.jpg */; };
-		130980C51D8333D3000244E5 /* BooksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130980C41D8333D3000244E5 /* BooksTableViewController.swift */; };
 		1309810D1D833A99000244E5 /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130981011D833A99000244E5 /* Photo+CoreDataClass.swift */; };
 		1309810E1D833A99000244E5 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130981021D833A99000244E5 /* Photo+CoreDataProperties.swift */; };
 		1309810F1D833A99000244E5 /* Tag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130981031D833A99000244E5 /* Tag+CoreDataClass.swift */; };
@@ -36,6 +35,8 @@
 		130981201D833B65000244E5 /* BookErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1309811F1D833B65000244E5 /* BookErrors.swift */; };
 		130981231D834283000244E5 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130981211D834283000244E5 /* Foundation.swift */; };
 		130981241D834283000244E5 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130981221D834283000244E5 /* Utils.swift */; };
+		138FD8E71D847C1F001EAACE /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138FD8E61D847C1F001EAACE /* CoreDataTableViewController.swift */; };
+		138FD8E91D8484B6001EAACE /* BooksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138FD8E81D8484B6001EAACE /* BooksTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,7 +54,6 @@
 		130980BE1D83332C000244E5 /* BookViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookViewCell.swift; sourceTree = "<group>"; };
 		130980C01D8333A6000244E5 /* filledStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filledStar.png; sourceTree = "<group>"; };
 		130980C11D8333A6000244E5 /* EmptyStar.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = EmptyStar.jpg; sourceTree = "<group>"; };
-		130980C41D8333D3000244E5 /* BooksTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooksTableViewController.swift; sourceTree = "<group>"; };
 		130981011D833A99000244E5 /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Photo+CoreDataClass.swift"; path = "AdvHackerbooks/Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		130981021D833A99000244E5 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Photo+CoreDataProperties.swift"; path = "AdvHackerbooks/Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		130981031D833A99000244E5 /* Tag+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Tag+CoreDataClass.swift"; path = "AdvHackerbooks/Tag+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -70,6 +70,8 @@
 		1309811F1D833B65000244E5 /* BookErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookErrors.swift; sourceTree = "<group>"; };
 		130981211D834283000244E5 /* Foundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
 		130981221D834283000244E5 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		138FD8E61D847C1F001EAACE /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewController.swift; sourceTree = "<group>"; };
+		138FD8E81D8484B6001EAACE /* BooksTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooksTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,11 +120,12 @@
 				130980DE1D83386B000244E5 /* Models */,
 				130980BB1D8331D7000244E5 /* Resources */,
 				130980B71D8331A9000244E5 /* CoreDataStack.swift */,
-				130980BC1D833237000244E5 /* BookViewCell.xib */,
+				138FD8E61D847C1F001EAACE /* CoreDataTableViewController.swift */,
 				1309811D1D833B4A000244E5 /* JSONProcessing.swift */,
 				130980BE1D83332C000244E5 /* BookViewCell.swift */,
+				130980BC1D833237000244E5 /* BookViewCell.xib */,
+				138FD8E81D8484B6001EAACE /* BooksTableViewController.swift */,
 				1309811F1D833B65000244E5 /* BookErrors.swift */,
-				130980C41D8333D3000244E5 /* BooksTableViewController.swift */,
 				130980A21D833189000244E5 /* AppDelegate.swift */,
 				130980A41D833189000244E5 /* ViewController.swift */,
 				130980A61D833189000244E5 /* Main.storyboard */,
@@ -245,14 +248,15 @@
 				130981161D833A99000244E5 /* Annotation+CoreDataProperties.swift in Sources */,
 				130981231D834283000244E5 /* Foundation.swift in Sources */,
 				130981241D834283000244E5 /* Utils.swift in Sources */,
-				130980C51D8333D3000244E5 /* BooksTableViewController.swift in Sources */,
 				130981201D833B65000244E5 /* BookErrors.swift in Sources */,
 				1309810F1D833A99000244E5 /* Tag+CoreDataClass.swift in Sources */,
 				130980BF1D83332C000244E5 /* BookViewCell.swift in Sources */,
 				130981101D833A99000244E5 /* Tag+CoreDataProperties.swift in Sources */,
 				130981131D833A99000244E5 /* Localization+CoreDataClass.swift in Sources */,
 				130980A31D833189000244E5 /* AppDelegate.swift in Sources */,
+				138FD8E71D847C1F001EAACE /* CoreDataTableViewController.swift in Sources */,
 				130981141D833A99000244E5 /* Localization+CoreDataProperties.swift in Sources */,
+				138FD8E91D8484B6001EAACE /* BooksTableViewController.swift in Sources */,
 				130981151D833A99000244E5 /* Annotation+CoreDataClass.swift in Sources */,
 				1309811B1D833ACB000244E5 /* Book+CoreDataClass.swift in Sources */,
 				1309810E1D833A99000244E5 /* Photo+CoreDataProperties.swift in Sources */,

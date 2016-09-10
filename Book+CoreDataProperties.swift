@@ -45,7 +45,7 @@ extension Book {
 //Mark: - KVO
 extension Book{
     
-    @nonobjc static let observableKeyNames = ["annotation.text"]
+    @nonobjc static let observableKeyNames = ["annotation.text", "isFavourite"]
     
     //Nos vamos a observar a nosotros mismos para cuando cambie alguna propiedad podar actualizar la vista
     func setupKVO(){
