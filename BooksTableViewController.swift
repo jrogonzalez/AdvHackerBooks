@@ -8,8 +8,11 @@
 
 import UIKit
 
-class BooksTableViewController: CoreDataTableViewController {
-
+class BooksTableViewController: CoreDataTableViewController , BooksTableViewControllerDelegate{
+    
+    
+    var delegate : BooksTableViewControllerDelegate? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -18,6 +21,10 @@ class BooksTableViewController: CoreDataTableViewController {
         let nibName = UINib.init(nibName: "BookViewCell", bundle: nil)
         
         self.tableView.register(nibName, forCellReuseIdentifier: "BookViewCell")
+        
+        self.delegate = self
+        
+        self.title = "Adv. Hackerbooks"
     }
     
     override func didReceiveMemoryWarning() {
@@ -51,7 +58,21 @@ class BooksTableViewController: CoreDataTableViewController {
             cell.favPhotoView.image = UIImage(imageLiteralResourceName: "EmptyStar.jpg")
         }
         
-        print("\n \n TITULO LIBRO: \(book.title) EN SECTION: \(indexPath.section) Y ROW: \(indexPath.row) \n \n ")
+//        let tags = Array(book.tag!.dictionaryWithValues(forKeys: ["data"]))
+        let tags = Array(book.tag!)
+        // Creamos el array de salida e introducimos el primer elemento el favorito
+        var salida : String = ""
+        
+        //Iteramos y vamos introduciendo los tags salvo el favorito que ya lo introdujimos en la posicion 0
+        for each in tags {
+            let tagName = (each as AnyObject).value(forKey: "tagName")
+            salida.append("\(tagName!), ")
+        }
+        
+        
+        cell.tagsView.text = salida
+        
+//        print("\n \n TITULO LIBRO: \(book.title) EN SECTION: \(indexPath.section) Y ROW: \(indexPath.row) \n \n ")
         
         // Return Cell
         return cell
@@ -59,6 +80,14 @@ class BooksTableViewController: CoreDataTableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60.0
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //Search for the Book selected
+        let book = self.fetchedResultsController?.object(at: indexPath) as! Book
+        
+        //Push to the new controller
+        delegate?.booksTableViewController(vc: self, didSelectBook: book)
     }
 
     /*
@@ -70,5 +99,44 @@ class BooksTableViewController: CoreDataTableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    //Mark: -
+    internal func booksTableViewController(vc: BooksTableViewController, didSelectBook book: Book) {
+        //Create a BookViewController
+        let bookVC = BookViewController(withBook: book)
+        
+        // Push to the navigation Controller
+        self.navigationController?.pushViewController(bookVC, animated: true)
+        
+    }
 
+
+}
+
+
+// Definimos los metodos del delegado
+protocol BooksTableViewControllerDelegate{
+    
+    func booksTableViewController(vc: BooksTableViewController, didSelectBook book: Book)
+    
+}
+
+// Implementamos los metodos del delegado
+extension BooksTableViewController: BookViewControllerDelegate{
+    
+    
+    func bookViewcontroller(vc: BookViewController, addToFavourite: Book){
+        // Actualizamos el modelo
+//        model.addFavorite(book)
+        
+        //sincronizamos
+        self.tableView.reloadData()
+    }
+    func bookViewcontroller(vc: BookViewController, removeFromFavourite: Book){
+        // Actualizamos el modelo
+//        model.removeFavorite(book)
+        
+        //sincronizamos
+        self.tableView.reloadData()
+    }
 }

@@ -33,6 +33,8 @@
 		130981201D833B65000244E5 /* BookErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1309811F1D833B65000244E5 /* BookErrors.swift */; };
 		130981231D834283000244E5 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130981211D834283000244E5 /* Foundation.swift */; };
 		130981241D834283000244E5 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130981221D834283000244E5 /* Utils.swift */; };
+		1366EB6D1D882B8100A5CA01 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1366EB6B1D882B8100A5CA01 /* BookViewController.swift */; };
+		1366EB6E1D882B8100A5CA01 /* BookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1366EB6C1D882B8100A5CA01 /* BookViewController.xib */; };
 		139B72AD1D873697004CDD17 /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139B72AC1D873697004CDD17 /* CoreDataTableViewController.swift */; };
 		139B72B11D8739B6004CDD17 /* BooksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139B72B01D8739B6004CDD17 /* BooksTableViewController.swift */; };
 		139B72BB1D87634E004CDD17 /* books_readable.json in Resources */ = {isa = PBXBuildFile; fileRef = 139B72BA1D87634E004CDD17 /* books_readable.json */; };
@@ -67,6 +69,8 @@
 		1309811F1D833B65000244E5 /* BookErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookErrors.swift; sourceTree = "<group>"; };
 		130981211D834283000244E5 /* Foundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
 		130981221D834283000244E5 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		1366EB6B1D882B8100A5CA01 /* BookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
+		1366EB6C1D882B8100A5CA01 /* BookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookViewController.xib; sourceTree = "<group>"; };
 		139B72AC1D873697004CDD17 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataTableViewController.swift; path = ../CoreDataTableViewController.swift; sourceTree = "<group>"; };
 		139B72B01D8739B6004CDD17 /* BooksTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BooksTableViewController.swift; path = ../BooksTableViewController.swift; sourceTree = "<group>"; };
 		139B72BA1D87634E004CDD17 /* books_readable.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = books_readable.json; sourceTree = "<group>"; };
@@ -131,6 +135,8 @@
 				130980AE1D83318A000244E5 /* LaunchScreen.storyboard */,
 				130980B11D83318A000244E5 /* Info.plist */,
 				130980A91D833189000244E5 /* AdvHackerbooks.xcdatamodeld */,
+				1366EB6B1D882B8100A5CA01 /* BookViewController.swift */,
+				1366EB6C1D882B8100A5CA01 /* BookViewController.xib */,
 			);
 			path = AdvHackerbooks;
 			sourceTree = "<group>";
@@ -221,6 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				139B72BB1D87634E004CDD17 /* books_readable.json in Resources */,
+				1366EB6E1D882B8100A5CA01 /* BookViewController.xib in Resources */,
 				130980B01D83318A000244E5 /* LaunchScreen.storyboard in Resources */,
 				130980AD1D83318A000244E5 /* Assets.xcassets in Resources */,
 				130980C31D8333A6000244E5 /* EmptyStar.jpg in Resources */,
@@ -242,6 +249,7 @@
 				130981181D833A99000244E5 /* Pdf+CoreDataProperties.swift in Sources */,
 				130981171D833A99000244E5 /* Pdf+CoreDataClass.swift in Sources */,
 				130981161D833A99000244E5 /* Annotation+CoreDataProperties.swift in Sources */,
+				1366EB6D1D882B8100A5CA01 /* BookViewController.swift in Sources */,
 				130981231D834283000244E5 /* Foundation.swift in Sources */,
 				130981241D834283000244E5 /* Utils.swift in Sources */,
 				130981201D833B65000244E5 /* BookErrors.swift in Sources */,
