@@ -42,9 +42,9 @@ func loadFromRemoteFile(fileURL name: String, bundle: Bundle = Bundle.main) thro
     }
 }
 
-func loadDataFromRemoteFile(fileURL name: String, bundle: Bundle = Bundle.main) -> NSData?{
+func loadDataFromRemoteFile(fileURL name: String, bundle: Bundle = Bundle.main) throws -> NSData?{
     
-    DispatchQueue.global(qos: .default).async {
+    
         
         if let url = NSURL(string: name),
             let data = NSData(contentsOf: url as URL){
@@ -63,9 +63,45 @@ func loadDataFromRemoteFile(fileURL name: String, bundle: Bundle = Bundle.main) 
             return nil
         }
 
-    }
+    
     
 }
+
+//func loadDataFromRemoteFile(fileURL name: String, bundle: Bundle = Bundle.main){
+//    
+//    DispatchQueue.global(qos: .default).async {
+//        
+//        do {
+//            if let url = NSURL(string: name),
+//                let data = NSData(contentsOf: url as URL){
+//                
+//                //Guardamos en cache y en local
+//                try  data.write(to: obtainLocalCacheUrlDocumentsFile(file: fileBooks) as URL, options: NSData.WritingOptions.atomicWrite)
+//                try  data.write(to: obtainLocalUrlDocumentsFile(file: fileBooks) as URL, options: NSData.WritingOptions.atomicWrite)
+//                
+//                let defaults = UserDefaults.standard
+//                defaults.set(urlHackerBooks, forKey: "JSON_Data")
+//                
+//                DispatchQueue.main.async {
+//                    return data
+//                }
+////                return data
+//                
+//            }
+////            else{
+////                return nil
+////            }
+//
+//        }
+//        catch let error as NSError {
+//            print(error.localizedDescription)
+//            
+//        }
+//        
+//        
+//    }
+//    
+//}
 
 
 func obtainLocalUrlDocumentsFile(file: String) -> NSURL{

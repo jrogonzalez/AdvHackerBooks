@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-
+@objc
 public class Localization: NSManagedObject {
 
 }

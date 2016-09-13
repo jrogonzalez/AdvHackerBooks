@@ -8,13 +8,13 @@
         <attribute name="isFavourite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="title" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="annotation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Annotation" inverseName="book" inverseEntity="Annotation" syncable="YES"/>
-        <relationship name="pdf" maxCount="1" deletionRule="Cascade" destinationEntity="Pdf" inverseName="book" inverseEntity="Pdf" syncable="YES"/>
+        <relationship name="pdf" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Pdf" inverseName="book" inverseEntity="Pdf" syncable="YES"/>
         <relationship name="photo" maxCount="1" deletionRule="Cascade" destinationEntity="Photo" inverseName="book" inverseEntity="Photo" syncable="YES"/>
         <relationship name="tag" toMany="YES" deletionRule="Cascade" destinationEntity="Tag" inverseName="book" inverseEntity="Tag" syncable="YES"/>
     </entity>
     <entity name="Localization" representedClassName=".Localization" syncable="YES"/>
     <entity name="Pdf" representedClassName=".Pdf" syncable="YES">
-        <attribute name="pdfData" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="pdfData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <relationship name="book" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="pdf" inverseEntity="Book" syncable="YES"/>
     </entity>
     <entity name="Photo" representedClassName=".Photo" syncable="YES">
@@ -27,9 +27,9 @@
     </entity>
     <elements>
         <element name="Annotation" positionX="0" positionY="45" width="128" height="75"/>
-        <element name="Book" positionX="-63" positionY="-18" width="128" height="135"/>
-        <element name="Localization" positionX="-18" positionY="36" width="128" height="45"/>
-        <element name="Pdf" positionX="-36" positionY="27" width="128" height="75"/>
+        <element name="Book" positionX="-63" positionY="-18" width="128" height="133"/>
+        <element name="Localization" positionX="-18" positionY="36" width="128" height="43"/>
+        <element name="Pdf" positionX="-36" positionY="27" width="128" height="73"/>
         <element name="Photo" positionX="18" positionY="63" width="128" height="75"/>
         <element name="Tag" positionX="-54" positionY="18" width="128" height="75"/>
     </elements>

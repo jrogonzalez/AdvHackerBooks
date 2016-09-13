@@ -24,11 +24,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        //Borramos lo ya existente
+        do {
+            try model.dropAllData()
+        }
+        catch let error as NSError {
+            print(error.localizedDescription)
+        }
+
+        
         //Create the window
-        let window = UIWindow(frame: UIScreen.main.bounds)
+        window = UIWindow(frame: UIScreen.main.bounds)
         
         do {
-            let books = try readJSON(context: self.model.context)
+            let books = try readJSON(context: model.context)
             print(books)
         }
         catch let error as NSError {
@@ -36,44 +45,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         
-        
-        //Create the Core Data Model
-        let model = CoreDataStack(modelName: "AdvHackerbooks")
-        
         //Create the fetchedRequest
         let req = NSFetchRequest<Book>(entityName: Book.entityName)
-        req.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        req.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         
-        do {
-            let res = try model?.context.execute(req)
-        }
-        catch let error as NSError {
-            print(error.localizedDescription)
-        }
+//        do {
+//            let res = try model?.context.execute(req)
+//        }
+//        catch let error as NSError {
+//            print(error.localizedDescription)
+//        }
         
         //Create the fetchedRequestController
         let reqCtrl = NSFetchedResultsController(fetchRequest: req,
-                                                 managedObjectContext: self.model.context,
+                                                 managedObjectContext: model.context,
                                                  sectionNameKeyPath: nil, //puede crear los nombres de secciones de las tablas
                                                  cacheName: nil)
         
         //Create the viewController
-        let VC = BooksTableViewController.init(WithFetchedResultsController: reqCtrl, style: UITableViewStyle.plain)
+        let VC = BooksTableViewController(fetchedResultsController: reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
         
         //Create the navController
-        let navVC = UINavigationController(rootViewController: <#T##UIViewController#>)
+        let navVC = UINavigationController(rootViewController: VC)
         
          
          
         //Assign rootViewcontroller
-        window.rootViewController = navVC
+        window?.rootViewController = navVC
         
  
         // make an autosave
-        self.saveDelayContext()
+//        self.saveDelayContext()
         
         //Make the window visible
-        window.makeKeyAndVisible()
+        window?.makeKeyAndVisible()
         
         return true
     }
@@ -82,14 +87,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
         
-          self.saveContext()
+          //self.saveContext()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
-        self.saveContext()
+        //self.saveContext()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
