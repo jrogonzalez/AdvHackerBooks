@@ -14,6 +14,12 @@ class BookViewController: UIViewController {
 
     @IBOutlet weak var coverView: UIImageView!
     @IBAction func loadPdfButton(_ sender: AnyObject) {
+        //Create the pdfController
+        let pdfVC = PdfViewController(withModel: self.model)
+        
+        //Pus to the navigation
+        self.navigationController?.pushViewController(pdfVC, animated: true)
+        
     }
     @IBOutlet weak var emptyStarView: UIImageView!
     @IBOutlet weak var filledStarView: UIImageView!
