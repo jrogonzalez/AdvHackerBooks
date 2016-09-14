@@ -77,12 +77,12 @@ func decode(book json: JSONDictionary, context: NSManagedObjectContext) throws  
 //    return Book(withTitle: title, inAuthors: author, inTags: tagSet, inPdf: pdfData, inPhoto: imageData, inFavourite: false, inAnnotation: nil, context: context)
     
     return Book(withTitle: title,
-                inAuthors: "Auth",
+                inAuthors: author,
                 inTags: tagSet,
-                inPdf: nil,
+                inPdf: pdfString,
                 inPhoto: imageData!,
                 inFavourite: false,
-                inAnnotation: nil,
+                inNote: nil,
                 context: context)
 }
 

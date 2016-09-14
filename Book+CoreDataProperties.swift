@@ -2,13 +2,12 @@
 //  Book+CoreDataProperties.swift
 //  AdvHackerbooks
 //
-//  Created by jro on 09/09/16.
+//  Created by jro on 14/09/16.
 //  Copyright © 2016 jro. All rights reserved.
 //
 
 import Foundation
-import CoreData
- 
+import CoreData 
 
 extension Book {
 
@@ -16,12 +15,13 @@ extension Book {
         return NSFetchRequest<Book>(entityName: "Book");
     }
 
+    @NSManaged public var authors: String?
     @NSManaged public var isFavourite: Bool
     @NSManaged public var title: String?
-    @NSManaged public var annotation: Annotation?
     @NSManaged public var pdf: Pdf?
     @NSManaged public var photo: Photo?
     @NSManaged public var tag: NSSet?
+    @NSManaged public var note: Note?
 
 }
 

@@ -1,43 +1,42 @@
 //
-//  Annotation+CoreDataClass.swift
+//  Note+CoreDataClass.swift
 //  AdvHackerbooks
 //
-//  Created by jro on 09/09/16.
+//  Created by jro on 14/09/16.
 //  Copyright © 2016 jro. All rights reserved.
 //
 
 import Foundation
 import CoreData
 
-@objc
-public class Annotation: NSManagedObject {
 
-    static let entityName = "Annotation"
+public class Note: NSManagedObject {
+    static let entityName = "Note"
     
-    init(withBook book: Book, annotationText: String, context: NSManagedObjectContext){
+    convenience init(withBook book: Book, text: String , context: NSManagedObjectContext){
+        //create the entity
+        let entity = NSEntityDescription.entity(forEntityName: Note.entityName, in: context)!
         
-        // Obtain the entity description
-        let ent = NSEntityDescription.entity(forEntityName: Annotation.entityName, in: context)!
+        //call the super
+        self.init(entity: entity, insertInto: context)
         
-        // Call super
-        super.init(entity: ent, insertInto: context)
-        
+        // fill the properties
         self.book = book
-        text = annotationText
+        self.text = text
         
     }
+
 }
 
-
 //Mark: - KVO
-extension Annotation{
+extension Note{
     
     @nonobjc static let observableKeyNames = ["text"]
     
     //Nos vamos a observar a nosotros mismos para cuando cambie alguna propiedad podar actualizar la vista
     func setupKVO(){
         
-        for key in Annotation.observableKeyNames{
+        for key in Note.observableKeyNames{
             self.addObserver(self,
                              forKeyPath: key,
                              options: [NSKeyValueObservingOptions.new , NSKeyValueObservingOptions.old] ,
@@ -49,7 +48,7 @@ extension Annotation{
     
     func tearDownKVO(){
         //Me doy de baja en todas las notificaciones
-        for key in Annotation.observableKeyNames{
+        for key in Note.observableKeyNames{
             self.removeObserver(self, forKeyPath: key)
         }
     }
@@ -63,7 +62,7 @@ extension Annotation{
 }
 
 //Mark: - lifeCycle
-extension Annotation{
+extension Note{
     
     // se llama una sola vez
     public override func awakeFromInsert() {
@@ -85,4 +84,5 @@ extension Annotation{
         tearDownKVO()
     }
 }
+
 

@@ -9,7 +9,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PdfViewController" customModule="AdvHackerbooks" customModuleProvider="target">
             <connections>
                 <outlet property="activityView" destination="HYR-rb-cH8" id="B7e-uN-4ZT"/>
-                <outlet property="navigationView" destination="27h-fg-o9w" id="H6Q-iF-hYl"/>
                 <outlet property="pdfView" destination="cI6-Rt-AwH" id="IN4-gq-RfK"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -19,21 +18,8 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D3S-XQ-MIg">
-                    <frame key="frameInset" minY="22" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                    <items>
-                        <navigationItem title="Pdf" id="27h-fg-o9w">
-                            <barButtonItem key="rightBarButtonItem" title="Notes" id="2Vm-ZW-gzu">
-                                <connections>
-                                    <action selector="notesButton:" destination="-1" id="w7v-9A-d97"/>
-                                </connections>
-                            </barButtonItem>
-                        </navigationItem>
-                    </items>
-                </navigationBar>
                 <webView contentMode="scaleAspectFit" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cI6-Rt-AwH">
-                    <frame key="frameInset" minY="66" width="375" height="601"/>
+                    <frame key="frameInset" minY="66" width="375" height="551"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </webView>
@@ -41,6 +27,23 @@
                     <frame key="frameInset" minX="177" minY="356" width="20" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y7u-UH-uQx">
+                    <frame key="frameInset" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem title="See All Notes" id="KUp-OY-fvp">
+                            <connections>
+                                <action selector="displayNotes:" destination="-1" id="S3k-67-va2"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="lap-MQ-91P"/>
+                        <barButtonItem title="New Note" id="urd-7b-QU2">
+                            <connections>
+                                <action selector="createNote:" destination="-1" id="Rov-2N-qXj"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
+                </toolbar>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <point key="canvasLocation" x="25.5" y="55.5"/>

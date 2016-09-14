@@ -8,7 +8,20 @@
 
 import UIKit
 
-class PdfViewController: UIViewController, UIWebViewDelegate {
+class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerDelegate {
+    
+    
+    @IBAction func createNote(_ sender: AnyObject) {
+        //Create a annotation
+        print("\n \n Estoy pulsando el createNote \n \n")
+        //push the note
+    }
+    
+    @IBAction func displayNotes(_ sender: AnyObject) {
+        //Create a annotation
+        print("\n \n Estoy pulsando el seeAllNotes \n \n")
+        //push the note
+    }
 
     @IBOutlet weak var navigationView: UINavigationItem!
     @IBOutlet weak var pdfView: UIWebView!
@@ -17,6 +30,7 @@ class PdfViewController: UIViewController, UIWebViewDelegate {
     }
     
     let model : Book
+    var delegate: PdfViewControllerDelegate?
     
     
     //MARK: - Initializers
@@ -47,7 +61,8 @@ class PdfViewController: UIViewController, UIWebViewDelegate {
         activityView.stopAnimating()
         
         self.pdfView.delegate = self
-        
+        self.delegate = self
+
        
     }
 
@@ -65,12 +80,34 @@ class PdfViewController: UIViewController, UIWebViewDelegate {
     
     //MARK: - Data Source
     func synchronizedataWithModel(){
-        let url = URL(string: "http://mitpress.mit.edu/sites/default/files/titles/content/9780262514293_Creative_Commons_Edition.pdf")
-        let urlReq = URLRequest(url: url!)
-        self.pdfView.loadRequest(urlReq)
         
-        activityView.startAnimating()
+        DispatchQueue.global(qos: .background).async {
+            
+           
+            let url = URL(string: (self.model.pdf?.pdfURL!)!)
+            let pdfData = NSData(contentsOf: url!)
+            let urlReq = URLRequest(url: url!)
+            self.model.pdf!.pdfData = pdfData
+            
+            // Call the delegate to refresh the view
+            self.delegate?.pdfViewController(vc: self, didPdfChanged: self.model)
+            
+            DispatchQueue.main.async {
+                self.pdfView.loadRequest(urlReq)
+                
+                self.activityView.startAnimating()
+                
+            }
+
+            
+            
+        }
     }
+    
+    internal func pdfViewController(vc: PdfViewController, didPdfChanged: Book) {
+        print(" \n \n  He entrado en el delegado del pdfViewController \n \n ")
+    }
+
     
 
     /*
@@ -82,5 +119,52 @@ class PdfViewController: UIViewController, UIWebViewDelegate {
         // Pass the selected object to the new view controller.
     }
     */
+    
 
+    
+    func loadPdf() throws -> NSURLRequest?{
+        
+        //Probamos a buscarla en local
+        let localURLCache = obtainLocalCacheUrlDocumentsFile(file: fileForResourceName(name: self.model.pdf!.pdfURL!))
+        let localURL = obtainLocalUrlDocumentsFile(file: fileForResourceName(name: self.model.pdf!.pdfURL!))
+        
+        
+        if NSData(contentsOf: localURLCache as URL) != nil{
+            let pdfCache = NSURLRequest(url: localURLCache as URL)
+            
+            return pdfCache
+        }else if NSData(contentsOf: localURL as URL) != nil{
+            let pdf = NSURLRequest(url: localURL as URL)
+            
+            return pdf
+        }else{
+            
+            //Si no esta en local probamos en remoto
+            let pdfURL = NSURL(string: self.model.pdf!.pdfURL!)
+            let pdf = NSURLRequest(url: pdfURL! as URL)
+            
+            
+            do{
+                if let pdfData = NSData(contentsOf: pdfURL! as URL) {
+                    try pdfData.write(to: localURLCache as URL, options: NSData.WritingOptions.atomicWrite)
+                    try pdfData.write(to: localURL as URL, options: NSData.WritingOptions.atomicWrite)
+                }
+                
+            }catch{
+                throw BookErrors.imageNotFound
+            }
+            
+            return pdf
+            
+            
+        }
+        
+    }
+
+
+}
+
+protocol PdfViewControllerDelegate{
+    
+    func pdfViewController(vc: PdfViewController, didPdfChanged: Book)
 }

@@ -24,8 +24,14 @@ class CoreDataTableViewController: UITableViewController {
     
     init(fetchedResultsController fc : NSFetchedResultsController<NSFetchRequestResult>,
         style : UITableViewStyle = .plain){
-            fetchedResultsController = fc
+        
             super.init(style: style)
+        
+        //Esto solo se ejecuta cuando vamos a salir del metodo init, seria como un finally
+        defer {
+           fetchedResultsController = fc
+        }
+
             
             
     }
@@ -37,17 +43,17 @@ class CoreDataTableViewController: UITableViewController {
         super.init(coder: aDecoder)
     }
 
-    //Ñapa a eliminar
-    override func viewDidLoad() {
-        super.viewDidLoad()
-            // Whenever the frc changes, we execute the search and
-            // reload the table
-            fetchedResultsController?.delegate = self
-            executeSearch()
-            tableView.reloadData()
-       
-        
-    }
+//    //Ñapa a eliminar
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//            // Whenever the frc changes, we execute the search and
+//            // reload the table
+//            fetchedResultsController?.delegate = self
+//            executeSearch()
+//            tableView.reloadData()
+//       
+//        
+//    }
     
 }
 

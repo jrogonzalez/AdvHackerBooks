@@ -14,7 +14,7 @@ public class Book: NSManagedObject {
     
     static let entityName = "Book"
     
-    init(withTitle: String, inAuthors: String, inTags: Set<String>,  inPdf: NSData?, inPhoto: NSData, inFavourite: Bool, inAnnotation: String?, context: NSManagedObjectContext){
+    init(withTitle: String, inAuthors: String, inTags: Set<String>,  inPdf: String?, inPhoto: NSData, inFavourite: Bool, inNote: String?, context: NSManagedObjectContext){
         //Obtain the entity
         let ent = NSEntityDescription.entity(forEntityName: Book.entityName, in: context)!
         
@@ -22,7 +22,7 @@ public class Book: NSManagedObject {
         super.init(entity: ent, insertInto: context)
         
         self.title = withTitle
-//        self.authors = authors
+        self.authors = inAuthors
         
         // Inserts all tags
         for key in inTags{
@@ -30,9 +30,10 @@ public class Book: NSManagedObject {
             self.addToTag(tag)
         }
         
-        if let myPdf = inPdf {
+        if inPdf != nil {
             let pdf = Pdf(withBook: self, pdf: inPdf, context: context)
             self.pdf = pdf
+            
             
         }
         
@@ -41,9 +42,9 @@ public class Book: NSManagedObject {
         
         self.isFavourite = inFavourite
         
-        if let annotation = inAnnotation {
-            let annotationInstance = Annotation(withBook: self, annotationText: annotation, context: context)
-            self.annotation = annotationInstance
+        if let note = inNote {
+            let noteInstance = Note(withBook: self, text: note, context: context)
+            self.note = noteInstance
             
         }
         
@@ -56,7 +57,7 @@ public class Book: NSManagedObject {
 //Mark: - KVO
 extension Book{
     
-    @nonobjc static let observableKeyNames = ["annotation.text", "isFavourite"]
+    @nonobjc static let observableKeyNames = ["note.text", "isFavourite"]
     
     //Nos vamos a observar a nosotros mismos para cuando cambie alguna propiedad podar actualizar la vista
     func setupKVO(){

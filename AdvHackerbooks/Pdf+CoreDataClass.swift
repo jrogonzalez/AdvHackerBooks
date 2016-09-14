@@ -14,7 +14,7 @@ public class Pdf: NSManagedObject {
     
     static let entityName = "Pdf"
     
-    init(withBook book :Book, pdf: NSData?, context: NSManagedObjectContext){
+    init(withBook book :Book, pdf: String?, context: NSManagedObjectContext){
         
         //Obtain the etitiDescription
         let ent = NSEntityDescription.entity(forEntityName: Pdf.entityName, in: context)!
@@ -24,7 +24,7 @@ public class Pdf: NSManagedObject {
         
         //fill the properties
         self.book = book
-        pdfData = pdf
+        pdfURL = pdf
         
     }
 
