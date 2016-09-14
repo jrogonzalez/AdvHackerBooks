@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CoreData 
+import CoreData
 
 extension Book {
 
@@ -21,7 +21,7 @@ extension Book {
     @NSManaged public var pdf: Pdf?
     @NSManaged public var photo: Photo?
     @NSManaged public var tag: NSSet?
-    @NSManaged public var note: Note?
+    @NSManaged public var note: NSSet?
 
 }
 
@@ -39,5 +39,22 @@ extension Book {
 
     @objc(removeTag:)
     @NSManaged public func removeFromTag(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for note
+extension Book {
+
+    @objc(addNoteObject:)
+    @NSManaged public func addToNote(_ value: Note)
+
+    @objc(removeNoteObject:)
+    @NSManaged public func removeFromNote(_ value: Note)
+
+    @objc(addNote:)
+    @NSManaged public func addToNote(_ values: NSSet)
+
+    @objc(removeNote:)
+    @NSManaged public func removeFromNote(_ values: NSSet)
 
 }

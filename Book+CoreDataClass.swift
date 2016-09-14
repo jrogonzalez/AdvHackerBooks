@@ -8,13 +8,14 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 @objc
 public class Book: NSManagedObject {
     
     static let entityName = "Book"
     
-    init(withTitle: String, inAuthors: String, inTags: Set<String>,  inPdf: String?, inPhoto: NSData, inFavourite: Bool, inNote: String?, context: NSManagedObjectContext){
+    init(withTitle: String, inAuthors: String, inTags: Set<String>,  inPdf: String?, inPhoto: NSData?, inFavourite: Bool, inNote: String?, context: NSManagedObjectContext){
         //Obtain the entity
         let ent = NSEntityDescription.entity(forEntityName: Book.entityName, in: context)!
         
@@ -37,14 +38,25 @@ public class Book: NSManagedObject {
             
         }
         
-        let photo = Photo(withBook: self, photoData: inPhoto, context: context)
-        self.photo = photo
+        if let imgData = inPhoto {
+            let imgData2 = Data.init(referencing: imgData)
+            let img = UIImage(data: imgData2)
+            
+            let photo = Photo(withBook: self, photoData: img, context: context)
+            self.photo = photo
+            
+        }else{
+            let photo = Photo(withBook: self, photoData: nil, context: context)
+            self.photo = photo
+            
+        }
+        
         
         self.isFavourite = inFavourite
         
         if let note = inNote {
             let noteInstance = Note(withBook: self, text: note, context: context)
-            self.note = noteInstance
+            self.addToNote(noteInstance)
             
         }
         
@@ -57,7 +69,7 @@ public class Book: NSManagedObject {
 //Mark: - KVO
 extension Book{
     
-    @nonobjc static let observableKeyNames = ["note.text", "isFavourite"]
+    @nonobjc static let observableKeyNames = ["note", "isFavourite"]
     
     //Nos vamos a observar a nosotros mismos para cuando cambie alguna propiedad podar actualizar la vista
     func setupKVO(){

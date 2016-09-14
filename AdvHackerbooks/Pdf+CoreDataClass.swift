@@ -14,6 +14,9 @@ public class Pdf: NSManagedObject {
     
     static let entityName = "Pdf"
     
+    
+    
+    
     init(withBook book :Book, pdf: String?, context: NSManagedObjectContext){
         
         //Obtain the etitiDescription

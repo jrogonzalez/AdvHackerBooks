@@ -8,21 +8,48 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 @objc
 public class Photo: NSManagedObject {
 
     static let entityName = "Photo"
     
-    init(withBook book: Book, photoData : NSData, context: NSManagedObjectContext){
+    //Creamos una propiedad computada, setter y getter personalizados
+    var image : UIImage?{
+        get{
+            guard let img = photoData else {
+                return nil
+            }
+            return UIImage(data: img as Data)
+        }
+        set{
+            guard let img = newValue else {
+                photoData = nil
+                return
+            }
+            photoData = UIImageJPEGRepresentation(img, 0.9) as NSData?
+        }
+    }
+
+    
+    
+    convenience init(withBook book: Book, photoData : UIImage?, context: NSManagedObjectContext){
         //Obtain the entity
         let ent = NSEntityDescription.entity(forEntityName: Photo.entityName, in: context)!
         
         //call super
-        super.init(entity: ent, insertInto: context)
+        self.init(entity: ent, insertInto: context)
         
         self.addToBook(book)
-        self.photoData = photoData
+        
+        if let img = photoData {
+            self.image = img
+        }else{
+            // create a noImage
+            self.image = UIImage(imageLiteralResourceName: "NoImageAvailable.png")
+        }
+        
         
         
     }

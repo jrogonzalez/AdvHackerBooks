@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerDelegate {
     
@@ -15,12 +16,79 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         //Create a annotation
         print("\n \n Estoy pulsando el createNote \n \n")
         //push the note
+        
+        let alert = UIAlertController(title: "New Note",
+                                      message: "Add a new note",
+                                      preferredStyle: .alert)
+        
+        // SIN CORE DATA
+        /*
+         let saveAction = UIAlertAction(title: "Save",
+         style: .default,
+         handler: { (action:UIAlertAction) -> Void in
+         
+         let textField = alert.textFields!.first
+         self.names.append(textField!.text!)
+         self.tableView.reloadData()
+         })
+         */
+        
+        // CON CORE DATA
+        let saveAction = UIAlertAction(title: "Save",
+                                       style: .default,
+                                       handler: { (action:UIAlertAction) -> Void in
+                                        
+                                        let textField = alert.textFields!.first
+                                        _ = Note(withBook: self.model, text: textField!.text!, context: self.model.managedObjectContext!)
+                                        
+                                        //self.saveName(name: textField!.text!)
+                                        //self.tableView.reloadData()
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .default) { (action: UIAlertAction) -> Void in
+        }
+        
+        alert.addTextField {
+            (textField: UITextField) -> Void in
+        }
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        present(alert,
+                animated: true,
+                completion: nil)
+
+        
+        
+        
     }
     
     @IBAction func displayNotes(_ sender: AnyObject) {
         //Create a annotation
         print("\n \n Estoy pulsando el seeAllNotes \n \n")
         //push the note
+        
+        //Create fetched Results Controller
+        let req = NSFetchRequest<Note>.init(entityName: "Note")
+        req.fetchBatchSize = 50
+        req.sortDescriptors = [NSSortDescriptor(key: "text", ascending: true)]
+        
+        req.predicate = NSPredicate(format: "book == %@", model)
+        
+        // Create the fetched Results Controller
+        let fr = NSFetchedResultsController(fetchRequest: req,
+                                            managedObjectContext: model.managedObjectContext!,
+                                            sectionNameKeyPath: nil,
+                                            cacheName: nil)
+        
+        //Crear el controlador
+        let notesVC = NotesTableViewController(fetchedResultsController: fr as! NSFetchedResultsController<NSFetchRequestResult>)
+        
+        
+        //mostratlo
+        self.navigationController?.pushViewController(notesVC, animated: true)
     }
 
     @IBOutlet weak var navigationView: UINavigationItem!

@@ -24,6 +24,8 @@ public class Note: NSManagedObject {
         self.book = book
         self.text = text
         
+        book.addToNote(self)
+        
     }
 
 }

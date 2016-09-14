@@ -4,7 +4,7 @@
         <attribute name="authors" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="isFavourite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="title" attributeType="String" indexed="YES" syncable="YES"/>
-        <relationship name="note" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Note" inverseName="book" inverseEntity="Note" syncable="YES"/>
+        <relationship name="note" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Note" inverseName="book" inverseEntity="Note" syncable="YES"/>
         <relationship name="pdf" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Pdf" inverseName="book" inverseEntity="Pdf" syncable="YES"/>
         <relationship name="photo" maxCount="1" deletionRule="Cascade" destinationEntity="Photo" inverseName="book" inverseEntity="Photo" syncable="YES"/>
         <relationship name="tag" toMany="YES" deletionRule="Cascade" destinationEntity="Tag" inverseName="book" inverseEntity="Tag" syncable="YES"/>
