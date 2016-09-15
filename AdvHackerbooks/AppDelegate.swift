@@ -31,18 +31,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         catch let error as NSError {
             print(error.localizedDescription)
         }
-
+        
+        
+        let defaults = UserDefaults.standard
+        
+        // ************ CLEAR USER DEFAULTS *******************
+        defaults.removeObject(forKey: "JSON_Data")
+        // ****************************************************
+        
         
         //Create the window
         window = UIWindow(frame: UIScreen.main.bounds)
+
+        if (defaults.value(forKey: "JSON_Data") == nil){
+            do {
+                try readJSON(context: self.model.context, local: true)
+            }
+            catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        }
         
-        do {
-            let books = try readJSON(context: model.context)
-            print(books)
-        }
-        catch let error as NSError {
-            print(error.localizedDescription)
-        }
         
         
         //Create the fetchedRequest
@@ -75,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
  
         // make an autosave
-//        self.saveDelayContext()
+        self.saveDelayContext()
         
         //Make the window visible
         window?.makeKeyAndVisible()

@@ -17,13 +17,13 @@ public class Pdf: NSManagedObject {
     
     
     
-    init(withBook book :Book, pdf: String?, context: NSManagedObjectContext){
+    convenience init(withBook book :Book, pdf: String?, context: NSManagedObjectContext){
         
         //Obtain the etitiDescription
         let ent = NSEntityDescription.entity(forEntityName: Pdf.entityName, in: context)!
         
         //call super
-        super.init(entity: ent, insertInto: context)
+        self.init(entity: ent, insertInto: context)
         
         //fill the properties
         self.book = book

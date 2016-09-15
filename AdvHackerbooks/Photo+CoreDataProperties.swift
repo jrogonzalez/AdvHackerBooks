@@ -17,7 +17,6 @@ extension Photo {
     }
 
     @NSManaged public var photoData: NSData?
-    @NSManaged public var photoURL: String?
     @NSManaged public var book: NSSet?
     
 

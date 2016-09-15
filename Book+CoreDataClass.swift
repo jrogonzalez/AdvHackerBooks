@@ -15,12 +15,12 @@ public class Book: NSManagedObject {
     
     static let entityName = "Book"
     
-    init(withTitle: String, inAuthors: String, inTags: Set<String>,  inPdf: String?, inPhoto: NSData?, inFavourite: Bool, inNote: String?, context: NSManagedObjectContext){
+    convenience init(withTitle: String, inAuthors: String, inTags: Set<String>,  inPdf: String?, inPhoto: NSData?, inFavourite: Bool, inNote: String?, context: NSManagedObjectContext){
         //Obtain the entity
         let ent = NSEntityDescription.entity(forEntityName: Book.entityName, in: context)!
         
         //Call the super
-        super.init(entity: ent, insertInto: context)
+        self.init(entity: ent, insertInto: context)
         
         self.title = withTitle
         self.authors = inAuthors

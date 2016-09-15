@@ -41,6 +41,7 @@
 		13801B261D89CC7A00908887 /* NoImageAvailable.png in Resources */ = {isa = PBXBuildFile; fileRef = 13801B251D89CC7A00908887 /* NoImageAvailable.png */; };
 		13801B291D89D35500908887 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13801B271D89D35500908887 /* NoteViewController.swift */; };
 		13801B2A1D89D35500908887 /* NoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13801B281D89D35500908887 /* NoteViewController.xib */; };
+		13801B301D8AFDD000908887 /* copy_books_readable.json in Resources */ = {isa = PBXBuildFile; fileRef = 13801B2F1D8AFDD000908887 /* copy_books_readable.json */; };
 		139B72AD1D873697004CDD17 /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139B72AC1D873697004CDD17 /* CoreDataTableViewController.swift */; };
 		139B72B11D8739B6004CDD17 /* BooksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139B72B01D8739B6004CDD17 /* BooksTableViewController.swift */; };
 		139B72BB1D87634E004CDD17 /* books_readable.json in Resources */ = {isa = PBXBuildFile; fileRef = 139B72BA1D87634E004CDD17 /* books_readable.json */; };
@@ -83,6 +84,7 @@
 		13801B251D89CC7A00908887 /* NoImageAvailable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NoImageAvailable.png; sourceTree = "<group>"; };
 		13801B271D89D35500908887 /* NoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		13801B281D89D35500908887 /* NoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteViewController.xib; sourceTree = "<group>"; };
+		13801B2F1D8AFDD000908887 /* copy_books_readable.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = copy_books_readable.json; sourceTree = "<group>"; };
 		139B72AC1D873697004CDD17 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataTableViewController.swift; path = ../CoreDataTableViewController.swift; sourceTree = "<group>"; };
 		139B72B01D8739B6004CDD17 /* BooksTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BooksTableViewController.swift; path = ../BooksTableViewController.swift; sourceTree = "<group>"; };
 		139B72BA1D87634E004CDD17 /* books_readable.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = books_readable.json; sourceTree = "<group>"; };
@@ -134,8 +136,9 @@
 				130980DE1D83386B000244E5 /* Models */,
 				130980BB1D8331D7000244E5 /* Resources */,
 				1366EB731D886E1300A5CA01 /* Controllers */,
-				139B72BA1D87634E004CDD17 /* books_readable.json */,
 				130980B71D8331A9000244E5 /* CoreDataStack.swift */,
+				139B72BA1D87634E004CDD17 /* books_readable.json */,
+				13801B2F1D8AFDD000908887 /* copy_books_readable.json */,
 				1309811D1D833B4A000244E5 /* JSONProcessing.swift */,
 				1309811F1D833B65000244E5 /* BookErrors.swift */,
 				130980A21D833189000244E5 /* AppDelegate.swift */,
@@ -255,6 +258,7 @@
 				139B72BB1D87634E004CDD17 /* books_readable.json in Resources */,
 				13801B2A1D89D35500908887 /* NoteViewController.xib in Resources */,
 				1366EB6E1D882B8100A5CA01 /* BookViewController.xib in Resources */,
+				13801B301D8AFDD000908887 /* copy_books_readable.json in Resources */,
 				13801B261D89CC7A00908887 /* NoImageAvailable.png in Resources */,
 				130980B01D83318A000244E5 /* LaunchScreen.storyboard in Resources */,
 				130980AD1D83318A000244E5 /* Assets.xcassets in Resources */,

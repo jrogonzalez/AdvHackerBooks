@@ -30,7 +30,12 @@ let fileBooks = "HackerBooks.txt"
 let favouriteBooks = "FavouriteBooks.txt"
 let localFile = Bundle.main.path(forResource: "books_readable", ofType: "json")
 
-func decode(book json: JSONDictionary, context: NSManagedObjectContext) throws  -> Book {
+
+let url = Bundle.main.url(forResource: "books_readable", withExtension: "json")
+let dataLocal = NSData(contentsOf: url!)!
+
+
+func decode(book json: JSONDictionary, context: NSManagedObjectContext) throws  {
     
     //Validamos el dict
     guard let author = json["authors"] as? String else{
@@ -72,15 +77,11 @@ func decode(book json: JSONDictionary, context: NSManagedObjectContext) throws  
             throw BookErrors.wrongJSONFormat
     }
     
-//    return Book(authors: aut, image: imageString, pdf: pdfString, tags: tag, title: title, isFavourite: false)
-    
-//    return Book(withTitle: title, inAuthors: author, inTags: tagSet, inPdf: pdfData, inPhoto: imageData, inFavourite: false, inAnnotation: nil, context: context)
-    
-    return Book(withTitle: title,
+    _ = Book(withTitle: title,
                 inAuthors: author,
                 inTags: tagSet,
                 inPdf: pdfString,
-                inPhoto: imageData!,
+                inPhoto: imageData,
                 inFavourite: false,
                 inNote: "Nota de Prueba",
                 context: context)
@@ -102,49 +103,32 @@ func decode(book json: JSONDictionary, context: NSManagedObjectContext) throws  
 //    return json
 //}
 
-func readJSON(context: NSManagedObjectContext) throws -> [Book]{
+func readJSON(context: NSManagedObjectContext, local: Bool) throws {
     
     var json : JSONArray = JSONArray()
-    let defaults = UserDefaults.standard
-    let fileCache = obtainLocalCacheUrlDocumentsFile(file: fileBooks)
-    let file = obtainLocalUrlDocumentsFile(file: fileBooks)
     
     do{
-    
-        // Si existe la variable es que ya hemos cargado el fichero anteriormente
-        let nombre = defaults.string(forKey: "JSON_Data")
-        
-        if nombre != nil {
+        if local {
             // Comprobamos si tenemos los datos en Cache sino en local y sino tiramos de remoto
-            if let cache = loadFromLocalFile(fileName: fileCache.absoluteString!){
+            if let cache = try loadDataFromLocalFile(withURL: url!){
                json = cache
-            }else if let aux = loadFromLocalFile(fileName: file.absoluteString!){
-               json = aux
             }else{
-                // Por seguridad cargamos desde remoto de nuevo
+                // we ensure if there are some problem with the local file we can get the data from the URL
                 json = try loadFromRemoteFile(fileURL: urlHackerBooks)
-//                json = try loadFromRemoteFile(fileURL: localFile!)
             }
-            
         } else{
             // Comprobamos el la URL para cargarlos
             json = try loadFromRemoteFile(fileURL: urlHackerBooks)
-//              json = try loadFromRemoteFile(fileURL: localFile!)
-            
 
         }
-        
-        var chars = [Book]()
+
         for dict in json{
             do{
-                let char = try decode(book: dict, context: context)
-                chars.append(char)
+                try decode(book: dict, context: context)
             }catch{
                 print("error al procesar \(dict)")
             }
         }
-        
-        return chars
 
     }catch{
         throw BookErrors.wrongJSONFormat
@@ -152,6 +136,40 @@ func readJSON(context: NSManagedObjectContext) throws -> [Book]{
   
     
 }
+
+//func parseLocal(){
+//    
+//    do {
+//        let object = try JSONSerialization.jsonObject(with: dataLocal as Data, options: .allowFragments)
+//        if let dictionary = object as? [String: AnyObject] {
+//            readJSONObject(object: dictionary)
+//        }
+//    } catch {
+//        // Handle Error
+//    }
+//}
+//
+//func readJSONObject(object: [String: AnyObject]) {
+//    guard let title = object["dataTitle"] as? String,
+//        let version = object["swiftVersion"] as? Float,
+//        let users = object["users"] as? [[String: AnyObject]] else { return }
+//    _ = "Swift \(version) " + title
+//    
+//    for user in users {
+//        guard let name = user["name"] as? String,
+//            let age = user["age"] as? Int else { break }
+//        switch age {
+//        case 22:
+//            _ = name + " is \(age) years old."
+//        case 25:
+//            _ = name + " is \(age) years old."
+//        case 29:
+//            _ = name + " is \(age) years old."
+//        default:
+//            break
+//        }
+//    }
+//}
 
 //func loadImage() throws -> UIImage?{
 //    

@@ -68,6 +68,26 @@ func loadDataFromRemoteFile(fileURL name: String, bundle: Bundle = Bundle.main) 
     
 }
 
+func loadDataFromLocalFile(withURL inURL: URL) throws -> JSONArray?{
+    
+     let data = NSData(contentsOf: inURL as URL)
+        let maybeArray = try? JSONSerialization.jsonObject(with: data as! Data, options: JSONSerialization.ReadingOptions.mutableContainers) as? JSONArray
+//        let array = maybeArray{
+    
+        //Guardamos en cache y en local
+        try  data?.write(to: obtainLocalCacheUrlDocumentsFile(file: fileBooks) as URL, options: NSData.WritingOptions.atomicWrite)
+        try  data?.write(to: obtainLocalUrlDocumentsFile(file: fileBooks) as URL, options: NSData.WritingOptions.atomicWrite)
+        
+        let defaults = UserDefaults.standard
+        defaults.set(urlHackerBooks, forKey: "JSON_Data")
+        
+//    }
+        return maybeArray!
+    
+    
+    
+}
+
 //func loadDataFromRemoteFile(fileURL name: String, bundle: Bundle = Bundle.main){
 //    
 //    DispatchQueue.global(qos: .default).async {

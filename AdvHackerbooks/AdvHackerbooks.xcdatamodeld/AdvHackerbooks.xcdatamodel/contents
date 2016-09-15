@@ -20,8 +20,7 @@
         <relationship name="book" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="pdf" inverseEntity="Book" syncable="YES"/>
     </entity>
     <entity name="Photo" representedClassName=".Photo" syncable="YES">
-        <attribute name="photoData" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
-        <attribute name="photoURL" attributeType="String" syncable="YES"/>
+        <attribute name="photoData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <relationship name="book" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Book" inverseName="photo" inverseEntity="Book" syncable="YES"/>
     </entity>
     <entity name="Tag" representedClassName=".Tag" syncable="YES">
@@ -32,7 +31,7 @@
         <element name="Book" positionX="-63" positionY="-18" width="128" height="150"/>
         <element name="Localization" positionX="-18" positionY="36" width="128" height="45"/>
         <element name="Pdf" positionX="-36" positionY="27" width="128" height="90"/>
-        <element name="Photo" positionX="18" positionY="63" width="128" height="90"/>
+        <element name="Photo" positionX="18" positionY="63" width="128" height="75"/>
         <element name="Tag" positionX="-54" positionY="18" width="128" height="75"/>
         <element name="Note" positionX="-18" positionY="54" width="128" height="75"/>
     </elements>
