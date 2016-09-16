@@ -98,7 +98,10 @@ class BookViewController: UIViewController {
     
     func synchronizeWithModelView(){
         
-        self.authorsView.text = model.title
+        self.titleView.text = model.title
+        self.titleView.isUserInteractionEnabled = false
+        
+        self.authorsView.text = model.authors
         self.authorsView.isUserInteractionEnabled = false
         
         let tags = Array(model.tag!)
@@ -106,12 +109,15 @@ class BookViewController: UIViewController {
         for each in tags{
             let tagName = (each as AnyObject).value(forKey: "tagName")
             salida.append("\(tagName!), ")
+            
+            
         }
         self.tagsView.text = salida
         self.tagsView.isUserInteractionEnabled = false
         
-        let img = Data.init(referencing: (model.photo?.photoData)!)
-        self.coverView.image = UIImage(data: img)
+//        let img = Data.init(referencing: (model.photo?.photoData)!)
+//        self.coverView.image = UIImage(data: img)
+        self.coverView.image = model.photo?.image
         self.coverView.isUserInteractionEnabled = false
         
         self.favourite = model.isFavourite
@@ -142,7 +148,6 @@ class BookViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
 
 }
 
@@ -151,3 +156,4 @@ protocol BookViewControllerDelegate{
     func bookViewcontroller(vc: BookViewController, addToFavourite: Book)
     func bookViewcontroller(vc: BookViewController, removeFromFavourite: Book)
 }
+

@@ -84,7 +84,11 @@ struct CoreDataStack {
                              storeURL: URL,
                              options : [NSObject : AnyObject]?) throws{
         
-        try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: dbURL, options: nil)
+        let options = [NSMigratePersistentStoresAutomaticallyOption: true,
+                       NSInferMappingModelAutomaticallyOption: true]
+
+        
+        try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: dbURL, options: options)
         
     }
 }

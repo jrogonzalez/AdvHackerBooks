@@ -15,7 +15,7 @@ public class Book: NSManagedObject {
     
     static let entityName = "Book"
     
-    convenience init(withTitle: String, inAuthors: String, inTags: Set<String>,  inPdf: String?, inPhoto: NSData?, inFavourite: Bool, inNote: String?, context: NSManagedObjectContext){
+    convenience init(withTitle: String, inAuthors: String, inTags: Set<String>,  inPdf: String?, inPhoto: String?, inFavourite: Bool, inNote: String?, context: NSManagedObjectContext){
         //Obtain the entity
         let ent = NSEntityDescription.entity(forEntityName: Book.entityName, in: context)!
         
@@ -38,11 +38,11 @@ public class Book: NSManagedObject {
             
         }
         
-        if let imgData = inPhoto {
-            let imgData2 = Data.init(referencing: imgData)
-            let img = UIImage(data: imgData2)
-            
-            let photo = Photo(withBook: self, photoData: img, context: context)
+        if let imgURL = inPhoto {
+//            let imgData2 = Data.init(referencing: imgData)
+//            let img = UIImage(data: imgData2)
+//            
+            let photo = Photo(withBook: self, photoString: imgURL, context: context)
             self.photo = photo
             
         }else{

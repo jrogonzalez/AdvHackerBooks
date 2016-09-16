@@ -47,10 +47,41 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
 //        }
         
         // Sincronize cell and book
-        cell.authorsView.text = book.title
-        let imgData = Data.init(referencing: (book.photo?.photoData)!)
-        let imagen = UIImage(data: imgData)
-        cell.bookPhotoView.image = imagen
+        cell.titleView.text = book.title
+        
+        //Async
+        DispatchQueue.global(qos: .default).async {
+            //Test if have the local data image
+            
+            var imagen : UIImage? = nil
+            
+            if let auxImg = book.photo?.image {
+                 print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
+                imagen = auxImg
+            }else{
+                //if we dont have it, we take it from remote
+                let dataImage = NSData(contentsOf: NSURL(string: (book.photo?.photoURL!)!) as! URL)
+                let imgData = Data.init(referencing: dataImage!)
+                imagen = UIImage(data: imgData)
+                
+                //sync with model
+                book.photo?.image = imagen
+                print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
+            }
+            
+            
+            
+            
+            //load the image in the Main queue
+            DispatchQueue.main.async {
+                cell.bookPhotoView.image = imagen
+            }
+            
+        }
+        
+        
+        
+        
         
         if (book.isFavourite){
             cell.favPhotoView.image = UIImage(imageLiteralResourceName: "filledStar.png")

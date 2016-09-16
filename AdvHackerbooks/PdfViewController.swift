@@ -51,7 +51,12 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         
         alert.addTextField {
             (textField: UITextField) -> Void in
+            var frameRect = CGRect(origin: textField.frame.origin, size: textField.frame.size)
+            frameRect.size.height = 53;
+            textField.frame = frameRect;
         }
+        
+        
         
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
@@ -149,21 +154,56 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
     //MARK: - Data Source
     func synchronizedataWithModel(){
         
+        self.activityView.startAnimating()
+        
+        
         DispatchQueue.global(qos: .background).async {
             
-           
-            let url = URL(string: (self.model.pdf?.pdfURL!)!)
-            let pdfData = NSData(contentsOf: url!)
-            let urlReq = URLRequest(url: url!)
-            self.model.pdf!.pdfData = pdfData
+            var pdfData : Data? = nil
+            
+            if let thePdf = self.model.pdf?.pdf {
+                print(" \n \n  LOAD PDF FROM LOCAL \n \n ")
+                pdfData = thePdf
+
+            }else{
+                // Load from the RemoteURL and save un model
+                let url = URL(string: (self.model.pdf?.pdfURL!)!)
+                pdfData = try? Data(referencing: (NSData(contentsOf: url!)))
+//                let urlReq = URLRequest(url: url!)
+                print(" \n \n  LOAD PDF FROM REMOTE \n \n ")
+                self.model.pdf!.pdf = pdfData
+                
+                
+            }
             
             // Call the delegate to refresh the view
             self.delegate?.pdfViewController(vc: self, didPdfChanged: self.model)
             
             DispatchQueue.main.async {
-                self.pdfView.loadRequest(urlReq)
+
+                if pdfData != nil{
+                    self.pdfView.load(pdfData!, mimeType: "application/pdf", textEncodingName: "utf-8", baseURL: URL(fileURLWithPath: "http://www.gogle.es"))
+                    
+
+                }else{
+                    let alert = UIAlertController(title: "Load Error",
+                                                  message: "Error in pdf loading",
+                                                  preferredStyle: .alert)
+
+                    
+                    let cancelAction = UIAlertAction(title: "Accept",
+                                                     style: .default) { (action: UIAlertAction) -> Void in
+                    }
+                    
+                    alert.addAction(cancelAction)
+                    
+                    self.present(alert,
+                            animated: true,
+                            completion: nil)
+                    
+                    self.activityView.isHidden = true
+                }
                 
-                self.activityView.startAnimating()
                 
             }
 

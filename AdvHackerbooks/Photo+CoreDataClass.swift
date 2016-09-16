@@ -50,28 +50,44 @@ public class Photo: NSManagedObject {
             self.image = UIImage(imageLiteralResourceName: "NoImageAvailable.png")
         }
         
+    }
+    
+    convenience init(withBook book: Book, photoString : String?, context: NSManagedObjectContext){
+        //Obtain the entity
+        let ent = NSEntityDescription.entity(forEntityName: Photo.entityName, in: context)!
         
+        //call super
+        self.init(entity: ent, insertInto: context)
+        
+        self.addToBook(book)
+        
+        if let img = photoString {
+            self.photoURL = img
+        }else{
+            // create a noImage
+            self.image = UIImage(imageLiteralResourceName: "NoImageAvailable.png")
+        }
         
     }
 }
 
 
-// MARK: Generated accessors for book
-extension Photo {
-    
-    @objc(addBookObject:)
-    @NSManaged public func addToBook(_ value: Book)
-    
-    @objc(removeBookObject:)
-    @NSManaged public func removeFromBook(_ value: Book)
-    
-    @objc(addBook:)
-    @NSManaged public func addToBook(_ values: NSSet)
-    
-    @objc(removeBook:)
-    @NSManaged public func removeFromBook(_ values: NSSet)
-    
-}
+//// MARK: Generated accessors for book
+//extension Photo {
+//    
+//    @objc(addBookObject:)
+//    @NSManaged public func addToBook(_ value: Book)
+//    
+//    @objc(removeBookObject:)
+//    @NSManaged public func removeFromBook(_ value: Book)
+//    
+//    @objc(addBook:)
+//    @NSManaged public func addToBook(_ values: NSSet)
+//    
+//    @objc(removeBook:)
+//    @NSManaged public func removeFromBook(_ values: NSSet)
+//    
+//}
 
 //Mark: - KVO
 extension Photo{

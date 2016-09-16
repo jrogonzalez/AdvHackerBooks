@@ -48,11 +48,11 @@ func decode(book json: JSONDictionary, context: NSManagedObjectContext) throws  
 //        aut.insert(each.trimmingCharacters(in: NSCharacterSet.whitespaces))
 //    }
     
-    guard let imageString = json["image_url"] as? String else{
+    guard let imageURL = json["image_url"] as? String else{
       throw BookErrors.wrongJSONFormat
     }
     
-    let imageData = try loadDataFromRemoteFile(fileURL: imageString)
+//    let imageData = try loadDataFromRemoteFile(fileURL: imageString)
     
     guard let pdfString = json["pdf_url"] as? String else{
             throw  BookErrors.wrongJSONFormat
@@ -81,7 +81,7 @@ func decode(book json: JSONDictionary, context: NSManagedObjectContext) throws  
                 inAuthors: author,
                 inTags: tagSet,
                 inPdf: pdfString,
-                inPhoto: imageData,
+                inPhoto: imageURL,
                 inFavourite: false,
                 inNote: "Nota de Prueba",
                 context: context)

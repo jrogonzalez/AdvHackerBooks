@@ -14,7 +14,24 @@ public class Pdf: NSManagedObject {
     
     static let entityName = "Pdf"
     
-    
+    //Creamos una propiedad computada, setter y getter personalizados
+    var pdf : Data?{
+        get{
+            guard let inPdf = pdfData else {
+                return nil
+            }
+            let auxPdf = Data(referencing: inPdf)
+            
+            return auxPdf
+        }
+        set{
+            guard let auxPdf = newValue else {
+                pdfData = nil
+                return
+            }
+            pdfData = NSData(data: auxPdf)
+        }
+    }
     
     
     convenience init(withBook book :Book, pdf: String?, context: NSManagedObjectContext){
@@ -28,6 +45,20 @@ public class Pdf: NSManagedObject {
         //fill the properties
         self.book = book
         pdfURL = pdf
+        
+    }
+    
+    convenience init(withBook book :Book, pdfData: NSData, context: NSManagedObjectContext){
+        
+        //Obtain the etitiDescription
+        let ent = NSEntityDescription.entity(forEntityName: Pdf.entityName, in: context)!
+        
+        //call super
+        self.init(entity: ent, insertInto: context)
+        
+        //fill the properties
+        self.book = book
+        self.pdfData = pdfData
         
     }
 
