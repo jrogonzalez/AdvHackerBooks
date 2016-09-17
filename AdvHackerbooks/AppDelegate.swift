@@ -24,19 +24,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-//        //Borramos lo ya existente
-//        do {
-//            try model.dropAllData()
-//        }
-//        catch let error as NSError {
-//            print(error.localizedDescription)
-//        }
+        //Borramos lo ya existente
+        do {
+            try model.dropAllData()
+        }
+        catch let error as NSError {
+            print(error.localizedDescription)
+        }
         
         
         let defaults = UserDefaults.standard
         
         // ************ CLEAR USER DEFAULTS *******************
-//        defaults.removeObject(forKey: "JSON_Data")
+        defaults.removeObject(forKey: "JSON_Data")
         // ****************************************************
         
         

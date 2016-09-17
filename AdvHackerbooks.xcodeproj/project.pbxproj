@@ -31,6 +31,8 @@
 		130981231D834283000244E5 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130981211D834283000244E5 /* Foundation.swift */; };
 		130981241D834283000244E5 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130981221D834283000244E5 /* Utils.swift */; };
 		1326A1BF1D8C3FAB00740AEA /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1326A1BD1D8C3FAB00740AEA /* Photo+CoreDataProperties.swift */; };
+		132FBF9A1D8CB0B300D4C4BB /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132FBF981D8CB0B300D4C4BB /* PhotoViewController.swift */; };
+		132FBF9B1D8CB0B300D4C4BB /* PhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 132FBF991D8CB0B300D4C4BB /* PhotoViewController.xib */; };
 		1366EB6D1D882B8100A5CA01 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1366EB6B1D882B8100A5CA01 /* BookViewController.swift */; };
 		1366EB6E1D882B8100A5CA01 /* BookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1366EB6C1D882B8100A5CA01 /* BookViewController.xib */; };
 		1366EB711D885DBF00A5CA01 /* PdfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1366EB6F1D885DBF00A5CA01 /* PdfViewController.swift */; };
@@ -74,6 +76,8 @@
 		130981211D834283000244E5 /* Foundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
 		130981221D834283000244E5 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		1326A1BD1D8C3FAB00740AEA /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		132FBF981D8CB0B300D4C4BB /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		132FBF991D8CB0B300D4C4BB /* PhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoViewController.xib; sourceTree = "<group>"; };
 		1366EB6B1D882B8100A5CA01 /* BookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
 		1366EB6C1D882B8100A5CA01 /* BookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookViewController.xib; sourceTree = "<group>"; };
 		1366EB6F1D885DBF00A5CA01 /* PdfViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PdfViewController.swift; sourceTree = "<group>"; };
@@ -182,6 +186,8 @@
 			isa = PBXGroup;
 			children = (
 				139B72AC1D873697004CDD17 /* CoreDataTableViewController.swift */,
+				132FBF981D8CB0B300D4C4BB /* PhotoViewController.swift */,
+				132FBF991D8CB0B300D4C4BB /* PhotoViewController.xib */,
 				139B72B01D8739B6004CDD17 /* BooksTableViewController.swift */,
 				130980BE1D83332C000244E5 /* BookViewCell.swift */,
 				130980BC1D833237000244E5 /* BookViewCell.xib */,
@@ -265,6 +271,7 @@
 				130980C31D8333A6000244E5 /* EmptyStar.jpg in Resources */,
 				130980C21D8333A6000244E5 /* filledStar.png in Resources */,
 				1366EB721D885DBF00A5CA01 /* PdfViewController.xib in Resources */,
+				132FBF9B1D8CB0B300D4C4BB /* PhotoViewController.xib in Resources */,
 				130980BD1D833237000244E5 /* BookViewCell.xib in Resources */,
 				130980A81D833189000244E5 /* Main.storyboard in Resources */,
 			);
@@ -300,6 +307,7 @@
 				139B72B11D8739B6004CDD17 /* BooksTableViewController.swift in Sources */,
 				13801B241D89C95500908887 /* NotesTableViewController.swift in Sources */,
 				1309811B1D833ACB000244E5 /* Book+CoreDataClass.swift in Sources */,
+				132FBF9A1D8CB0B300D4C4BB /* PhotoViewController.swift in Sources */,
 				1309811C1D833ACB000244E5 /* Book+CoreDataProperties.swift in Sources */,
 				1309811E1D833B4A000244E5 /* JSONProcessing.swift in Sources */,
 				130980B81D8331A9000244E5 /* CoreDataStack.swift in Sources */,

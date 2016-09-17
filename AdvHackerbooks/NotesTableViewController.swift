@@ -24,7 +24,13 @@ class NotesTableViewController: CoreDataTableViewController {
         }
         
         // Synchronize
-        cell?.imageView?.image = note.book!.photo?.image
+        if let img = note.photo?.image {
+            cell?.imageView?.image = img
+        } else{
+            cell?.imageView?.image = UIImage(imageLiteralResourceName: "NoImageAvailable.png")
+        }
+        
+        
         cell?.textLabel?.text = note.text
         
         // Return the cell

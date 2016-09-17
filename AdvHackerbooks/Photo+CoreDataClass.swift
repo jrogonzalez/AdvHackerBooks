@@ -43,12 +43,16 @@ public class Photo: NSManagedObject {
         
         self.addToBook(book)
         
+        
         if let img = photoData {
             self.image = img
         }else{
             // create a noImage
             self.image = UIImage(imageLiteralResourceName: "NoImageAvailable.png")
+            
         }
+        
+        self.photoURL = Bundle.main.URLForResourceCaca(name: "NoImageAvailable.png")?.absoluteString
         
     }
     
@@ -61,14 +65,40 @@ public class Photo: NSManagedObject {
         
         self.addToBook(book)
         
+        
+        
         if let img = photoString {
             self.photoURL = img
         }else{
             // create a noImage
             self.image = UIImage(imageLiteralResourceName: "NoImageAvailable.png")
+            self.photoURL = Bundle.main.URLForResourceCaca(name: "NoImageAvailable.png")?.absoluteString
         }
         
     }
+    
+    convenience init(withNote note: Note, photoData : UIImage?, context: NSManagedObjectContext){
+        //Obtain the entity
+        let ent = NSEntityDescription.entity(forEntityName: Photo.entityName, in: context)!
+        
+        //call super
+        self.init(entity: ent, insertInto: context)
+        
+        self.addToNote(note)
+        
+        
+        if let img = photoData {
+            self.image = img
+        }else{
+            // create a noImage
+            self.image = UIImage(imageLiteralResourceName: "NoImageAvailable.png")
+            
+        }
+        
+        self.photoURL = Bundle.main.URLForResourceCaca(name: "NoImageAvailable.png")?.absoluteString
+        
+    }
+
 }
 
 
