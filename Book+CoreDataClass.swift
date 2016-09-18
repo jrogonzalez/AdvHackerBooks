@@ -15,7 +15,7 @@ public class Book: NSManagedObject {
     
     static let entityName = "Book"
     
-    convenience init(withTitle: String, inAuthors: String, inTags: Set<String>,  inPdf: String?, inPhoto: String?, inFavourite: Bool, inNote: String?, context: NSManagedObjectContext){
+    convenience init(withTitle: String, inAuthors: Set<String>, inTags: Set<String>,  inPdf: String?, inPhoto: String?, inFavourite: Bool, inNote: String?, context: NSManagedObjectContext){
         //Obtain the entity
         let ent = NSEntityDescription.entity(forEntityName: Book.entityName, in: context)!
         
@@ -23,7 +23,12 @@ public class Book: NSManagedObject {
         self.init(entity: ent, insertInto: context)
         
         self.title = withTitle
-        self.authors = inAuthors
+        
+        // Inserts all tags
+        for key in inAuthors{
+            let author = Author(withBook: self, author: key, context: context)
+            self.addToAuthor(author)
+        }
         
         // Inserts all tags
         for key in inTags{

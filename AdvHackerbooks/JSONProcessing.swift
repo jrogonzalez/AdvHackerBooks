@@ -42,11 +42,11 @@ func decode(book json: JSONDictionary, context: NSManagedObjectContext) throws  
         throw BookErrors.wrongJSONFormat
     }
     
-    _ = author.components(separatedBy: ",")
-//    var aut = Set<String>()
-//    for each in components{
-//        aut.insert(each.trimmingCharacters(in: NSCharacterSet.whitespaces))
-//    }
+    let components = author.components(separatedBy: ",")
+    var authorSet = Set<String>()
+    for each in components{
+        authorSet.insert(each.trimmingCharacters(in: NSCharacterSet.whitespaces))
+    }
     
     guard let imageURL = json["image_url"] as? String else{
       throw BookErrors.wrongJSONFormat
@@ -78,7 +78,7 @@ func decode(book json: JSONDictionary, context: NSManagedObjectContext) throws  
     }
     
     _ = Book(withTitle: title,
-                inAuthors: author,
+                inAuthors: authorSet,
                 inTags: tagSet,
                 inPdf: pdfString,
                 inPhoto: imageURL,

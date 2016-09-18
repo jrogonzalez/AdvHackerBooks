@@ -1,8 +1,8 @@
 //
-//  Note+CoreDataClass.swift
+//  Author+CoreDataClass.swift
 //  AdvHackerbooks
 //
-//  Created by jro on 14/09/16.
+//  Created by jro on 18/09/16.
 //  Copyright © 2016 jro. All rights reserved.
 //
 
@@ -10,37 +10,33 @@ import Foundation
 import CoreData
 
 
-public class Note: NSManagedObject {
-    static let entityName = "Note"
+public class Author: NSManagedObject {
     
-    convenience init(withBook book: Book, text: String , context: NSManagedObjectContext){
-        //create the entity
-        let entity = NSEntityDescription.entity(forEntityName: Note.entityName, in: context)!
+    static let  entityName = "Author"
+
+    convenience init(withBook book: Book, author: String, context: NSManagedObjectContext){
+        //take the entity
+        let entity = NSEntityDescription.entity(forEntityName: Author.entityName, in: context)!
         
-        //call the super
+        // Call the init
         self.init(entity: entity, insertInto: context)
         
-        // fill the properties
-        self.book = book
-        self.text = text
-        creationDate = Date.init() as NSDate?
-        modificationDate = Date.init() as NSDate?
+        self.addToBook(book)
+        self.name = author
         
-        book.addToNote(self)
         
     }
-
 }
 
 //Mark: - KVO
-extension Note{
+extension Author{
     
-    @nonobjc static let observableKeyNames = ["text"]
+    @nonobjc static let observableKeyNames = ["name"]
     
     //Nos vamos a observar a nosotros mismos para cuando cambie alguna propiedad podar actualizar la vista
     func setupKVO(){
         
-        for key in Note.observableKeyNames{
+        for key in Author.observableKeyNames{
             self.addObserver(self,
                              forKeyPath: key,
                              options: [NSKeyValueObservingOptions.new , NSKeyValueObservingOptions.old] ,
@@ -52,7 +48,7 @@ extension Note{
     
     func tearDownKVO(){
         //Me doy de baja en todas las notificaciones
-        for key in Note.observableKeyNames{
+        for key in Author.observableKeyNames{
             self.removeObserver(self, forKeyPath: key)
         }
     }
@@ -61,13 +57,12 @@ extension Note{
                                       of object: Any?,
                                       change: [NSKeyValueChangeKey : Any]?,
                                       context: UnsafeMutableRawPointer?) {
-        
-        modificationDate = Date.init() as NSDate?
+        //modificationDate = NSDate()
     }
 }
 
 //Mark: - lifeCycle
-extension Note{
+extension Author{
     
     // se llama una sola vez
     public override func awakeFromInsert() {
@@ -89,5 +84,3 @@ extension Note{
         tearDownKVO()
     }
 }
-
-

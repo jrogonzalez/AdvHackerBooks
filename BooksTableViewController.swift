@@ -55,6 +55,9 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
             
             var imagen : UIImage? = nil
             
+            //Show a image whie the real cover is downloading
+            cell.bookPhotoView.image = UIImage(imageLiteralResourceName: "default_cover.png")            
+            
             if let auxImg = book.photo?.image {
                  print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
                 imagen = auxImg

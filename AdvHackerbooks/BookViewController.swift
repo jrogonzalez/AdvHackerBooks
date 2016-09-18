@@ -101,7 +101,18 @@ class BookViewController: UIViewController {
         self.titleView.text = model.title
         self.titleView.isUserInteractionEnabled = false
         
-        self.authorsView.text = model.authors
+        guard let auxAuthors = model.author else{
+            return
+        }
+        
+        var authorsName = ""
+        for key in Array(auxAuthors){
+            let authorName = (key as AnyObject).value(forKey: "name")
+            authorsName.append("\(authorName), ")
+        }
+        
+        
+        self.authorsView.text = authorsName
         self.authorsView.isUserInteractionEnabled = false
         
         let tags = Array(model.tag!)
