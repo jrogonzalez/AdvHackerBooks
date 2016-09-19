@@ -70,9 +70,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         //Create the fetchedRequest
-        let req = NSFetchRequest<Book>(entityName: Book.entityName)
+        let req = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
         
-        let title = NSSortDescriptor(key: "title", ascending: true)
+        let title = NSSortDescriptor(key: "tag.tagName", ascending: true)
         req.sortDescriptors = [title]
         
 //        do {
@@ -85,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Create the fetchedRequestController
         let reqCtrl = NSFetchedResultsController(fetchRequest: req,
                                                  managedObjectContext: model.context,
-                                                 sectionNameKeyPath: nil, //puede crear los nombres de secciones de las tablas
+                                                 sectionNameKeyPath: "tag.tagName", //puede crear los nombres de secciones de las tablas
                                                  cacheName: nil)
 //        
 //        //Create the viewController

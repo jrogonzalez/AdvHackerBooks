@@ -37,7 +37,7 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //Search the Book
         //        let book = self.fetchedResultcontroller.objectAtIndexPath(indexPath)
-        let book = self.fetchedResultsController?.object(at: indexPath) as! Book
+        let bookTag = self.fetchedResultsController?.object(at: indexPath) as! BookTag
         
         //Create a Cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "BookViewCell", for: indexPath) as! BookViewCell
@@ -48,7 +48,7 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
 //        }
         
         // Sincronize cell and book
-        cell.titleView.text = book.title
+        cell.titleView.text = bookTag.book?.title
         
         //Async
         DispatchQueue.global(qos: .default).async {
@@ -59,17 +59,17 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
             //Show a image whie the real cover is downloading
             cell.bookPhotoView.image = UIImage(imageLiteralResourceName: "default_cover.png")            
             
-            if let auxImg = book.photo?.image {
+            if let auxImg = bookTag.book?.photo?.image {
                  print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
                 imagen = auxImg
             }else{
                 //if we dont have it, we take it from remote
-                let dataImage = NSData(contentsOf: NSURL(string: (book.photo?.photoURL!)!) as! URL)
+                let dataImage = NSData(contentsOf: NSURL(string: (bookTag.book?.photo?.photoURL!)!) as! URL)
                 let imgData = Data.init(referencing: dataImage!)
                 imagen = UIImage(data: imgData)
                 
                 //sync with model
-                book.photo?.image = imagen
+                bookTag.book?.photo?.image = imagen
                 print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
             }
             
@@ -87,32 +87,38 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         
         
         
-        if (book.isFavourite){
+        if (bookTag.book?.isFavourite)!{
             cell.favPhotoView.image = UIImage(imageLiteralResourceName: "filledStar.png")
         }else{
             cell.favPhotoView.image = UIImage(imageLiteralResourceName: "EmptyStar.jpg")
         }
         
 //        let tags = Array(book.tag!.dictionaryWithValues(forKeys: ["data"]))
-        let tags = Array(book.bookTags!)
-        
-        // Creamos el array de salida e introducimos el primer elemento el favorito
-        var salida : String  = ""
-        
-        //Iteramos y vamos introduciendo los tags salvo el favorito que ya lo introdujimos en la posicion 0
-        for each in 0..<tags.count{
-            print("END INDEX: \(tags.endIndex) ")
-            let tagName = ((tags[each] as AnyObject).value(forKey: "tag") as! Tag).tagName
-            if (each == tags.count-1){
-                salida.append("\(tagName!)")
-            }else{
-                salida.append("\(tagName!), ")
+
+        if let caca = bookTag.book?.bookTags {
+            let tags = Array(caca)
+            
+            // Creamos el array de salida e introducimos el primer elemento el favorito
+            var salida : String  = ""
+            
+            //Iteramos y vamos introduciendo los tags salvo el favorito que ya lo introdujimos en la posicion 0
+            for each in 0..<tags.count{
+                print("END INDEX: \(tags.endIndex) ")
+                let tagName = ((tags[each] as AnyObject).value(forKey: "tag") as! Tag).tagName
+                if (each == tags.count-1){
+                    salida.append("\(tagName!)")
+                }else{
+                    salida.append("\(tagName!), ")
+                }
+                
             }
             
+            
+            cell.tagsView.text = salida
+
         }
         
         
-        cell.tagsView.text = salida
         
 //        print("\n \n TITULO LIBRO: \(book.title) EN SECTION: \(indexPath.section) Y ROW: \(indexPath.row) \n \n ")
         
@@ -145,10 +151,10 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //Search for the Book selected
-        let book = self.fetchedResultsController?.object(at: indexPath) as! Book
+        let bookTag = self.fetchedResultsController?.object(at: indexPath) as! BookTag
         
         //Push to the new controller
-        delegate?.booksTableViewController(vc: self, didSelectBook: book)
+        delegate?.booksTableViewController(vc: self, didSelectBook: bookTag.book!)
     }
 
     /*
