@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class BookViewController: UIViewController {
     
@@ -15,7 +16,7 @@ class BookViewController: UIViewController {
     @IBOutlet weak var coverView: UIImageView!
     @IBAction func loadPdfButton(_ sender: AnyObject) {
         //Create the pdfController
-        let pdfVC = PdfViewController(withModel: self.model)
+        let pdfVC = PdfViewController(withModel: self.model.book!)
         
         //Pus to the navigation
         self.navigationController?.pushViewController(pdfVC, animated: true)
@@ -27,12 +28,12 @@ class BookViewController: UIViewController {
     @IBOutlet weak var authorsView: UILabel!
     @IBOutlet weak var titleView: UILabel!
     
-    var model : Book
+    var model : BookTag
     let delegate: BookViewControllerDelegate? = nil
     var favourite: Bool = false
     
-    init(withBook book: Book){
-        self.model = book
+    init(withBookTag bookTag: BookTag){
+        self.model = bookTag
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -87,10 +88,12 @@ class BookViewController: UIViewController {
         if (gesture.view as? UIImageView) != nil{
             emptyStarView.isHidden = true
             filledStarView.isHidden = false
-            model.isFavourite = true
+            model.book!.isFavourite = true
+            // Insert into the model
+            _ = BookTag(withBook: model.book, tag: "Favourite", context: model.managedObjectContext!)
             
             // Call the delegate to refresh the view
-            self.delegate?.bookViewcontroller(vc: self, addToFavourite: model)
+            self.delegate?.bookViewcontroller(vc: self, addToFavourite: model.book!)
             
         }
         
@@ -101,20 +104,40 @@ class BookViewController: UIViewController {
         if (gesture.view as? UIImageView) != nil{
             emptyStarView.isHidden = false
             filledStarView.isHidden = true
-            model.isFavourite = false
+            model.book!.isFavourite = false
+            
+            //Detele from model
+            
+            let req = NSFetchRequest<BookTag>(entityName: "BookTag")
+            req.fetchLimit = 1
+            
+            let searchFav = NSPredicate(format: "tag.tagName == %@ AND book.title == %@", "Favourite", (model.book?.title)!)
+            req.predicate = searchFav
+            
+//            let frc = NSFetchedResultsController(fetchRequest: req, managedObjectContext: model.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            
+            do {
+                let str = try model.managedObjectContext?.fetch(req)
+                if (str?.count)! > 0 {
+                    model.managedObjectContext?.delete((str?[0])!)
+                }
+            }
+            catch let error as NSError {
+                print(error.localizedDescription)
+            }
             
             //call the delegate
-            self.delegate?.bookViewcontroller(vc: self, removeFromFavourite: model)
+            self.delegate?.bookViewcontroller(vc: self, removeFromFavourite: model.book!)
         }
         
     }
     
     func synchronizeWithModelView(){
         
-        self.titleView.text = model.title
+        self.titleView.text = model.book!.title
         self.titleView.isUserInteractionEnabled = false
         
-        guard let auxAuthors = model.author else{
+        guard let auxAuthors = model.book!.author else{
             return
         }
         
@@ -128,11 +151,11 @@ class BookViewController: UIViewController {
         self.authorsView.text = authorsName
         self.authorsView.isUserInteractionEnabled = false
         
-        let tags = Array(model.bookTags!)
+        let tags = Array(model.book!.bookTags!)
         var salida : String = ""
         
         for each in 0..<tags.count{
-            print("END INDEX: \(tags.endIndex) ")
+//            print("END INDEX: \(tags.endIndex) ")
             let tagName = ((tags[each] as AnyObject).value(forKey: "tag") as! Tag).tagName
             if (each == tags.count-1){
                 salida.append("\(tagName!)")
@@ -148,12 +171,12 @@ class BookViewController: UIViewController {
         
 //        let img = Data.init(referencing: (model.photo?.photoData)!)
 //        self.coverView.image = UIImage(data: img)
-        self.coverView.image = model.photo?.image
+        self.coverView.image = model.book!.photo?.image
         self.coverView.isUserInteractionEnabled = false
         
-        self.favourite = model.isFavourite
+        self.favourite = model.book!.isFavourite
         
-        if (model.isFavourite){
+        if (model.book!.isFavourite){
             emptyStarView.isHidden = true
             filledStarView.isHidden = false
         }else{

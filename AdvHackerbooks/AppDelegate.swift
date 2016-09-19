@@ -128,28 +128,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .pad:
             print("Soy un IPAD")
             
-            //Create the viewController
-            let VC = BooksTableViewController(fetchedResultsController: reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
-            
-            //Create the navController
-            let navVC = UINavigationController(rootViewController: VC)
-            
-            let def = NSUbiquitousKeyValueStore()
-            let lastBook = def.object(forKey: "lastBook") as! Book
-            
-            // Creamos un character view controller
-            let bookVC = BookViewController(withBook: lastBook)
-            
-            // Lo metro dentro de un navigation
-            let charNav = UINavigationController(rootViewController: bookVC)
-            
-            // Creamos el splitView y le endosmos los dos nav
-            let splitVC = UISplitViewController()
-            splitVC.viewControllers = [navVC, charNav]
-            
-            // Nav como root view Controller
-            window?.rootViewController = splitVC
-            
+//            //Create the viewController
+//            let VC = BooksTableViewController(fetchedResultsController: reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
+//            
+//            //Create the navController
+//            let navVC = UINavigationController(rootViewController: VC)
+//            
+//            let def = NSUbiquitousKeyValueStore()
+//            let lastBook = def.object(forKey: "lastBook") as! Book
+//            
+//            // Creamos un character view controller
+//            let bookVC = BookViewController(withBook: lastBook)
+//            
+//            // Lo metro dentro de un navigation
+//            let charNav = UINavigationController(rootViewController: bookVC)
+//            
+//            // Creamos el splitView y le endosmos los dos nav
+//            let splitVC = UISplitViewController()
+//            splitVC.viewControllers = [navVC, charNav]
+//            
+//            // Nav como root view Controller
+//            window?.rootViewController = splitVC
+//            
             break
             
         // It's an iPad

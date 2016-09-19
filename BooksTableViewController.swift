@@ -47,76 +47,85 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
 //             cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellId)
 //        }
         
-        // Sincronize cell and book
-        cell.titleView.text = bookTag.book?.title
         
-        //Async
-        DispatchQueue.global(qos: .default).async {
-            //Test if have the local data image
+        if bookTag.book != nil {
+            // Sincronize cell and book
+            cell.titleView.text = bookTag.book?.title
             
-            var imagen : UIImage? = nil
-            
-            //Show a image whie the real cover is downloading
-            cell.bookPhotoView.image = UIImage(imageLiteralResourceName: "default_cover.png")            
-            
-            if let auxImg = bookTag.book?.photo?.image {
-                 print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
-                imagen = auxImg
-            }else{
-                //if we dont have it, we take it from remote
-                let dataImage = NSData(contentsOf: NSURL(string: (bookTag.book?.photo?.photoURL!)!) as! URL)
-                let imgData = Data.init(referencing: dataImage!)
-                imagen = UIImage(data: imgData)
+            //Async
+            DispatchQueue.global(qos: .default).async {
+                //Test if have the local data image
                 
-                //sync with model
-                bookTag.book?.photo?.image = imagen
-                print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
-            }
-            
-            
-            
-            
-            //load the image in the Main queue
-            DispatchQueue.main.async {
-                cell.bookPhotoView.image = imagen
-            }
-            
-        }
-        
-        
-        
-        
-        
-        if (bookTag.book?.isFavourite)!{
-            cell.favPhotoView.image = UIImage(imageLiteralResourceName: "filledStar.png")
-        }else{
-            cell.favPhotoView.image = UIImage(imageLiteralResourceName: "EmptyStar.jpg")
-        }
-        
-//        let tags = Array(book.tag!.dictionaryWithValues(forKeys: ["data"]))
-
-        if let caca = bookTag.book?.bookTags {
-            let tags = Array(caca)
-            
-            // Creamos el array de salida e introducimos el primer elemento el favorito
-            var salida : String  = ""
-            
-            //Iteramos y vamos introduciendo los tags salvo el favorito que ya lo introdujimos en la posicion 0
-            for each in 0..<tags.count{
-                print("END INDEX: \(tags.endIndex) ")
-                let tagName = ((tags[each] as AnyObject).value(forKey: "tag") as! Tag).tagName
-                if (each == tags.count-1){
-                    salida.append("\(tagName!)")
+                var imagen : UIImage? = nil
+                
+                //load the provisional image in the Main queue
+                DispatchQueue.main.async {
+                    //Show a image whie the real cover is downloading
+                    cell.bookPhotoView.image = UIImage(imageLiteralResourceName: "default_cover.png")
+                    
+                    if (bookTag.book?.isFavourite)!{
+                        cell.favPhotoView.image = UIImage(imageLiteralResourceName: "filledStar.png")
+                    }else{
+                        cell.favPhotoView.image = UIImage(imageLiteralResourceName: "EmptyStar.jpg")
+                    }
+                }
+                
+                
+                
+                if let auxImg = bookTag.book?.photo?.image {
+//                    print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
+                    imagen = auxImg
                 }else{
-                    salida.append("\(tagName!), ")
+                    //if we dont have it, we take it from remote
+                    let dataImage = NSData(contentsOf: NSURL(string: (bookTag.book?.photo?.photoURL!)!) as! URL)
+                    let imgData = Data.init(referencing: dataImage!)
+                    imagen = UIImage(data: imgData)
+                    
+                    //sync with model
+                    bookTag.book?.photo?.image = imagen
+//                    print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
+                }
+                
+                
+                
+                
+                //load the image in the Main queue
+                DispatchQueue.main.async {
+                    cell.bookPhotoView.image = imagen
                 }
                 
             }
             
             
-            cell.tagsView.text = salida
+            
+            //        let tags = Array(book.tag!.dictionaryWithValues(forKeys: ["data"]))
+            
+            if let caca = bookTag.book?.bookTags {
+                let tags = Array(caca)
+                
+                // Creamos el array de salida e introducimos el primer elemento el favorito
+                var salida : String  = ""
+                
+                //Iteramos y vamos introduciendo los tags salvo el favorito que ya lo introdujimos en la posicion 0
+                for each in 0..<tags.count{
+//                    print("END INDEX: \(tags.endIndex) ")
+                    let tagName = ((tags[each] as AnyObject).value(forKey: "tag") as! Tag).tagName
+                    if (each == tags.count-1){
+                        salida.append("\(tagName!)")
+                    }else{
+                        salida.append("\(tagName!), ")
+                    }
+                    
+                }
+                
+                
+                cell.tagsView.text = salida
+                
+            }
 
+            
         }
+        
         
         
         
@@ -125,25 +134,6 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         // Return Cell
         return cell
     }
-    
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//            let request = NSFetchRequest<Tag>(entityName: "Tag")
-//            let tagNameSort = NSSortDescriptor(key: "tagName", ascending: true)
-//            request.sortDescriptors = [tagNameSort]
-//            let moc = self.fetchedResultsController?.managedObjectContext
-//            let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc!, sectionNameKeyPath: "tagName", cacheName: nil)
-//            fetchedResultsController.delegate = self
-//            do {
-//                let sal = try self.fetchedResultsController?.managedObjectContext.fetch(request)
-//                print(sal)
-////                self.fetchedResultsController?.sections = sal
-//                return (sal?.count)!
-//            } catch {
-//                fatalError("Failed to initialize FetchedResultsController: \(error)")
-//            }
-//        return 1
-//    
-//    }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60.0
@@ -154,7 +144,7 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         let bookTag = self.fetchedResultsController?.object(at: indexPath) as! BookTag
         
         //Push to the new controller
-        delegate?.booksTableViewController(vc: self, didSelectBook: bookTag.book!)
+        delegate?.booksTableViewController(vc: self, didSelectBook: bookTag)
     }
 
     /*
@@ -168,9 +158,9 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
     */
     
     //Mark: -
-    internal func booksTableViewController(vc: BooksTableViewController, didSelectBook book: Book) {
+    internal func booksTableViewController(vc: BooksTableViewController, didSelectBook book: BookTag) {
         //Create a BookViewController
-        let bookVC = BookViewController(withBook: book)
+        let bookVC = BookViewController(withBookTag: book)
         
         // Push to the navigation Controller
         self.navigationController?.pushViewController(bookVC, animated: true)
@@ -184,7 +174,7 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
 // Definimos los metodos del delegado
 protocol BooksTableViewControllerDelegate{
     
-    func booksTableViewController(vc: BooksTableViewController, didSelectBook book: Book)
+    func booksTableViewController(vc: BooksTableViewController, didSelectBook book: BookTag)
     
 }
 

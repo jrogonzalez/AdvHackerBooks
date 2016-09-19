@@ -17,7 +17,7 @@
         <relationship name="photo" maxCount="1" deletionRule="Cascade" destinationEntity="Photo" inverseName="book" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <entity name="BookTag" representedClassName=".BookTag" syncable="YES">
-        <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="bookTags" inverseEntity="Book" syncable="YES"/>
+        <relationship name="book" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="bookTags" inverseEntity="Book" syncable="YES"/>
         <relationship name="tag" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="bookTags" inverseEntity="Tag" syncable="YES"/>
     </entity>
     <entity name="Localization" representedClassName=".Localization" syncable="YES"/>
@@ -44,13 +44,13 @@
         <relationship name="bookTags" toMany="YES" deletionRule="Nullify" destinationEntity="BookTag" inverseName="tag" inverseEntity="BookTag" syncable="YES"/>
     </entity>
     <elements>
+        <element name="Author" positionX="-360" positionY="60" width="128" height="75"/>
         <element name="Book" positionX="-297" positionY="-414" width="128" height="195"/>
+        <element name="BookTag" positionX="-477" positionY="-180" width="128" height="75"/>
         <element name="Localization" positionX="-2" positionY="-108" width="128" height="45"/>
         <element name="Note" positionX="-162" positionY="108" width="128" height="120"/>
         <element name="Pdf" positionX="34" positionY="-279" width="128" height="90"/>
         <element name="Photo" positionX="43" positionY="-18" width="128" height="105"/>
         <element name="Tag" positionX="-576" positionY="-30" width="128" height="75"/>
-        <element name="Author" positionX="-360" positionY="60" width="128" height="75"/>
-        <element name="BookTag" positionX="-477" positionY="-180" width="128" height="73"/>
     </elements>
 </model>
