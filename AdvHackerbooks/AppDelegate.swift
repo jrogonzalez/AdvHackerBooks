@@ -19,6 +19,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //Creamos una instancia del modelo
     let model = CoreDataStack(modelName: "AdvHackerbooks")!
+    
+//    func initializeFetchedResultsController() {
+//        let request = NSFetchRequest<Book>(entityName: "Book")
+//        let departmentSort = NSSortDescriptor(key: "department.name", ascending: true)
+//        let lastNameSort = NSSortDescriptor(key: "lastName", ascending: true)
+//        request.sortDescriptors = [departmentSort, lastNameSort]
+//        let moc = model.context
+//        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: "department.name", cacheName: nil)
+//        fetchedResultsController?.delegate = self
+//        do {
+//            try fetchedResultsController?.performFetch()
+//        } catch {
+//            fatalError("Failed to initialize FetchedResultsController: \(error)")
+//        }
+//    }
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -56,7 +71,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Create the fetchedRequest
         let req = NSFetchRequest<Book>(entityName: Book.entityName)
-        req.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        let title = NSSortDescriptor(key: "title", ascending: true)
+        req.sortDescriptors = [title]
         
 //        do {
 //            let res = try model?.context.execute(req)
@@ -70,24 +87,86 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                  managedObjectContext: model.context,
                                                  sectionNameKeyPath: nil, //puede crear los nombres de secciones de las tablas
                                                  cacheName: nil)
+//        
+//        //Create the viewController
+//        let VC = BooksTableViewController(fetchedResultsController: reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
+//        
+//        //Create the navController
+//        let navVC = UINavigationController(rootViewController: VC)
+//        
+//         
+//         
+//        //Assign rootViewcontroller
+//        window?.rootViewController = navVC
+//        
+// 
+//        // make an autosave
+//        self.saveDelayContext()
+//        
+//        //Make the window visible
+//        window?.makeKeyAndVisible()
+//        
         
-        //Create the viewController
-        let VC = BooksTableViewController(fetchedResultsController: reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
-        
-        //Create the navController
-        let navVC = UINavigationController(rootViewController: VC)
-        
-         
-         
-        //Assign rootViewcontroller
-        window?.rootViewController = navVC
-        
- 
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            print("Soy un IPHONE")
+            
+            //Create the viewController
+            let VC = BooksTableViewController(fetchedResultsController: reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
+            
+            //Create the navController
+            let navVC = UINavigationController(rootViewController: VC)
+            
+            
+            
+            //Assign rootViewcontroller
+            window?.rootViewController = navVC
+            
+            
+            break
+        // It's an iPhone
+        case .pad:
+            print("Soy un IPAD")
+            
+            //Create the viewController
+            let VC = BooksTableViewController(fetchedResultsController: reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
+            
+            //Create the navController
+            let navVC = UINavigationController(rootViewController: VC)
+            
+            let def = NSUbiquitousKeyValueStore()
+            let lastBook = def.object(forKey: "lastBook") as! Book
+            
+            // Creamos un character view controller
+            let bookVC = BookViewController(withBook: lastBook)
+            
+            // Lo metro dentro de un navigation
+            let charNav = UINavigationController(rootViewController: bookVC)
+            
+            // Creamos el splitView y le endosmos los dos nav
+            let splitVC = UISplitViewController()
+            splitVC.viewControllers = [navVC, charNav]
+            
+            // Nav como root view Controller
+            window?.rootViewController = splitVC
+            
+            break
+            
+        // It's an iPad
+        case .unspecified:
+            print("Soy un OTRA COSA")
+            break
+        default:
+            print("Soy un DEFAULT")
+            // Uh, oh! What could it be?
+        }
+
         // make an autosave
         self.saveDelayContext()
         
         //Make the window visible
         window?.makeKeyAndVisible()
+        
         
         return true
     }

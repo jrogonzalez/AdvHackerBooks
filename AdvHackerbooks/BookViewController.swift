@@ -66,6 +66,19 @@ class BookViewController: UIViewController {
         filledStarView.image = UIImage(imageLiteralResourceName: "filledStar.png")
         
         synchronizeWithModelView()
+        
+////        let def = NSUbiquitousKeyValueStore.default()
+//        let def = UserDefaults.standard
+//        def.set(self.model, forKey: "lastBook")
+////        def.set(self.model, forKey: "lastBook")
+////        def.synchronize()
+//
+//        
+////        let def = NSUbiquitousKeyValueStore()
+//        let lastBook = def.object(forKey: "lastBook") as! Book
+//        print(lastBook)
+//        print("caca")
+
     }
     
     func emptyStarTapped(gesture: UIGestureRecognizer){
@@ -115,14 +128,21 @@ class BookViewController: UIViewController {
         self.authorsView.text = authorsName
         self.authorsView.isUserInteractionEnabled = false
         
-        let tags = Array(model.tag!)
+        let tags = Array(model.bookTags!)
         var salida : String = ""
-        for each in tags{
-            let tagName = (each as AnyObject).value(forKey: "tagName")
-            salida.append("\(tagName!), ")
-            
+        
+        for each in 0..<tags.count{
+            print("END INDEX: \(tags.endIndex) ")
+            let tagName = ((tags[each] as AnyObject).value(forKey: "tag") as! Tag).tagName
+            if (each == tags.count-1){
+                salida.append("\(tagName!)")
+            }else{
+                salida.append("\(tagName!), ")
+            }
             
         }
+        
+        
         self.tagsView.text = salida
         self.tagsView.isUserInteractionEnabled = false
         

@@ -33,6 +33,8 @@
 		1318F8021D8EED330038DF84 /* Author+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1318F8001D8EED330038DF84 /* Author+CoreDataClass.swift */; };
 		1318F8031D8EED330038DF84 /* Author+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1318F8011D8EED330038DF84 /* Author+CoreDataProperties.swift */; };
 		1318F8051D8EF70B0038DF84 /* default_cover.png in Resources */ = {isa = PBXBuildFile; fileRef = 1318F8041D8EF70B0038DF84 /* default_cover.png */; };
+		1318F80C1D8F1FC60038DF84 /* BookTag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1318F8081D8F1FC60038DF84 /* BookTag+CoreDataClass.swift */; };
+		1318F80D1D8F1FC60038DF84 /* BookTag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1318F8091D8F1FC60038DF84 /* BookTag+CoreDataProperties.swift */; };
 		1326A1BF1D8C3FAB00740AEA /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1326A1BD1D8C3FAB00740AEA /* Photo+CoreDataProperties.swift */; };
 		132FBF9A1D8CB0B300D4C4BB /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132FBF981D8CB0B300D4C4BB /* PhotoViewController.swift */; };
 		132FBF9B1D8CB0B300D4C4BB /* PhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 132FBF991D8CB0B300D4C4BB /* PhotoViewController.xib */; };
@@ -81,6 +83,8 @@
 		1318F8001D8EED330038DF84 /* Author+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Author+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1318F8011D8EED330038DF84 /* Author+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Author+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1318F8041D8EF70B0038DF84 /* default_cover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_cover.png; sourceTree = "<group>"; };
+		1318F8081D8F1FC60038DF84 /* BookTag+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BookTag+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1318F8091D8F1FC60038DF84 /* BookTag+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BookTag+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1326A1BD1D8C3FAB00740AEA /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		132FBF981D8CB0B300D4C4BB /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		132FBF991D8CB0B300D4C4BB /* PhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoViewController.xib; sourceTree = "<group>"; };
@@ -114,6 +118,8 @@
 		130980961D833189000244E5 = {
 			isa = PBXGroup;
 			children = (
+				1318F8081D8F1FC60038DF84 /* BookTag+CoreDataClass.swift */,
+				1318F8091D8F1FC60038DF84 /* BookTag+CoreDataProperties.swift */,
 				1318F8001D8EED330038DF84 /* Author+CoreDataClass.swift */,
 				1318F8011D8EED330038DF84 /* Author+CoreDataProperties.swift */,
 				13801B1D1D89C38100908887 /* Note+CoreDataClass.swift */,
@@ -295,10 +301,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				130980AB1D833189000244E5 /* AdvHackerbooks.xcdatamodeld in Sources */,
+				1318F80C1D8F1FC60038DF84 /* BookTag+CoreDataClass.swift in Sources */,
 				1309810D1D833A99000244E5 /* Photo+CoreDataClass.swift in Sources */,
 				130981181D833A99000244E5 /* Pdf+CoreDataProperties.swift in Sources */,
 				130981171D833A99000244E5 /* Pdf+CoreDataClass.swift in Sources */,
 				1318F8021D8EED330038DF84 /* Author+CoreDataClass.swift in Sources */,
+				1318F80D1D8F1FC60038DF84 /* BookTag+CoreDataProperties.swift in Sources */,
 				1366EB6D1D882B8100A5CA01 /* BookViewController.swift in Sources */,
 				130981231D834283000244E5 /* Foundation.swift in Sources */,
 				130981241D834283000244E5 /* Utils.swift in Sources */,

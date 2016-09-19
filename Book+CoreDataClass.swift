@@ -32,8 +32,10 @@ public class Book: NSManagedObject {
         
         // Inserts all tags
         for key in inTags{
-            let tag = Tag(withBook: self, tagText: key, context: context)
-            self.addToTag(tag)
+            //Create the booktag and tags
+            let booktag = BookTag(withBook: self, tag: key, context: context)
+            self.addToBookTags(booktag)
+            
         }
         
         if inPdf != nil {
@@ -58,6 +60,9 @@ public class Book: NSManagedObject {
         
         
         self.isFavourite = inFavourite
+        self.isFinished = false
+        self.lastDateReaded = Date() as NSDate?
+        self.lastPageReaded = 1
         
         if let note = inNote {
             let noteInstance = Note(withBook: self, text: note, context: context)
@@ -67,7 +72,8 @@ public class Book: NSManagedObject {
         
         
     }
-
+    
+   
 }
 
 

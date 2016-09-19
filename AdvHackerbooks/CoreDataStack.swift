@@ -14,9 +14,9 @@ struct CoreDataStack {
     fileprivate let coordinator : NSPersistentStoreCoordinator
     fileprivate let modelURL : URL
     fileprivate let dbURL : URL
-    fileprivate let persistingContext : NSManagedObjectContext
+    fileprivate let persistingContext : NSManagedObjectContext //solo se encarga de persistir
     fileprivate let backgroundContext : NSManagedObjectContext
-    let context : NSManagedObjectContext
+    let context : NSManagedObjectContext // este es nuestro main context
     
     
     // MARK:  - Initializers

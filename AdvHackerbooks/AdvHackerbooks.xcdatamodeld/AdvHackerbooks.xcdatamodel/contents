@@ -6,12 +6,19 @@
     </entity>
     <entity name="Book" representedClassName=".Book" syncable="YES">
         <attribute name="isFavourite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isFinished" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="lastDateReaded" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="lastPageReaded" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="title" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="author" toMany="YES" deletionRule="Cascade" destinationEntity="Author" inverseName="book" inverseEntity="Author" syncable="YES"/>
+        <relationship name="bookTags" toMany="YES" deletionRule="Nullify" destinationEntity="BookTag" inverseName="book" inverseEntity="BookTag" syncable="YES"/>
         <relationship name="note" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Note" inverseName="book" inverseEntity="Note" syncable="YES"/>
         <relationship name="pdf" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Pdf" inverseName="book" inverseEntity="Pdf" syncable="YES"/>
         <relationship name="photo" maxCount="1" deletionRule="Cascade" destinationEntity="Photo" inverseName="book" inverseEntity="Photo" syncable="YES"/>
-        <relationship name="tag" toMany="YES" deletionRule="Cascade" destinationEntity="Tag" inverseName="book" inverseEntity="Tag" syncable="YES"/>
+    </entity>
+    <entity name="BookTag" representedClassName=".BookTag" syncable="YES">
+        <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="bookTags" inverseEntity="Book" syncable="YES"/>
+        <relationship name="tag" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="bookTags" inverseEntity="Tag" syncable="YES"/>
     </entity>
     <entity name="Localization" representedClassName=".Localization" syncable="YES"/>
     <entity name="Note" representedClassName=".Note" syncable="YES">
@@ -34,15 +41,16 @@
     </entity>
     <entity name="Tag" representedClassName=".Tag" syncable="YES">
         <attribute name="tagName" attributeType="String" syncable="YES"/>
-        <relationship name="book" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="tag" inverseEntity="Book" syncable="YES"/>
+        <relationship name="bookTags" toMany="YES" deletionRule="Nullify" destinationEntity="BookTag" inverseName="tag" inverseEntity="BookTag" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Book" positionX="-63" positionY="-18" width="128" height="150"/>
-        <element name="Localization" positionX="-18" positionY="36" width="128" height="45"/>
-        <element name="Note" positionX="-18" positionY="54" width="128" height="120"/>
-        <element name="Pdf" positionX="-36" positionY="27" width="128" height="90"/>
-        <element name="Photo" positionX="18" positionY="63" width="128" height="105"/>
-        <element name="Tag" positionX="-54" positionY="18" width="128" height="75"/>
-        <element name="Author" positionX="-18" positionY="63" width="128" height="75"/>
+        <element name="Book" positionX="-297" positionY="-414" width="128" height="195"/>
+        <element name="Localization" positionX="-2" positionY="-108" width="128" height="45"/>
+        <element name="Note" positionX="-162" positionY="108" width="128" height="120"/>
+        <element name="Pdf" positionX="34" positionY="-279" width="128" height="90"/>
+        <element name="Photo" positionX="43" positionY="-18" width="128" height="105"/>
+        <element name="Tag" positionX="-576" positionY="-30" width="128" height="75"/>
+        <element name="Author" positionX="-360" positionY="60" width="128" height="75"/>
+        <element name="BookTag" positionX="-477" positionY="-180" width="128" height="73"/>
     </elements>
 </model>

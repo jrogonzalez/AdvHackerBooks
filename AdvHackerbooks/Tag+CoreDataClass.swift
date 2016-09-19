@@ -14,17 +14,47 @@ public class Tag: NSManagedObject {
 
     static let entityName = "Tag"
     
-    convenience init(withBook book: Book, tagText: String, context: NSManagedObjectContext){
-        //Obtain the entity
-        let ent = NSEntityDescription.entity(forEntityName: Tag.entityName, in: context)!
-        
-        //Call the super
-        self.init(entity: ent, insertInto: context)
-        
-        self.book = book
-        tagName = tagText
+    convenience init(withBookTag bookTag: BookTag, tagText: String, context: NSManagedObjectContext){
+            //Obtain the entity
+            let ent = NSEntityDescription.entity(forEntityName: Tag.entityName, in: context)!
+            
+            //Call the super
+            self.init(entity: ent, insertInto: context)
+            
+            self.addToBookTags(bookTag)
+            tagName = tagText
         
     }
+    
+    
+    func searchTag(forBookTag bookTag: BookTag, TagName tagName: String, context: NSManagedObjectContext) -> Tag?{
+        //fetched reqest
+        let req = NSFetchRequest<Tag>(entityName: "Tag")
+        req.fetchLimit = 1
+        
+        let predicate = NSPredicate(format: "tagName == %@", tagName)
+        req.predicate = predicate
+        
+        //        let frc = NSFetchedResultsController(fetchRequest: req, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        do {
+            let str = try context.fetch(req)
+            if str.count > 0 {
+                return str[0]
+            }else{
+                //Create the Element
+               return Tag(withBookTag: bookTag, tagText: tagName, context: context)
+            }
+            
+        }
+        catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        
+        return nil
+        
+    }
+
 }
 
 //Mark: - KVO

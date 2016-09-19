@@ -92,8 +92,12 @@ extension CoreDataTableViewController{
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        
         if let fc = fetchedResultsController{
+            print("\n SECTION: \(section), name: \(fc.sections![section].name) \n")
             return fc.sections![section].name;
+//            return "CACA";
         }else{
             return nil
         }
@@ -193,4 +197,6 @@ extension CoreDataTableViewController: NSFetchedResultsControllerDelegate{
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
+    
+    
 }

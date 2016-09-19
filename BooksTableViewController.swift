@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class BooksTableViewController: CoreDataTableViewController , BooksTableViewControllerDelegate{
     
@@ -93,14 +94,21 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         }
         
 //        let tags = Array(book.tag!.dictionaryWithValues(forKeys: ["data"]))
-        let tags = Array(book.tag!)
+        let tags = Array(book.bookTags!)
+        
         // Creamos el array de salida e introducimos el primer elemento el favorito
-        var salida : String = ""
+        var salida : String  = ""
         
         //Iteramos y vamos introduciendo los tags salvo el favorito que ya lo introdujimos en la posicion 0
-        for each in tags {
-            let tagName = (each as AnyObject).value(forKey: "tagName")
-            salida.append("\(tagName!), ")
+        for each in 0..<tags.count{
+            print("END INDEX: \(tags.endIndex) ")
+            let tagName = ((tags[each] as AnyObject).value(forKey: "tag") as! Tag).tagName
+            if (each == tags.count-1){
+                salida.append("\(tagName!)")
+            }else{
+                salida.append("\(tagName!), ")
+            }
+            
         }
         
         
@@ -111,6 +119,25 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         // Return Cell
         return cell
     }
+    
+//    override func numberOfSections(in tableView: UITableView) -> Int {
+//            let request = NSFetchRequest<Tag>(entityName: "Tag")
+//            let tagNameSort = NSSortDescriptor(key: "tagName", ascending: true)
+//            request.sortDescriptors = [tagNameSort]
+//            let moc = self.fetchedResultsController?.managedObjectContext
+//            let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc!, sectionNameKeyPath: "tagName", cacheName: nil)
+//            fetchedResultsController.delegate = self
+//            do {
+//                let sal = try self.fetchedResultsController?.managedObjectContext.fetch(request)
+//                print(sal)
+////                self.fetchedResultsController?.sections = sal
+//                return (sal?.count)!
+//            } catch {
+//                fatalError("Failed to initialize FetchedResultsController: \(error)")
+//            }
+//        return 1
+//    
+//    }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60.0

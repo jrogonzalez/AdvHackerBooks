@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import CoreData
-
+import CoreData 
 
 extension Book {
 
@@ -18,11 +17,14 @@ extension Book {
 
     @NSManaged public var isFavourite: Bool
     @NSManaged public var title: String?
+    @NSManaged public var isFinished: Bool
+    @NSManaged public var lastPageReaded: Int16
+    @NSManaged public var lastDateReaded: NSDate?
     @NSManaged public var note: NSSet?
     @NSManaged public var pdf: Pdf?
     @NSManaged public var photo: Photo?
-    @NSManaged public var tag: NSSet?
     @NSManaged public var author: NSSet?
+    @NSManaged public var bookTags: NSSet?
 
 }
 
@@ -43,23 +45,6 @@ extension Book {
 
 }
 
-// MARK: Generated accessors for tag
-extension Book {
-
-    @objc(addTagObject:)
-    @NSManaged public func addToTag(_ value: Tag)
-
-    @objc(removeTagObject:)
-    @NSManaged public func removeFromTag(_ value: Tag)
-
-    @objc(addTag:)
-    @NSManaged public func addToTag(_ values: NSSet)
-
-    @objc(removeTag:)
-    @NSManaged public func removeFromTag(_ values: NSSet)
-
-}
-
 // MARK: Generated accessors for author
 extension Book {
 
@@ -74,5 +59,22 @@ extension Book {
 
     @objc(removeAuthor:)
     @NSManaged public func removeFromAuthor(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for bookTags
+extension Book {
+
+    @objc(addBookTagsObject:)
+    @NSManaged public func addToBookTags(_ value: BookTag)
+
+    @objc(removeBookTagsObject:)
+    @NSManaged public func removeFromBookTags(_ value: BookTag)
+
+    @objc(addBookTags:)
+    @NSManaged public func addToBookTags(_ values: NSSet)
+
+    @objc(removeBookTags:)
+    @NSManaged public func removeFromBookTags(_ values: NSSet)
 
 }
