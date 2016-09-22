@@ -24,18 +24,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         //Borramos lo ya existente
-//        do {
-//            try model.dropAllData()
-//        }
-//        catch let error as NSError {
-//            print(error.localizedDescription)
-//        }
+        do {
+            try model.dropAllData()
+        }
+        catch let error as NSError {
+            print(error.localizedDescription)
+        }
         
         
         let defaults = UserDefaults.standard
         
         // ************ CLEAR USER DEFAULTS *******************
-//        defaults.removeObject(forKey: "JSON_Data")
+        defaults.removeObject(forKey: "JSON_Data")
 //                defaults.removeObject(forKey: "lastBook")
         // ****************************************************
         
@@ -80,11 +80,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //Create the viewController
             let VC = BooksTableViewController(fetchedResultsController: reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
             
+            let sVC = SelectOrderViewController(withBookTableVC: VC)
+            
             //Create the navController
-            let navVC = UINavigationController(rootViewController: VC)
+            let navVC = UINavigationController(rootViewController: sVC)
             
             //Assign delegate
-            VC.delegate = VC
+            VC.delegate = sVC
+            sVC.delegate = sVC
             
             //Assign rootViewcontroller
             window?.rootViewController = navVC
@@ -98,16 +101,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //Create the viewController
             let VC = BooksTableViewController(fetchedResultsController: reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
             
+            
+            let sVC = SelectOrderViewController(withBookTableVC: VC)
+            
+            
             //Create the navController
-            let navVC = UINavigationController(rootViewController: VC)
+            let navVC = UINavigationController(rootViewController: sVC)
+            
+            
             
 //            let def = NSUbiquitousKeyValueStore()
 //            let lastBook = def.object(forKey: "lastBook") as! Book
             
             if let lastBook = VC.lastSelectedBook(context: model.context){
                 // Creamos un character view controller
-                let bookVC = BookViewController(withBook: lastBook as! Book)
-                
+                let bookVC = BookViewController(withBook: lastBook)
+
                 // Lo metro dentro de un navigation
                 let charNav = UINavigationController(rootViewController: bookVC)
                 
@@ -233,18 +242,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.model.autoSave(self.autoSaveDelayInSeconds)
             
         }
-        
-//        let context = persistentContainer.viewContext
-//        if context.hasChanges {
-//            do {
-//                try context.save()
-//            } catch {
-//                // Replace this implementation with code to handle the error appropriately.
-//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-//                let nserror = error as NSError
-//                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-//            }
-//        }
     }
     
     func saveContext(){

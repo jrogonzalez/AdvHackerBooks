@@ -229,7 +229,52 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
             }
         }else{
             return nil
+        }   
+    }
+    
+    func changeSelectedOrder(Alphabetical: Bool, context: NSManagedObjectContext){
+        //Create the fetchedRequest
+        let req = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
+        
+        let title = NSSortDescriptor(key: "tag.tagName", ascending: true)
+        req.sortDescriptors = [title]
+        
+        //        do {
+        //            let res = try model?.context.execute(req)
+        //        }
+        //        catch let error as NSError {
+        //            print(error.localizedDescription)
+        //        }
+        var tagName : String?
+        
+        if Alphabetical {
+            tagName = "tag.tagName"
+            
+        } else{
+            tagName = nil
         }
+        
+        
+        //Create the fetchedRequestController
+        let reqCtrl = NSFetchedResultsController(fetchRequest: req,
+                                                 managedObjectContext: context,
+                                                 sectionNameKeyPath: tagName, //puede crear los nombres de secciones de las tablas
+            cacheName: nil)
+        
+        
+        //Create the viewController
+        let VC = BooksTableViewController(fetchedResultsController: reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
+        
+        let sVC = SelectOrderViewController(withBookTableVC: VC)
+        
+        
+        //Assign delegate
+        VC.delegate = sVC
+        sVC.delegate = sVC
+        
+        self.navigationController?.pushViewController(sVC, animated: true)
+
+        
     }
 
 

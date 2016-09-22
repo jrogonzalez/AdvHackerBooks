@@ -95,7 +95,7 @@ extension CoreDataTableViewController{
         
         
         if let fc = fetchedResultsController{
-            print("\n SECTION: \(section), name: \(fc.sections![section].name) \n")
+//            print("\n SECTION: \(section), name: \(fc.sections![section].name) \n")
             return fc.sections![section].name;
 //            return "CACA";
         }else{

@@ -20,12 +20,18 @@
         <relationship name="book" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="bookTags" inverseEntity="Book" syncable="YES"/>
         <relationship name="tag" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="bookTags" inverseEntity="Tag" syncable="YES"/>
     </entity>
-    <entity name="Localization" representedClassName=".Localization" syncable="YES"/>
+    <entity name="Localization" representedClassName=".Localization" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="notes" toMany="YES" deletionRule="Nullify" destinationEntity="Note" inverseName="location" inverseEntity="Note" syncable="YES"/>
+    </entity>
     <entity name="Note" representedClassName=".Note" syncable="YES">
         <attribute name="creationDate" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="modificationDate" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="book" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Book" inverseName="note" inverseEntity="Book" syncable="YES"/>
+        <relationship name="location" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Localization" inverseName="notes" inverseEntity="Localization" syncable="YES"/>
         <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="note" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <entity name="Pdf" representedClassName=".Pdf" syncable="YES">
@@ -47,8 +53,8 @@
         <element name="Author" positionX="-360" positionY="60" width="128" height="75"/>
         <element name="Book" positionX="-297" positionY="-414" width="128" height="195"/>
         <element name="BookTag" positionX="-477" positionY="-180" width="128" height="75"/>
-        <element name="Localization" positionX="-2" positionY="-108" width="128" height="45"/>
-        <element name="Note" positionX="-162" positionY="108" width="128" height="120"/>
+        <element name="Localization" positionX="-2" positionY="-108" width="128" height="105"/>
+        <element name="Note" positionX="-162" positionY="108" width="128" height="135"/>
         <element name="Pdf" positionX="34" positionY="-279" width="128" height="90"/>
         <element name="Photo" positionX="43" positionY="-18" width="128" height="105"/>
         <element name="Tag" positionX="-576" positionY="-30" width="128" height="75"/>

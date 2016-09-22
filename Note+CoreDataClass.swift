@@ -8,10 +8,18 @@
 
 import Foundation
 import CoreData
-
+import CoreLocation
 
 public class Note: NSManagedObject {
     static let entityName = "Note"
+    var locationManager : CLLocationManager?
+    
+    var hasLocation: Bool {
+        get{
+           return self.location != nil
+        }
+    }
+    
     
     convenience init(withBook book: Book, text: String , context: NSManagedObjectContext){
         //create the entity
@@ -35,7 +43,7 @@ public class Note: NSManagedObject {
 //Mark: - KVO
 extension Note{
     
-    @nonobjc static let observableKeyNames = ["text"]
+    @nonobjc static let observableKeyNames = ["text", "location"]
     
     //Nos vamos a observar a nosotros mismos para cuando cambie alguna propiedad podar actualizar la vista
     func setupKVO(){
@@ -67,13 +75,37 @@ extension Note{
 }
 
 //Mark: - lifeCycle
-extension Note{
+extension Note: CLLocationManagerDelegate{
     
     // se llama una sola vez
     public override func awakeFromInsert() {
         super.awakeFromInsert()
         
         setupKVO()
+        
+        let status = CLLocationManager.authorizationStatus()
+        
+        if ((status == CLAuthorizationStatus.authorizedAlways || status == CLAuthorizationStatus.notDetermined) && CLLocationManager.locationServicesEnabled()){
+            //We are authorized
+            self.locationManager = CLLocationManager.init()
+            self.locationManager?.delegate = self
+            self.locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+            self.locationManager?.startUpdatingLocation()
+            
+            // only take the recent data
+            let deadlineTime = DispatchTime.now() + .seconds(30)
+            DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
+                print("DispatchAfter : \(Date())")
+//                self.zapLocationManager()
+            }
+        }
+    }
+    
+    func zapLocationManager(){
+        // Stop
+        self.locationManager?.stopUpdatingLocation()
+        self.locationManager?.delegate = nil
+        self.locationManager = nil
     }
     
     // Se llama un cerro de veces
@@ -87,6 +119,25 @@ extension Note{
         super.willTurnIntoFault()
         
         tearDownKVO()
+    }
+    
+    //MARK: - CLLocationManagerDelegate
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // Stop
+        self.zapLocationManager()
+        
+        if !self.hasLocation {
+            // take the last location
+            let loc = locations.last
+            
+            
+            let location = Localization(withNote: self, location: loc!, context: self.managedObjectContext!)
+            
+        }else{
+            print("We should never reach here")
+        }
+        
+        
     }
 }
 
