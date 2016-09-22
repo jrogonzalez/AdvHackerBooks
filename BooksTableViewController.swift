@@ -14,6 +14,8 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
     
     var delegate : BooksTableViewControllerDelegate? = nil
     
+    static let bookDidChangeNotification = Notification.Name("BookDidChangeNotification")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -140,11 +142,52 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //Search for the Book selected
-        let bookTag = self.fetchedResultsController?.object(at: indexPath) as! BookTag
         
-        //Push to the new controller
-        delegate?.booksTableViewController(vc: self, didSelectBook: bookTag)
+        
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            print("Soy un IPHONE")
+            
+            //Search for the Book selected
+            let bookTag = self.fetchedResultsController?.object(at: indexPath) as! BookTag
+            
+            //Push to the new controller
+            delegate?.booksTableViewController(vc: self, didSelectBook: bookTag.book!)
+            
+            break
+        // It's an iPhone
+        case .pad:
+            print("Soy un IPAD")
+            
+            
+            //Search for the Book selected
+            let bookTag = self.fetchedResultsController?.object(at: indexPath) as! BookTag
+            
+            //Push to the new controller
+            delegate?.booksTableViewController(vc: self, didSelectBook: bookTag.book!)
+            
+            
+//            // Enviamos la misma info via notificaciones
+//            let nc = NotificationCenter.default
+//            let notif = Notification(name: BooksTableViewController.bookDidChangeNotification, object: self, userInfo: [bookKey:bookTag.book!])
+//            nc.postNotification(notif)
+            
+            break
+            
+        // It's an iPad
+        case .unspecified:
+            print("Soy un OTRA COSA")
+            break
+        default:
+            print("Soy un DEFAULT")
+            // Uh, oh! What could it be?
+        }
+
+        
+        
+        
+        
+
     }
 
     /*
@@ -158,13 +201,35 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
     */
     
     //Mark: -
-    internal func booksTableViewController(vc: BooksTableViewController, didSelectBook book: BookTag) {
+    internal func booksTableViewController(vc: BooksTableViewController, didSelectBook book: Book) {
         //Create a BookViewController
-        let bookVC = BookViewController(withBookTag: book)
+        let bookVC = BookViewController(withBook: book)
         
         // Push to the navigation Controller
         self.navigationController?.pushViewController(bookVC, animated: true)
         
+    }
+    
+    func lastSelectedBook(context : NSManagedObjectContext) -> Book?{
+        let def = UserDefaults.standard
+        
+        //        let def = NSUbiquitousKeyValueStore()
+        if let lastBookId = def.value(forKey: "lastBook") {
+            let url = URL(string: lastBookId as! String)!
+            let objectID = context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: url)
+            
+            do {
+                let object = try context.existingObject(with: objectID!)
+                print(object)
+                return object as? Book
+            }
+            catch let error as NSError {
+                print(error.localizedDescription)
+                return nil
+            }
+        }else{
+            return nil
+        }
     }
 
 
@@ -174,7 +239,7 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
 // Definimos los metodos del delegado
 protocol BooksTableViewControllerDelegate{
     
-    func booksTableViewController(vc: BooksTableViewController, didSelectBook book: BookTag)
+    func booksTableViewController(vc: BooksTableViewController, didSelectBook book: Book)
     
 }
 

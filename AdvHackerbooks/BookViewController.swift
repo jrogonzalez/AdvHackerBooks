@@ -16,7 +16,7 @@ class BookViewController: UIViewController {
     @IBOutlet weak var coverView: UIImageView!
     @IBAction func loadPdfButton(_ sender: AnyObject) {
         //Create the pdfController
-        let pdfVC = PdfViewController(withModel: self.model.book!)
+        let pdfVC = PdfViewController(withModel: self.model)
         
         //Pus to the navigation
         self.navigationController?.pushViewController(pdfVC, animated: true)
@@ -28,12 +28,12 @@ class BookViewController: UIViewController {
     @IBOutlet weak var authorsView: UILabel!
     @IBOutlet weak var titleView: UILabel!
     
-    var model : BookTag
-    let delegate: BookViewControllerDelegate? = nil
+    var model : Book
+    var delegate: BookViewControllerDelegate? = nil
     var favourite: Bool = false
     
-    init(withBookTag bookTag: BookTag){
-        self.model = bookTag
+    init(withBook book: Book){
+        self.model = book
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -68,17 +68,7 @@ class BookViewController: UIViewController {
         
         synchronizeWithModelView()
         
-////        let def = NSUbiquitousKeyValueStore.default()
-//        let def = UserDefaults.standard
-//        def.set(self.model, forKey: "lastBook")
-////        def.set(self.model, forKey: "lastBook")
-////        def.synchronize()
-//
-//        
-////        let def = NSUbiquitousKeyValueStore()
-//        let lastBook = def.object(forKey: "lastBook") as! Book
-//        print(lastBook)
-//        print("caca")
+
 
     }
     
@@ -88,12 +78,12 @@ class BookViewController: UIViewController {
         if (gesture.view as? UIImageView) != nil{
             emptyStarView.isHidden = true
             filledStarView.isHidden = false
-            model.book!.isFavourite = true
+            model.isFavourite = true
             // Insert into the model
-            _ = BookTag(withBook: model.book, tag: "Favourite", context: model.managedObjectContext!)
+            _ = BookTag(withBook: model, tag: "Favourite", context: model.managedObjectContext!)
             
             // Call the delegate to refresh the view
-            self.delegate?.bookViewcontroller(vc: self, addToFavourite: model.book!)
+            self.delegate?.bookViewcontroller(vc: self, addToFavourite: model)
             
         }
         
@@ -104,14 +94,14 @@ class BookViewController: UIViewController {
         if (gesture.view as? UIImageView) != nil{
             emptyStarView.isHidden = false
             filledStarView.isHidden = true
-            model.book!.isFavourite = false
+            model.isFavourite = false
             
             //Detele from model
             
             let req = NSFetchRequest<BookTag>(entityName: "BookTag")
             req.fetchLimit = 1
             
-            let searchFav = NSPredicate(format: "tag.tagName == %@ AND book.title == %@", "Favourite", (model.book?.title)!)
+            let searchFav = NSPredicate(format: "tag.tagName == %@ AND book.title == %@", "Favourite", (model.title)!)
             req.predicate = searchFav
             
 //            let frc = NSFetchedResultsController(fetchRequest: req, managedObjectContext: model.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
@@ -127,17 +117,17 @@ class BookViewController: UIViewController {
             }
             
             //call the delegate
-            self.delegate?.bookViewcontroller(vc: self, removeFromFavourite: model.book!)
+            self.delegate?.bookViewcontroller(vc: self, removeFromFavourite: model)
         }
         
     }
     
     func synchronizeWithModelView(){
         
-        self.titleView.text = model.book!.title
+        self.titleView.text = model.title
         self.titleView.isUserInteractionEnabled = false
         
-        guard let auxAuthors = model.book!.author else{
+        guard let auxAuthors = model.author else{
             return
         }
         
@@ -151,7 +141,7 @@ class BookViewController: UIViewController {
         self.authorsView.text = authorsName
         self.authorsView.isUserInteractionEnabled = false
         
-        let tags = Array(model.book!.bookTags!)
+        let tags = Array(model.bookTags!)
         var salida : String = ""
         
         for each in 0..<tags.count{
@@ -171,12 +161,12 @@ class BookViewController: UIViewController {
         
 //        let img = Data.init(referencing: (model.photo?.photoData)!)
 //        self.coverView.image = UIImage(data: img)
-        self.coverView.image = model.book!.photo?.image
+        self.coverView.image = model.photo?.image
         self.coverView.isUserInteractionEnabled = false
         
-        self.favourite = model.book!.isFavourite
+        self.favourite = model.isFavourite
         
-        if (model.book!.isFavourite){
+        if (model.isFavourite){
             emptyStarView.isHidden = true
             filledStarView.isHidden = false
         }else{
@@ -184,7 +174,21 @@ class BookViewController: UIViewController {
             filledStarView.isHidden = true
         }
         
+        saveLastBookSelected()
         
+        
+    }
+    
+    func saveLastBookSelected(){
+        //Save the lasta book selected
+        //        let def = NSUbiquitousKeyValueStore.default()
+        let def = UserDefaults.standard
+        
+        //save it as a String
+        def.set(self.model.objectID.uriRepresentation().absoluteString, forKey: "lastBook")
+        def.synchronize()
+        
+        print("\n OBject ID: \(self.model.objectID.uriRepresentation().absoluteString) \n" )
     }
 
     override func didReceiveMemoryWarning() {
@@ -209,5 +213,39 @@ protocol BookViewControllerDelegate{
     
     func bookViewcontroller(vc: BookViewController, addToFavourite: Book)
     func bookViewcontroller(vc: BookViewController, removeFromFavourite: Book)
+}
+
+//Implementamos los metodos del delegado
+extension BookViewController: BooksTableViewControllerDelegate{
+    
+    
+    func booksTableViewController(vc: BooksTableViewController, didSelectBook book: Book){
+        
+        
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            // Actualizamos el modelo
+            model = book
+            
+            
+            // Sincronizamos las vistas con el nuevo modelo
+            synchronizeWithModelView()
+            
+            break
+        case .pad:
+            // It's an iPad
+            // Actualizamos el modelo
+            model = book
+            
+            // Sincronizamos las vistas con el nuevo modelo
+            synchronizeWithModelView()
+            break
+        default:
+            // Uh, oh! What could it be?
+            break
+        }
+        
+    }
+    
 }
 

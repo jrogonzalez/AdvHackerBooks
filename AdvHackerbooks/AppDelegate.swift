@@ -19,39 +19,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //Creamos una instancia del modelo
     let model = CoreDataStack(modelName: "AdvHackerbooks")!
-    
-//    func initializeFetchedResultsController() {
-//        let request = NSFetchRequest<Book>(entityName: "Book")
-//        let departmentSort = NSSortDescriptor(key: "department.name", ascending: true)
-//        let lastNameSort = NSSortDescriptor(key: "lastName", ascending: true)
-//        request.sortDescriptors = [departmentSort, lastNameSort]
-//        let moc = model.context
-//        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: "department.name", cacheName: nil)
-//        fetchedResultsController?.delegate = self
-//        do {
-//            try fetchedResultsController?.performFetch()
-//        } catch {
-//            fatalError("Failed to initialize FetchedResultsController: \(error)")
-//        }
-//    }
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         //Borramos lo ya existente
-        do {
-            try model.dropAllData()
-        }
-        catch let error as NSError {
-            print(error.localizedDescription)
-        }
+//        do {
+//            try model.dropAllData()
+//        }
+//        catch let error as NSError {
+//            print(error.localizedDescription)
+//        }
         
         
         let defaults = UserDefaults.standard
         
         // ************ CLEAR USER DEFAULTS *******************
-        defaults.removeObject(forKey: "JSON_Data")
+//        defaults.removeObject(forKey: "JSON_Data")
+//                defaults.removeObject(forKey: "lastBook")
         // ****************************************************
         
         
@@ -87,25 +72,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                  managedObjectContext: model.context,
                                                  sectionNameKeyPath: "tag.tagName", //puede crear los nombres de secciones de las tablas
                                                  cacheName: nil)
-//        
-//        //Create the viewController
-//        let VC = BooksTableViewController(fetchedResultsController: reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
-//        
-//        //Create the navController
-//        let navVC = UINavigationController(rootViewController: VC)
-//        
-//         
-//         
-//        //Assign rootViewcontroller
-//        window?.rootViewController = navVC
-//        
-// 
-//        // make an autosave
-//        self.saveDelayContext()
-//        
-//        //Make the window visible
-//        window?.makeKeyAndVisible()
-//        
         
         switch UIDevice.current.userInterfaceIdiom {
         case .phone:
@@ -117,7 +83,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //Create the navController
             let navVC = UINavigationController(rootViewController: VC)
             
-            
+            //Assign delegate
+            VC.delegate = VC
             
             //Assign rootViewcontroller
             window?.rootViewController = navVC
@@ -128,28 +95,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .pad:
             print("Soy un IPAD")
             
-//            //Create the viewController
-//            let VC = BooksTableViewController(fetchedResultsController: reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
-//            
-//            //Create the navController
-//            let navVC = UINavigationController(rootViewController: VC)
-//            
+            //Create the viewController
+            let VC = BooksTableViewController(fetchedResultsController: reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
+            
+            //Create the navController
+            let navVC = UINavigationController(rootViewController: VC)
+            
 //            let def = NSUbiquitousKeyValueStore()
 //            let lastBook = def.object(forKey: "lastBook") as! Book
-//            
-//            // Creamos un character view controller
-//            let bookVC = BookViewController(withBook: lastBook)
-//            
-//            // Lo metro dentro de un navigation
-//            let charNav = UINavigationController(rootViewController: bookVC)
-//            
-//            // Creamos el splitView y le endosmos los dos nav
-//            let splitVC = UISplitViewController()
-//            splitVC.viewControllers = [navVC, charNav]
-//            
-//            // Nav como root view Controller
-//            window?.rootViewController = splitVC
-//            
+            
+            if let lastBook = VC.lastSelectedBook(context: model.context){
+                // Creamos un character view controller
+                let bookVC = BookViewController(withBook: lastBook as! Book)
+                
+                // Lo metro dentro de un navigation
+                let charNav = UINavigationController(rootViewController: bookVC)
+                
+                // Creamos el splitView y le endosmos los dos nav
+                let splitVC = UISplitViewController()
+                splitVC.viewControllers = [navVC, charNav]
+                
+                // Nav como root view Controller
+                window?.rootViewController = splitVC
+                
+                //Assign delegates
+                VC.delegate = bookVC
+                bookVC.delegate = VC
+
+            }else{
+                // Creamos un character view controller
+                let bookVC = CoverBookViewController(nibName: nil, bundle: nil)
+                
+                // Lo metro dentro de un navigation
+                let charNav = UINavigationController(rootViewController: bookVC)
+                
+                // Creamos el splitView y le endosmos los dos nav
+                let splitVC = UISplitViewController()
+                splitVC.viewControllers = [navVC, charNav]
+                
+                // Nav como root view Controller
+                window?.rootViewController = splitVC
+                
+                //Assign delegates
+                VC.delegate = bookVC
+                bookVC.delegate = VC
+
+            }
+            
+            
+            
+            
             break
             
         // It's an iPad
