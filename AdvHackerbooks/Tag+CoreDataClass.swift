@@ -60,7 +60,7 @@ public class Tag: NSManagedObject {
 //Mark: - KVO
 extension Tag{
     
-    @nonobjc static let observableKeyNames = ["tagName"]
+    @nonobjc static let observableKeyNames = ["tagName", "bookTags"]
     
     //Nos vamos a observar a nosotros mismos para cuando cambie alguna propiedad podar actualizar la vista
     func setupKVO(){

@@ -13,6 +13,7 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
     
     
     var delegate : BooksTableViewControllerDelegate? = nil
+    var orderAlpha : Bool = true
     
     static let bookDidChangeNotification = Notification.Name("BookDidChangeNotification")
     
@@ -34,6 +35,23 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        
+        if let fc = fetchedResultsController{
+            //            print("\n SECTION: \(section), name: \(fc.sections![section].name) \n")
+            if fc.sections![section].name == "" {
+                return "Books"
+            }else{
+                return fc.sections![section].name
+            }
+            //            return "CACA";
+        }else{
+            return nil
+        }
+    }
+
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -264,6 +282,43 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         
         self.fetchedResultsController? = reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>
     }
+    
+    func searchBooks(text: String, context: NSManagedObjectContext){
+        
+        let keySortDescriptor : String?
+        let sectionNames : String?
+        
+        //Create the fetchedRequest
+        let req = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
+        req.fetchBatchSize = 50
+        
+        keySortDescriptor = "book.title"
+        sectionNames = nil
+        req.returnsDistinctResults = true  //not repeated occurences
+
+        
+        let sd = NSSortDescriptor(key: keySortDescriptor, ascending: true)
+        req.sortDescriptors = [sd]
+        
+//        let searchPredicate = NSPredicate(format: "book.title == %@ OR book.author.name == %@ OR tag.tagName  == %@", text, text ,text)
+        let searchTitle = NSPredicate(format: "book.title contains[cd] %@", text)
+        let searchAuthor = NSPredicate(format: "ANY book.author.name contains[cd] %@", text)
+        let searchTags = NSPredicate(format: "tag.tagName contains[cd] %@", text)
+//        req.predicate = searchPredicate
+        
+//        let pre = NSCompoundPredicate.init(orPredicateWithSubpredicates: [searchTitle, searchAuthor, searchTags])
+        let pre = NSCompoundPredicate.init(orPredicateWithSubpredicates: [searchTitle, searchAuthor, searchTags])
+        req.predicate = pre
+        
+        //Create the fetchedRequestController
+        let reqCtrl = NSFetchedResultsController(fetchRequest: req,
+                                                 managedObjectContext: (self.fetchedResultsController?.managedObjectContext)!,
+                                                 sectionNameKeyPath: sectionNames,
+                                                 cacheName: nil)
+        
+        self.fetchedResultsController? = reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>
+    }
+
 
 
 }

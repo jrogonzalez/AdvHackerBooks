@@ -122,7 +122,7 @@ public class Photo: NSManagedObject {
 //Mark: - KVO
 extension Photo{
     
-    @nonobjc static let observableKeyNames = ["photoData"]
+    @nonobjc static let observableKeyNames = ["photoData", "photoURL", "book", "note"]
     
     //Nos vamos a observar a nosotros mismos para cuando cambie alguna propiedad podar actualizar la vista
     func setupKVO(){

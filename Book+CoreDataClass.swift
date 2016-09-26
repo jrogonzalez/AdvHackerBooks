@@ -80,7 +80,7 @@ public class Book: NSManagedObject {
 //Mark: - KVO
 extension Book{
     
-    @nonobjc static let observableKeyNames = ["note", "isFavourite"]
+    @nonobjc static let observableKeyNames = ["note", "isFavourite", "title", "isFinished", "lastPageReaded", "lastDateReaded", "pdf", "photo", "author", "bookTags"]
     
     //Nos vamos a observar a nosotros mismos para cuando cambie alguna propiedad podar actualizar la vista
     func setupKVO(){

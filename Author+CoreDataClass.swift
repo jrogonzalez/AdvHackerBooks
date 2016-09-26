@@ -31,7 +31,7 @@ public class Author: NSManagedObject {
 //Mark: - KVO
 extension Author{
     
-    @nonobjc static let observableKeyNames = ["name"]
+    @nonobjc static let observableKeyNames = ["name", "book"]
     
     //Nos vamos a observar a nosotros mismos para cuando cambie alguna propiedad podar actualizar la vista
     func setupKVO(){

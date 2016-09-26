@@ -132,9 +132,21 @@ class BookViewController: UIViewController {
         }
         
         var authorsName = ""
-        for key in Array(auxAuthors){
-            let authorName = (key as AnyObject).value(forKey: "name")
-            authorsName.append("\(authorName), ")
+        let authors = Array(auxAuthors)
+        for key in 0..<authors.count{
+            let authorName = (authors[key] as AnyObject).value(forKey: "name")
+//            authorsName.append("\(authorName), ")
+
+            if let name = authorName {
+                if (key == authors.count-1){
+                     authorsName.append("\(name)")
+                }else{
+                    authorsName.append("\(name), ")
+                }
+            }
+            
+            
+            
         }
         
         

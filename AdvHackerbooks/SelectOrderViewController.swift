@@ -20,10 +20,12 @@ class SelectOrderViewController: UIViewController, BooksTableViewControllerDeleg
         
         if sender.selectedSegmentIndex == 0{
             table?.changeSelectedOrder(Alphabetical: true, context: context)
+            table?.orderAlpha = true
     
             print("\n PULSADO ALPHA")
         } else{
             table?.changeSelectedOrder(Alphabetical: false, context: context)
+            table?.orderAlpha = false
             print("\n PULSADO TAGS")
         }
     }
@@ -47,6 +49,8 @@ class SelectOrderViewController: UIViewController, BooksTableViewControllerDeleg
         addTableControllerView()
         
         searchBarView.delegate = self
+        searchBarView.showsCancelButton = true
+        searchBarView.showsSearchResultsButton = true
         
         self.title = "HackerBooksPRO"
     }
@@ -214,8 +218,53 @@ class SelectOrderViewController: UIViewController, BooksTableViewControllerDeleg
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         //Implementar la busqueda
         print("HA PULSADO BUSCAR")
+        
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let search = searchBar.text
+        
+        table?.searchBooks(text: search!, context: context)
+        
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        clearSearch()
     }
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText == ""{
+           print("HA PULSADO CANCELAR_2")
+            clearSearch()
+            
+        }else{
+            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+            let search = searchBar.text
+            
+            table?.searchBooks(text: search!, context: context)
+            print("HA PULSADO BUSCAR_2")
+        }
+    }
+    
+    func clearSearch(){
+        guard let alpha = table?.orderAlpha else{
+            print("HA PULSADO CANCELAR")
+            return
+        }
+        
+        
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        
+        if alpha {
+            table?.changeSelectedOrder(Alphabetical: true, context: context)
+            table?.orderAlpha = true
+            
+        }else{
+            table?.changeSelectedOrder(Alphabetical: false, context: context)
+            table?.orderAlpha = false
+            
+        }
+
+    }
 
     /*
     // MARK: - Navigation

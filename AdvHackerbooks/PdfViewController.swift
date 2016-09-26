@@ -143,6 +143,8 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         let button = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(goToLastPage))
         
         self.navigationItem.rightBarButtonItem = button
+        
+        self.title = self.model.title
        
     }
     
