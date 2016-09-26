@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // ************ CLEAR USER DEFAULTS *******************
         defaults.removeObject(forKey: "JSON_Data")
-//                defaults.removeObject(forKey: "lastBook")
+                defaults.removeObject(forKey: "lastBook")
         // ****************************************************
         
         
@@ -56,22 +56,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Create the fetchedRequest
         let req = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
+        req.returnsDistinctResults = true  //not repeated occurences
+        req.propertiesToFetch = ["book.title"]
+//        req.resultType = NSFetchRequestResultType.dictionaryResultType
         
-        let title = NSSortDescriptor(key: "tag.tagName", ascending: true)
+//        let title = NSSortDescriptor(key: "tag.tagName", ascending: true)
+        let title = NSSortDescriptor(key: "book.title", ascending: true)
         req.sortDescriptors = [title]
         
-//        do {
-//            let res = try model?.context.execute(req)
-//        }
-//        catch let error as NSError {
-//            print(error.localizedDescription)
-//        }
         
         //Create the fetchedRequestController
         let reqCtrl = NSFetchedResultsController(fetchRequest: req,
                                                  managedObjectContext: model.context,
-                                                 sectionNameKeyPath: "tag.tagName", //puede crear los nombres de secciones de las tablas
+//                                                 sectionNameKeyPath: "tag.tagName", //puede crear los nombres de secciones de las tablas
+                                                sectionNameKeyPath: nil, //puede crear los nombres de secciones de las tablas
                                                  cacheName: nil)
+        
+        do {
+            let str = try model.context.fetch(req)
+            print(str)
+        }
+        catch let error as NSError {
+            print(error.localizedDescription)
+        }
         
         switch UIDevice.current.userInterfaceIdiom {
         case .phone:

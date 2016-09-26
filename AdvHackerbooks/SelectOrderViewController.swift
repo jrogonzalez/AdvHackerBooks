@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SelectOrderViewController: UIViewController, BooksTableViewControllerDelegate {
+class SelectOrderViewController: UIViewController, BooksTableViewControllerDelegate, UISearchBarDelegate {
     
     var table : BooksTableViewController?
     var delegate : BooksTableViewControllerDelegate?
@@ -19,15 +19,16 @@ class SelectOrderViewController: UIViewController, BooksTableViewControllerDeleg
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
         if sender.selectedSegmentIndex == 0{
-//            table?.changeSelectedOrder(Alphabetical: true, context: context)
-            
+            table?.changeSelectedOrder(Alphabetical: true, context: context)
+    
             print("\n PULSADO ALPHA")
         } else{
-//            table?.changeSelectedOrder(Alphabetical: false, context: context)
+            table?.changeSelectedOrder(Alphabetical: false, context: context)
             print("\n PULSADO TAGS")
         }
     }
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var selectOrder: UISegmentedControl!
+
     
     init(withBookTableVC bookTableVC : BooksTableViewController){
         self.table = bookTableVC
@@ -44,6 +45,10 @@ class SelectOrderViewController: UIViewController, BooksTableViewControllerDeleg
 
         // Do any additional setup after loading the view.
         addTableControllerView()
+        
+        searchBarView.delegate = self
+        
+        self.title = "HackerBooksPRO"
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,11 +58,11 @@ class SelectOrderViewController: UIViewController, BooksTableViewControllerDeleg
     
     
     // MARK: - Add Subview
-    func addTableControllerView(){
+    func addTableControllerViewMio(){
         
 //        let ancho = self.tableView.bounds.width
 //        let alto = self.tableView.bounds.height
-        
+
         
         let ancho = CGFloat(320)
         let alto = CGFloat(650)
@@ -73,13 +78,126 @@ class SelectOrderViewController: UIViewController, BooksTableViewControllerDeleg
         let area = CGRect(origin: position, size: tamanio)
         
         let tableView = UIScrollView(frame: area)
+        tableView.translatesAutoresizingMaskIntoConstraints = false // esta propiedad hay que ponerla a false para quitar la mascara de autodimensionamiento ya que somos nosotros quienes manejamos el layout
         
         self.table?.tableView.frame = tableView.frame
         self.table?.tableView.bounds = tableView.bounds
         
         tableView.addSubview((self.table?.tableView)!)
+
+//        let leadingConstraint = NSLayoutConstraint(item: self.table?.tableView,
+//                                                   attribute: NSLayoutAttribute.leading,
+//                                                   relatedBy: NSLayoutRelation.equal,
+//                                                   toItem: tableView,
+//                                                   attribute: NSLayoutAttribute.leading,
+//                                                   multiplier: 1,
+//                                                   constant: 12)
+//        
+//        
+//        let topConstraint = NSLayoutConstraint(item: self.table?.tableView,
+//                                                   attribute: NSLayoutAttribute.top,
+//                                                   relatedBy: NSLayoutRelation.equal,
+//                                                   toItem: tableView,
+//                                                   attribute: NSLayoutAttribute.top,
+//                                                   multiplier: 1,
+//                                                   constant: 12)
+//        
+//        let widthConstraint = NSLayoutConstraint(item: self.table?.tableView,
+//                                               attribute: NSLayoutAttribute.width,
+//                                               relatedBy: NSLayoutRelation.equal,
+//                                               toItem: nil,
+//                                               attribute: NSLayoutAttribute.width,
+//                                               multiplier: 1,
+//                                               constant: 320)
+//        
+//        
+//        let heighConstraint = NSLayoutConstraint(item: self.table?.tableView,
+//                                               attribute: NSLayoutAttribute.height,
+//                                               relatedBy: NSLayoutRelation.equal,
+//                                               toItem: nil,
+//                                               attribute: NSLayoutAttribute.height,
+//                                               multiplier: 1,
+//                                               constant: 320)
+//        
+        
+        
         
         self.view.addSubview(tableView)
+//        self.view.addConstraints([leadingConstraint, topConstraint, widthConstraint, heighConstraint])
+//        
+//        // DOOOOOOOS
+//        let viewsDictionary = ["views": self.table?.tableView]
+//        let horiontalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H: |-20-[views]-20-|",
+//                                                                  options: NSLayoutFormatOptions.alignAllTrailing,
+//                                                                  metrics: nil,
+//                                                                  views: viewsDictionary)
+//        let verticalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[views]-20-|",
+//                                                                 options: NSLayoutFormatOptions.alignAllTop,
+//                                                                 metrics: nil,
+//                                                                 views: viewsDictionary)
+//        self.view.addConstraints(horiontalConstraints)
+//        self.view.addConstraints(verticalConstraints)
+    }
+    
+    
+    
+    // MARK: - Add Subview
+    func addTableControllerView(){
+        
+        let segBounds = self.selectOrder.bounds
+        let searchBounds = self.searchBarView.bounds
+        let totalBounds = self.navigationController?.view.bounds
+        let tableBounds = self.table?.tableView.bounds
+        print("NAVIGATION X: Y: \(totalBounds)")
+        print("SEARCH X: Y: \(searchBounds)")
+        print("SEGMENTED X: Y: \(segBounds)")
+        
+        print("TABLE X: Y: \(tableBounds)")
+        
+        //let position = CGPoint(x: segBounds.origin.x, y: segBounds.origin.y+segBounds.size.height)
+        let position = CGPoint(x: segBounds.origin.x, y: segBounds.size.height+searchBounds.size.height)
+        print("POSITION X: Y: \(position)")
+//        let position = CGPoint(x: segBounds.origin.x, y: 200)
+        let totalSpace = CGSize(width: (totalBounds?.size.width)!,
+                                height: totalBounds!.size.height-(segBounds.size.height+searchBounds.size.height))
+        
+        print("CGRECT Width: Height: \(totalSpace)")
+        // Hasta aquí calculo donde dibujar la vista
+        let cgRect = CGRect(origin: position, size: totalSpace)
+        print("CGRECT: \(cgRect.origin)")
+        
+        
+        let tV = UIScrollView(frame: cgRect)
+        
+        print("tV: \(tV.bounds)")
+        tV.bounds = (self.table?.tableView.bounds)!
+        tV.frame = CGRect(x: 0,
+                          y: segBounds.size.height+searchBounds.size.height+64,
+                          width: (totalBounds?.size.width)!,
+                          height: totalBounds!.size.height-(segBounds.size.height+searchBounds.size.height))
+        
+        
+        // Modifico los bordes del tableView para que se ajuste bien
+        self.table?.tableView.frame = CGRect(x: 0,
+                                             y: 0,
+                                             width: (totalBounds?.size.width)!,
+                                             height: totalBounds!.size.height-(segBounds.size.height+searchBounds.size.height))
+        self.table?.tableView.bounds = tV.bounds
+        self.table?.tableView.contentInset = UIEdgeInsetsMake(0, 0, 100, 0)
+        print("TABLE FRAME: \(self.table?.tableView.frame)")
+        print("TABLE BOUNDS: \(self.table?.tableView.bounds)")
+        
+        
+        // Añado la subvista al uiview intermedio
+        tV.addSubview((self.table?.tableView)!)
+        
+        // Inserto la vista en el uiview principal
+        self.view.addSubview(tV)
+        
+        
+        
+        
+        
     }
 
     
@@ -91,6 +209,11 @@ class SelectOrderViewController: UIViewController, BooksTableViewControllerDeleg
         
         self.navigationController?.pushViewController(VC, animated: true)
         
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        //Implementar la busqueda
+        print("HA PULSADO BUSCAR")
     }
     
 

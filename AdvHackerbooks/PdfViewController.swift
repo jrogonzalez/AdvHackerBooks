@@ -8,9 +8,12 @@
 
 import UIKit
 import CoreData
+import CoreGraphics
 
-class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerDelegate {
+class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerDelegate, CALayerDelegate {
     
+    
+
     
     @IBAction func createNote(_ sender: AnyObject) {
         //Create a annotation
@@ -142,6 +145,12 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         self.navigationItem.rightBarButtonItem = button
        
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+//        self.model.lastPageReaded = self.model.pdf?.pdf
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -164,18 +173,79 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         DispatchQueue.global(qos: .background).async {
             
             var pdfData : Data? = nil
+            let myContentView : UIView?
+            let viewFrame : CGRect?
+            let pageRect: CGRect?
             
             if let thePdf = self.model.pdf?.pdf {
                 print(" \n \n  LOAD PDF FROM LOCAL \n \n ")
                 pdfData = thePdf
 
             }else{
+                
+//                // Load from the RemoteURL and save un model
+//                let url = URL(string: (self.model.pdf?.pdfURL!)!)
+//                pdfData = try? Data(referencing: (NSData(contentsOf: url!)))
+//                
+//                guard let document = CGPDFDocument(url as! CFURL) else { return }
+//                guard let myPageRef = document.page(at: 1) else { return }
+//                
+//                
+////                self.model.pdf!.pdf = document
+//                
+////                myPageRef = CGPDFDocumentGetPage(myDocumentRef, 1);
+//                let pdfBox = CGPDFBox(rawValue: Int32(kCGPDF)!)
+//                pageRect = myPageRef.getBoxRect(pdfBox!).integral;
+////
+//                let  tiledLayer = CATiledLayer.init();
+//                tiledLayer.delegate = self;
+//                tiledLayer.tileSize = CGSize(width: 1024.0, height: 1024.0)
+////                tiledLayer.tileSize = CGSizeMake(1024.0, 1024.0);
+//                
+//                tiledLayer.levelsOfDetail = 1000;
+//                tiledLayer.levelsOfDetailBias = 1000;
+//                tiledLayer.frame = pageRect!;
+////
+//                 myContentView = UIView.init(frame: pageRect!)
+//                myContentView?.layer.addSublayer(tiledLayer)
+////
+//                viewFrame = self.view.frame;
+//                viewFrame?.origin = CGPoint.zero;
+////                let  *scrollView = UIScrollView alloc] initWithFrame:viewFrame];
+////                self.pdfView.frame = viewFrame
+////                self.pdfView.delegate = self;
+////                self.pdfView.contentSize = pageRect.size;
+////                self.pdfView.maximumZoomScale = 1000;
+////                self.pdfView.addSubview(myContentView);
+//
+////                [self.view addSubview:scrollView];
+//
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                //***************************
                 // Load from the RemoteURL and save un model
                 let url = URL(string: (self.model.pdf?.pdfURL!)!)
                 pdfData = try? Data(referencing: (NSData(contentsOf: url!)))
 //                let urlReq = URLRequest(url: url!)
                 print(" \n \n  LOAD PDF FROM REMOTE \n \n ")
                 self.model.pdf!.pdf = pdfData
+
+                
+                
                 
                 
             }
@@ -187,7 +257,13 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
 
                 if pdfData != nil{
                     self.pdfView.load(pdfData!, mimeType: "application/pdf", textEncodingName: "utf-8", baseURL: URL(fileURLWithPath: "http://www.gogle.es"))
-                    
+
+//                    self.pdfView.frame = viewFrame!
+//                    self.pdfView.delegate = self;
+//                    self.pdfView.contentSize = (pageRect?.size)!;
+//                    self.pdfView.maximumZoomScale = 1000;
+//                    self.pdfView.addSubview(myContentView!);
+
 
                 }else{
                     let alert = UIAlertController(title: "Load Error",
@@ -281,9 +357,7 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         
 //        let pageHeight: Int  = 1000; // i.e. Height of PDF page = 1000 px;
         
-        let caca = self.pdfView.pageCount
-        
-        
+//        
 //        let data = CGDataProvider(data: <#T##CFData#>)
 //        let pdf : CGPDFDocumentRef = CGPDFDocument.init(<#T##provider: CGDataProvider##CGDataProvider#>)
 //        CGPDFPageRef myPageRef = CGPDFDocumentGetPage(pdf, 1);
@@ -303,6 +377,26 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         self.pdfView.scrollView.setContentOffset(CGPoint.init(x: 0, y: y), animated: true)
         
 //        [[webView scrollView] setContentOffset:CGPointMake(0,y) animated:YES];
+    }
+    
+    
+    func drawPDFfromURL(url: URL) -> UIImage? {
+        guard let document = CGPDFDocument(url as CFURL) else { return nil }
+        guard let page = document.page(at: 1) else { return nil }
+        
+        let pageRect = page.getBoxRect(.mediaBox)
+        let renderer = UIGraphicsImageRenderer(size: pageRect.size)
+        let img = renderer.image { ctx in
+            UIColor.white.set()
+            ctx.fill(pageRect)
+            
+            ctx.cgContext.translateBy(x: 0.0, y: pageRect.size.height);
+            ctx.cgContext.scaleBy(x: 1.0, y: -1.0);
+            
+            ctx.cgContext.drawPDFPage(page);
+        }
+        
+        return img
     }
 
 

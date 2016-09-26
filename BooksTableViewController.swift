@@ -141,6 +141,7 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         return 60.0
     }
     
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         
@@ -233,48 +234,35 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
     }
     
     func changeSelectedOrder(Alphabetical: Bool, context: NSManagedObjectContext){
+        
+        let keySortDescriptor : String?
+        let sectionNames : String?
+        
         //Create the fetchedRequest
         let req = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
         
-        let title = NSSortDescriptor(key: "tag.tagName", ascending: true)
-        req.sortDescriptors = [title]
-        
-        //        do {
-        //            let res = try model?.context.execute(req)
-        //        }
-        //        catch let error as NSError {
-        //            print(error.localizedDescription)
-        //        }
-        var tagName : String?
-        
         if Alphabetical {
-            tagName = "tag.tagName"
-            
-        } else{
-            tagName = nil
+            keySortDescriptor = "book.title"
+            sectionNames = nil
+            req.returnsDistinctResults = true  //not repeated occurences
+
+
+        }else{
+            keySortDescriptor = "tag.tagName"
+            sectionNames = "tag.tagName"
+
         }
         
+        let sd = NSSortDescriptor(key: keySortDescriptor, ascending: true)
+        req.sortDescriptors = [sd]
         
         //Create the fetchedRequestController
         let reqCtrl = NSFetchedResultsController(fetchRequest: req,
-                                                 managedObjectContext: context,
-                                                 sectionNameKeyPath: tagName, //puede crear los nombres de secciones de las tablas
-            cacheName: nil)
+                                                 managedObjectContext: (self.fetchedResultsController?.managedObjectContext)!,
+                                                 sectionNameKeyPath: sectionNames,
+                                                 cacheName: nil)
         
-        
-        //Create the viewController
-        let VC = BooksTableViewController(fetchedResultsController: reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
-        
-        let sVC = SelectOrderViewController(withBookTableVC: VC)
-        
-        
-        //Assign delegate
-        VC.delegate = sVC
-        sVC.delegate = sVC
-        
-        self.navigationController?.pushViewController(sVC, animated: true)
-
-        
+        self.fetchedResultsController? = reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>
     }
 
 

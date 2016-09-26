@@ -9,7 +9,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SelectOrderViewController" customModule="AdvHackerbooks" customModuleProvider="target">
             <connections>
                 <outlet property="searchBarView" destination="AbT-cT-GO3" id="wRa-Cf-827"/>
-                <outlet property="tableView" destination="SRY-Ng-aie" id="tst-sc-F8o"/>
+                <outlet property="selectOrder" destination="aEw-Hw-JDW" id="P84-Dg-ggU"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -19,24 +19,20 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="aEw-Hw-JDW">
-                    <frame key="frameInset" minY="108" width="375" height="29"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <frame key="frameInset" minY="108" width="100.00%" height="29"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <segments>
                         <segment title="Alphabetical Order"/>
                         <segment title="Tags Order"/>
                     </segments>
                     <connections>
-                        <action selector="selectOrderView:" destination="-1" eventType="valueChanged" id="oxM-lk-znn"/>
+                        <action selector="selectOrderView:" destination="-1" eventType="valueChanged" id="ePC-Em-lFY"/>
                     </connections>
                 </segmentedControl>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SRY-Ng-aie">
-                    <frame key="frameInset" minY="260"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                </tableView>
                 <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="AbT-cT-GO3">
-                    <frame key="frameInset" minY="64" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <frame key="frameInset" minY="64" width="100.00%" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
                     <textInputTraits key="textInputTraits"/>
                 </searchBar>
             </subviews>
