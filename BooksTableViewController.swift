@@ -56,8 +56,17 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //Search the Book
-        //        let book = self.fetchedResultcontroller.objectAtIndexPath(indexPath)
-        let bookTag = self.fetchedResultsController?.object(at: indexPath) as! BookTag
+        var book : Book? = nil
+        if orderAlpha {
+            if let searchBook = self.fetchedResultsController?.object(at: indexPath) as? Book {
+                book = searchBook
+            }
+        }else{
+            if let searchBook = self.fetchedResultsController?.object(at: indexPath) as? BookTag {
+                book = searchBook.book!
+            }
+        }
+        
         
         //Create a Cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "BookViewCell", for: indexPath) as! BookViewCell
@@ -67,10 +76,8 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
 //             cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellId)
 //        }
         
-        
-        if bookTag.book != nil {
             // Sincronize cell and book
-            cell.titleView.text = bookTag.book?.title
+            cell.titleView.text = book?.title
             
             //Async
             DispatchQueue.global(qos: .default).async {
@@ -83,7 +90,7 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
                     //Show a image whie the real cover is downloading
                     cell.bookPhotoView.image = UIImage(imageLiteralResourceName: "default_cover.png")
                     
-                    if (bookTag.book?.isFavourite)!{
+                    if (book?.isFavourite)!{
                         cell.favPhotoView.image = UIImage(imageLiteralResourceName: "filledStar.png")
                     }else{
                         cell.favPhotoView.image = UIImage(imageLiteralResourceName: "EmptyStar.jpg")
@@ -92,17 +99,17 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
                 
                 
                 
-                if let auxImg = bookTag.book?.photo?.image {
+                if let auxImg = book?.photo?.image {
 //                    print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
                     imagen = auxImg
                 }else{
                     //if we dont have it, we take it from remote
-                    let dataImage = NSData(contentsOf: NSURL(string: (bookTag.book?.photo?.photoURL!)!) as! URL)
+                    let dataImage = NSData(contentsOf: NSURL(string: (book?.photo?.photoURL!)!) as! URL)
                     let imgData = Data.init(referencing: dataImage!)
                     imagen = UIImage(data: imgData)
                     
                     //sync with model
-                    bookTag.book?.photo?.image = imagen
+                    book?.photo?.image = imagen
 //                    print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
                 }
                 
@@ -120,7 +127,7 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
             
             //        let tags = Array(book.tag!.dictionaryWithValues(forKeys: ["data"]))
             
-            if let caca = bookTag.book?.bookTags {
+            if let caca = book?.bookTags {
                 let tags = Array(caca)
                 
                 // Creamos el array de salida e introducimos el primer elemento el favorito
@@ -142,11 +149,6 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
                 cell.tagsView.text = salida
                 
             }
-
-            
-        }
-        
-        
         
         
 //        print("\n \n TITULO LIBRO: \(book.title) EN SECTION: \(indexPath.section) Y ROW: \(indexPath.row) \n \n ")
@@ -163,15 +165,29 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         
+        //Search the Book
+        var book : Book? = nil
+        if orderAlpha {
+            if let searchBook = self.fetchedResultsController?.object(at: indexPath) as? Book {
+                book = searchBook
+            }
+        }else{
+            if let searchBook = self.fetchedResultsController?.object(at: indexPath) as? BookTag {
+                book = searchBook.book!
+            }
+        }
+        
         switch UIDevice.current.userInterfaceIdiom {
         case .phone:
             print("Soy un IPHONE")
             
+            
+            
             //Search for the Book selected
-            let bookTag = self.fetchedResultsController?.object(at: indexPath) as! BookTag
+//            let bookTag = self.fetchedResultsController?.object(at: indexPath) as! BookTag
             
             //Push to the new controller
-            delegate?.booksTableViewController(vc: self, didSelectBook: bookTag.book!)
+            delegate?.booksTableViewController(vc: self, didSelectBook: book!)
             
             break
         // It's an iPhone
@@ -180,10 +196,10 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
             
             
             //Search for the Book selected
-            let bookTag = self.fetchedResultsController?.object(at: indexPath) as! BookTag
+//            let bookTag = self.fetchedResultsController?.object(at: indexPath) as! BookTag
             
             //Push to the new controller
-            delegate?.booksTableViewController(vc: self, didSelectBook: bookTag.book!)
+            delegate?.booksTableViewController(vc: self, didSelectBook: book!)
             
             
 //            // Enviamos la misma info via notificaciones
@@ -253,34 +269,41 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
     
     func changeSelectedOrder(Alphabetical: Bool, context: NSManagedObjectContext){
         
-        let keySortDescriptor : String?
-        let sectionNames : String?
-        
-        //Create the fetchedRequest
-        let req = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
-        
         if Alphabetical {
-            keySortDescriptor = "book.title"
-            sectionNames = nil
+            //Create the fetchedRequest
+            let req = NSFetchRequest<Book>(entityName: Book.entityName)
             req.returnsDistinctResults = true  //not repeated occurences
-
+            
+            let sd = NSSortDescriptor(key: "title", ascending: true)
+            req.sortDescriptors = [sd]
+            
+            //Create the fetchedRequestController
+            let reqCtrl = NSFetchedResultsController(fetchRequest: req,
+                                                     managedObjectContext: (self.fetchedResultsController?.managedObjectContext)!,
+                                                     sectionNameKeyPath: nil,
+                                                     cacheName: nil)
+            
+            self.fetchedResultsController? = reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>
 
         }else{
-            keySortDescriptor = "tag.tagName"
-            sectionNames = "tag.tagName"
-
+            
+            //Create the fetchedRequest
+            let req = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
+            req.returnsDistinctResults = true  //not repeated occurences
+            
+            let sd = NSSortDescriptor(key: "tag.tagName", ascending: true)
+            req.sortDescriptors = [sd]
+            
+            //Create the fetchedRequestController
+            let reqCtrl = NSFetchedResultsController(fetchRequest: req,
+                                                     managedObjectContext: (self.fetchedResultsController?.managedObjectContext)!,
+                                                     sectionNameKeyPath: "tag.tagName",
+                                                     cacheName: nil)
+            
+            self.fetchedResultsController? = reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>
         }
         
-        let sd = NSSortDescriptor(key: keySortDescriptor, ascending: true)
-        req.sortDescriptors = [sd]
         
-        //Create the fetchedRequestController
-        let reqCtrl = NSFetchedResultsController(fetchRequest: req,
-                                                 managedObjectContext: (self.fetchedResultsController?.managedObjectContext)!,
-                                                 sectionNameKeyPath: sectionNames,
-                                                 cacheName: nil)
-        
-        self.fetchedResultsController? = reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>
     }
     
     func searchBooks(text: String, context: NSManagedObjectContext){
@@ -333,6 +356,7 @@ protocol BooksTableViewControllerDelegate{
 
 // Implementamos los metodos del delegado
 extension BooksTableViewController: BookViewControllerDelegate{
+    
     
     
     func bookViewcontroller(vc: BookViewController, addToFavourite: Book){

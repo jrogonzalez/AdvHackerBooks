@@ -55,13 +55,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         //Create the fetchedRequest
-        let req = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
+        let req = NSFetchRequest<Book>(entityName: Book.entityName)
         req.returnsDistinctResults = true  //not repeated occurences
-        req.propertiesToFetch = ["book.title"]
+        req.propertiesToFetch = ["title"]
 //        req.resultType = NSFetchRequestResultType.dictionaryResultType
         
 //        let title = NSSortDescriptor(key: "tag.tagName", ascending: true)
-        let title = NSSortDescriptor(key: "book.title", ascending: true)
+        let title = NSSortDescriptor(key: "title", ascending: true)
         req.sortDescriptors = [title]
         
         

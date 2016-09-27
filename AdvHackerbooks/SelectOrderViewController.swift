@@ -50,7 +50,6 @@ class SelectOrderViewController: UIViewController, BooksTableViewControllerDeleg
         
         searchBarView.delegate = self
         searchBarView.showsCancelButton = true
-        searchBarView.showsSearchResultsButton = true
         
         self.title = "HackerBooksPRO"
     }
