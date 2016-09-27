@@ -43,7 +43,7 @@ public class Localization: NSManagedObject {
 //Mark: - KVO
 extension Localization{
     
-    @nonobjc static let observableKeyNames = ["latitude", "longitude", "address", "notes.text"]
+    @nonobjc static let observableKeyNames = ["latitude", "longitude", "address"]
     
     //Nos vamos a observar a nosotros mismos para cuando cambie alguna propiedad podar actualizar la vista
     func setupKVO(){

@@ -33,8 +33,13 @@ class NotesTableViewController: CoreDataTableViewController {
         
         cell.titleView.text = note.text
         cell.modificationDateView.text = note.modificationDate?.description
-        cell.longitudeView.text = note.location?.longitude.description
-        cell.latitudeView.text = note.location?.latitude.description
+        if let longitude = note.location?.longitude.description {
+            cell.longitudeView.text = "longitude: \(longitude)"
+        }
+        if let latitude = note.location?.latitude.description {
+            cell.latitudeView.text = "latitude: \(latitude)"
+        }
+        
         
         // Return the cell
         return cell

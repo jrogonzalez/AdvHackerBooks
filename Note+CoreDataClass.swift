@@ -79,6 +79,9 @@ extension Note: CLLocationManagerDelegate{
     
     // se llama una sola vez
     public override func awakeFromInsert() {
+        //hay que activar un par de propiedades dentro del info.plist (NSLocationAlwaysUsageDescription y NSLocationWhenInUseUsageDescription) con los valores que deseemos que aparezcan en la aplicacion al pedirte permiso para acceder a a geolocalizacion
+        //http://stackoverflow.com/questions/24050633/implement-cllocationmanagerdelegate-methods-in-swift/24056771#24056771
+        
         super.awakeFromInsert()
         
         setupKVO()
@@ -90,6 +93,7 @@ extension Note: CLLocationManagerDelegate{
             self.locationManager = CLLocationManager.init()
             self.locationManager?.delegate = self
             self.locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+            self.locationManager?.requestAlwaysAuthorization()
             self.locationManager?.startUpdatingLocation()
             
             // only take the recent data
@@ -120,6 +124,11 @@ extension Note: CLLocationManagerDelegate{
         
         tearDownKVO()
     }
+
+    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error en la GEOLOCALIZACION")
+    }
+    
     
     //MARK: - CLLocationManagerDelegate
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -131,7 +140,7 @@ extension Note: CLLocationManagerDelegate{
             let loc = locations.last
             
             
-            let location = Localization(withNote: self, location: loc!, context: self.managedObjectContext!)
+            _ = Localization(withNote: self, location: loc!, context: self.managedObjectContext!)
             
         }else{
             print("We should never reach here")
