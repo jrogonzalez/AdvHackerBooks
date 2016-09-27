@@ -14,7 +14,6 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
     
     
 
-    
     @IBAction func createNote(_ sender: AnyObject) {
         //Create a annotation
         print("\n \n Estoy pulsando el createNote \n \n")
