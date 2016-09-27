@@ -43,7 +43,7 @@ public class Note: NSManagedObject {
 //Mark: - KVO
 extension Note{
     
-    @nonobjc static let observableKeyNames = ["text", "location", "creationDate", "modificationDate", "book", "photo"]
+    @nonobjc static let observableKeyNames = ["text", "location.longitude", "location.latitude", "location.address", "book", "photo.photoData"]
     
     //Nos vamos a observar a nosotros mismos para cuando cambie alguna propiedad podar actualizar la vista
     func setupKVO(){
@@ -70,7 +70,7 @@ extension Note{
                                       change: [NSKeyValueChangeKey : Any]?,
                                       context: UnsafeMutableRawPointer?) {
         
-//        modificationDate = Date.init() as NSDate?
+        modificationDate = Date.init() as NSDate?
     }
 }
 

@@ -19,9 +19,6 @@ class NotesTableViewController: CoreDataTableViewController {
         
         // La celda
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as! NoteViewCell
-//        if cell == nil{
-//            cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellId)
-//        }
         
         // Synchronize
         if let img = note.photo?.image {
