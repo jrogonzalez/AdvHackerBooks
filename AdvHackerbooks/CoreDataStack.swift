@@ -27,7 +27,7 @@ struct CoreDataStack {
             print("Unable to find \(modelName)in the main bundle")
             return nil}
         
-        print("RUTA DEL MODEL : \(modelURL)")
+//        print("RUTA DEL MODEL : \(modelURL)")
         
         self.modelURL = modelURL
         
@@ -65,7 +65,7 @@ struct CoreDataStack {
         }
         
         self.dbURL = docUrl.appendingPathComponent("model.sqlite")
-         print("RUTA DEL SQLITE : \(self.dbURL)")
+//         print("RUTA DEL SQLITE : \(self.dbURL)")
         
         do{
             try addStoreCoordinator(NSSQLiteStoreType, configuration: nil, storeURL: dbURL, options: nil)

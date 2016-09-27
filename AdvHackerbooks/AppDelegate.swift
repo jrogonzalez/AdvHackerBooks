@@ -72,13 +72,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                 sectionNameKeyPath: nil, //puede crear los nombres de secciones de las tablas
                                                  cacheName: nil)
         
-        do {
-            let str = try model.context.fetch(req)
-            print(str)
-        }
-        catch let error as NSError {
-            print(error.localizedDescription)
-        }
+//        do {
+//            let str = try model.context.fetch(req)
+//        }
+//        catch let error as NSError {
+//            print(error.localizedDescription)
+//        }
         
         switch UIDevice.current.userInterfaceIdiom {
         case .phone:

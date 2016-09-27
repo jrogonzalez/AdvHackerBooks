@@ -96,7 +96,6 @@ extension BookTag{
                                       of object: Any?,
                                       change: [NSKeyValueChangeKey : Any]?,
                                       context: UnsafeMutableRawPointer?) {
-//        print("\n OBSERVABLE BOOKTAG \n")
     }
 }
 

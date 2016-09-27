@@ -21,12 +21,9 @@ class SelectOrderViewController: UIViewController, BooksTableViewControllerDeleg
         if sender.selectedSegmentIndex == 0{
             table?.changeSelectedOrder(Alphabetical: true, context: context)
             table?.orderAlpha = true
-    
-            print("\n PULSADO ALPHA")
         } else{
             table?.changeSelectedOrder(Alphabetical: false, context: context)
             table?.orderAlpha = false
-            print("\n PULSADO TAGS")
         }
     }
     @IBOutlet weak var selectOrder: UISegmentedControl!

@@ -58,6 +58,10 @@ class BookViewController: UIViewController {
         
         self.title = "Book"
         
+        if  UIDevice.current.userInterfaceIdiom == .pad {
+            self.navigationItem.hidesBackButton = true
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -157,7 +161,6 @@ class BookViewController: UIViewController {
         var salida : String = ""
         
         for each in 0..<tags.count{
-//            print("END INDEX: \(tags.endIndex) ")
             let tagName = ((tags[each] as AnyObject).value(forKey: "tag") as! Tag).tagName
             if (each == tags.count-1){
                 salida.append("\(tagName!)")
@@ -170,9 +173,6 @@ class BookViewController: UIViewController {
         
         self.tagsView.text = salida
         self.tagsView.isUserInteractionEnabled = false
-        
-//        let img = Data.init(referencing: (model.photo?.photoData)!)
-//        self.coverView.image = UIImage(data: img)
         self.coverView.image = model.photo?.image
         self.coverView.isUserInteractionEnabled = false
         
@@ -200,7 +200,7 @@ class BookViewController: UIViewController {
         def.set(self.model.objectID.uriRepresentation().absoluteString, forKey: "lastBook")
         def.synchronize()
         
-        print("\n OBject ID: \(self.model.objectID.uriRepresentation().absoluteString) \n" )
+//        print("\n OBject ID: \(self.model.objectID.uriRepresentation().absoluteString) \n" )
     }
 
     override func didReceiveMemoryWarning() {

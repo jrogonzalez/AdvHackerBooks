@@ -16,26 +16,12 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
 
     @IBAction func createNote(_ sender: AnyObject) {
         //Create a annotation
-        print("\n \n Estoy pulsando el createNote \n \n")
         //push the note
         
         let alert = UIAlertController(title: "New Note",
                                       message: "Add a new note",
                                       preferredStyle: .alert)
-        
-        // SIN CORE DATA
-        /*
-         let saveAction = UIAlertAction(title: "Save",
-         style: .default,
-         handler: { (action:UIAlertAction) -> Void in
-         
-         let textField = alert.textFields!.first
-         self.names.append(textField!.text!)
-         self.tableView.reloadData()
-         })
-         */
-        
-        // CON CORE DATA
+
         let saveAction = UIAlertAction(title: "Save",
                                        style: .default,
                                        handler: { (action:UIAlertAction) -> Void in
@@ -68,14 +54,9 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
                 completion: nil)
 
         
-        
-        
     }
     
     @IBAction func displayNotes(_ sender: AnyObject) {
-        //Create a annotation
-        print("\n \n Estoy pulsando el seeAllNotes \n \n")
-        //push the note
         
         //Create fetched Results Controller
         let req = NSFetchRequest<Note>.init(entityName: "Note")

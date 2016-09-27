@@ -15,6 +15,7 @@ class CoverBookViewController: UIViewController, BooksTableViewControllerDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.title = "HackerbooksPRO"
         self.coverView.image = UIImage(imageLiteralResourceName: "default_cover.png")
     }
 

@@ -95,9 +95,7 @@ extension CoreDataTableViewController{
         
         
         if let fc = fetchedResultsController{
-//            print("\n SECTION: \(section), name: \(fc.sections![section].name) \n")
             return fc.sections![section].name;
-//            return "CACA";
         }else{
             return nil
         }
@@ -128,8 +126,7 @@ extension CoreDataTableViewController{
     func executeSearch(){
         if let fc = fetchedResultsController{
             do{
-                let results = try fc.performFetch()
-                print("\n *** FETCH RESULTS **** \n \(results)")
+                _ = try fc.performFetch()
             }catch let e as NSError{
                 print("Error while trying to perform a search: \n\(e)\n\(fetchedResultsController)")
             }
