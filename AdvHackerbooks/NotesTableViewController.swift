@@ -12,29 +12,32 @@ class NotesTableViewController: CoreDataTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Id
-        let cellId = "cellId"
+        let cellId = "NoteViewCell"
         
         // La nota
         let note = fetchedResultsController?.object(at: indexPath) as! Note
         
         // La celda
-        var cell = tableView.dequeueReusableCell(withIdentifier: cellId)
-        if cell == nil{
-            cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellId)
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as! NoteViewCell
+//        if cell == nil{
+//            cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellId)
+//        }
         
         // Synchronize
         if let img = note.photo?.image {
-            cell?.imageView?.image = img
+            cell.noteImageView.image = img
         } else{
-            cell?.imageView?.image = UIImage(imageLiteralResourceName: "NoImageAvailable.png")
+            cell.noteImageView.image = UIImage(imageLiteralResourceName: "NoImageAvailable.png")
         }
         
         
-        cell?.textLabel?.text = note.text
+        cell.titleView.text = note.text
+        cell.modificationDateView.text = note.modificationDate?.description
+        cell.longitudeView.text = note.location?.longitude.description
+        cell.latitudeView.text = note.location?.latitude.description
         
         // Return the cell
-        return cell!
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -52,6 +55,10 @@ class NotesTableViewController: CoreDataTableViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        let nibName = UINib.init(nibName: "NoteViewCell", bundle: nil)
+        
+        self.tableView.register(nibName, forCellReuseIdentifier: "NoteViewCell")
         
         guard let fc = fetchedResultsController else{
             return

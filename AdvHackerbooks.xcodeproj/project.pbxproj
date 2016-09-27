@@ -34,6 +34,8 @@
 		131604861D93D58800C58106 /* CoverBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 131604841D93D58800C58106 /* CoverBookViewController.xib */; };
 		131604891D93FCAC00C58106 /* SelectOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131604871D93FCAC00C58106 /* SelectOrderViewController.swift */; };
 		1316048A1D93FCAC00C58106 /* SelectOrderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 131604881D93FCAC00C58106 /* SelectOrderViewController.xib */; };
+		131846E61D9A5B050042DD63 /* NoteViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131846E41D9A5B050042DD63 /* NoteViewCell.swift */; };
+		131846E71D9A5B050042DD63 /* NoteViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 131846E51D9A5B050042DD63 /* NoteViewCell.xib */; };
 		1318F8021D8EED330038DF84 /* Author+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1318F8001D8EED330038DF84 /* Author+CoreDataClass.swift */; };
 		1318F8031D8EED330038DF84 /* Author+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1318F8011D8EED330038DF84 /* Author+CoreDataProperties.swift */; };
 		1318F8051D8EF70B0038DF84 /* default_cover.png in Resources */ = {isa = PBXBuildFile; fileRef = 1318F8041D8EF70B0038DF84 /* default_cover.png */; };
@@ -88,6 +90,8 @@
 		131604841D93D58800C58106 /* CoverBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoverBookViewController.xib; sourceTree = "<group>"; };
 		131604871D93FCAC00C58106 /* SelectOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectOrderViewController.swift; sourceTree = "<group>"; };
 		131604881D93FCAC00C58106 /* SelectOrderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectOrderViewController.xib; sourceTree = "<group>"; };
+		131846E41D9A5B050042DD63 /* NoteViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewCell.swift; sourceTree = "<group>"; };
+		131846E51D9A5B050042DD63 /* NoteViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteViewCell.xib; sourceTree = "<group>"; };
 		1318F8001D8EED330038DF84 /* Author+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Author+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1318F8011D8EED330038DF84 /* Author+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Author+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1318F8041D8EF70B0038DF84 /* default_cover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_cover.png; sourceTree = "<group>"; };
@@ -225,6 +229,8 @@
 				131604841D93D58800C58106 /* CoverBookViewController.xib */,
 				131604871D93FCAC00C58106 /* SelectOrderViewController.swift */,
 				131604881D93FCAC00C58106 /* SelectOrderViewController.xib */,
+				131846E41D9A5B050042DD63 /* NoteViewCell.swift */,
+				131846E51D9A5B050042DD63 /* NoteViewCell.xib */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -291,6 +297,7 @@
 				139B72BB1D87634E004CDD17 /* books_readable.json in Resources */,
 				13801B2A1D89D35500908887 /* NoteViewController.xib in Resources */,
 				131604861D93D58800C58106 /* CoverBookViewController.xib in Resources */,
+				131846E71D9A5B050042DD63 /* NoteViewCell.xib in Resources */,
 				1366EB6E1D882B8100A5CA01 /* BookViewController.xib in Resources */,
 				13801B301D8AFDD000908887 /* copy_books_readable.json in Resources */,
 				13801B261D89CC7A00908887 /* NoImageAvailable.png in Resources */,
@@ -318,6 +325,7 @@
 				131604851D93D58800C58106 /* CoverBookViewController.swift in Sources */,
 				1318F80C1D8F1FC60038DF84 /* BookTag+CoreDataClass.swift in Sources */,
 				1309810D1D833A99000244E5 /* Photo+CoreDataClass.swift in Sources */,
+				131846E61D9A5B050042DD63 /* NoteViewCell.swift in Sources */,
 				131604891D93FCAC00C58106 /* SelectOrderViewController.swift in Sources */,
 				130981181D833A99000244E5 /* Pdf+CoreDataProperties.swift in Sources */,
 				130981171D833A99000244E5 /* Pdf+CoreDataClass.swift in Sources */,
