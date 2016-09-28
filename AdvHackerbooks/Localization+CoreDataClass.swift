@@ -28,16 +28,138 @@ public class Localization: NSManagedObject {
         self.longitude = location.coordinate.longitude
         
         
-        let geo = CLGeocoder.init()
-        geo.reverseGeocodeLocation(location) { (Placemarkets, error) in
-            if (error != nil) {
-                print("Error while obtaining address")
+        let geocoder = CLGeocoder()
+        
+        print("-> Finding user address...")
+        
+        geocoder.reverseGeocodeLocation(location, completionHandler: {(placemarks, error)->Void in
+            var placemark:CLPlacemark!
+            
+            if error == nil && (placemarks?.count)! > 0 {
+                placemark = (placemarks?[0])! as CLPlacemark
+                
+                var addressString : String = ""
+                if placemark.isoCountryCode == "TW" /*Address Format in Chinese*/ {
+                    if placemark.country != nil {
+                        addressString = placemark.country!
+                    }
+                    if placemark.subAdministrativeArea != nil {
+                        addressString = addressString + placemark.subAdministrativeArea! + ", "
+                    }
+                    if placemark.postalCode != nil {
+                        addressString = addressString + placemark.postalCode! + " "
+                    }
+                    if placemark.locality != nil {
+                        addressString = addressString + placemark.locality!
+                    }
+                    if placemark.thoroughfare != nil {
+                        addressString = addressString + placemark.thoroughfare!
+                    }
+                    if placemark.subThoroughfare != nil {
+                        addressString = addressString + placemark.subThoroughfare!
+                    }
+                } else {
+                    if placemark.subThoroughfare != nil {
+                        addressString = placemark.subThoroughfare! + " "
+                    }
+                    if placemark.thoroughfare != nil {
+                        addressString = addressString + placemark.thoroughfare! + ", "
+                    }
+                    if placemark.postalCode != nil {
+                        addressString = addressString + placemark.postalCode! + " "
+                    }
+                    if placemark.locality != nil {
+                        addressString = addressString + placemark.locality! + ", "
+                    }
+                    if placemark.administrativeArea != nil {
+                        addressString = addressString + placemark.administrativeArea! + " "
+                    }
+                    if placemark.country != nil {
+                        addressString = addressString + placemark.country!
+                    }
+                }
+                
+                print(addressString)
+                self.address = addressString
             }else{
-                self.address = ABCreateStringWithAddressDictionary((Placemarkets?.last?.addressDictionary)!, true)
+                self.address = "It was impossible obtain the Location"
             }
-        }
+        })
+        
+//        let geo = CLGeocoder.init()
+//        geo.reverseGeocodeLocation(location) { (Placemarkets, error) in
+//            if (error != nil) {
+//                print("Error while obtaining address")
+//            }else{
+//                self.address = ABCreateStringWithAddressDictionary((Placemarkets?.last?.addressDictionary)!, true)
+//            }
+//        }
+        
         
     }
+    
+    
+    func getLocationAddress(location:CLLocation) -> String {
+        let geocoder = CLGeocoder()
+        
+        print("-> Finding user address...")
+        
+        geocoder.reverseGeocodeLocation(location, completionHandler: {(placemarks, error)->Void in
+            var placemark:CLPlacemark!
+            
+            if error == nil && (placemarks?.count)! > 0 {
+                placemark = (placemarks?[0])! as CLPlacemark
+                
+                var addressString : String = ""
+                if placemark.isoCountryCode == "TW" /*Address Format in Chinese*/ {
+                    if placemark.country != nil {
+                        addressString = placemark.country!
+                    }
+                    if placemark.subAdministrativeArea != nil {
+                        addressString = addressString + placemark.subAdministrativeArea! + ", "
+                    }
+                    if placemark.postalCode != nil {
+                        addressString = addressString + placemark.postalCode! + " "
+                    }
+                    if placemark.locality != nil {
+                        addressString = addressString + placemark.locality!
+                    }
+                    if placemark.thoroughfare != nil {
+                        addressString = addressString + placemark.thoroughfare!
+                    }
+                    if placemark.subThoroughfare != nil {
+                        addressString = addressString + placemark.subThoroughfare!
+                    }
+                } else {
+                    if placemark.subThoroughfare != nil {
+                        addressString = placemark.subThoroughfare! + " "
+                    }
+                    if placemark.thoroughfare != nil {
+                        addressString = addressString + placemark.thoroughfare! + ", "
+                    }
+                    if placemark.postalCode != nil {
+                        addressString = addressString + placemark.postalCode! + " "
+                    }
+                    if placemark.locality != nil {
+                        addressString = addressString + placemark.locality! + ", "
+                    }
+                    if placemark.administrativeArea != nil {
+                        addressString = addressString + placemark.administrativeArea! + " "
+                    }
+                    if placemark.country != nil {
+                        addressString = addressString + placemark.country!
+                    }
+                }
+                
+                print(addressString)
+            }else{
+                //                return "It was impossible obtain the Location"
+            }
+        })
+        
+        return "It was impossible obtain the Location"
+    }
+
 }
 
 //Mark: - KVO

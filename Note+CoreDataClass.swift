@@ -148,6 +148,7 @@ extension Note: CLLocationManagerDelegate{
         
         
     }
+    
 }
 
 

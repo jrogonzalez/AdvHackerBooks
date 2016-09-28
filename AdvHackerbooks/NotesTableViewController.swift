@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class NotesTableViewController: CoreDataTableViewController {
     
@@ -36,6 +37,7 @@ class NotesTableViewController: CoreDataTableViewController {
         if let latitude = note.location?.latitude.description {
             cell.latitudeView.text = "latitude: \(latitude)"
         }
+        
         
         
         // Return the cell
@@ -75,6 +77,10 @@ class NotesTableViewController: CoreDataTableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
+    
+        
 
     /*
     // MARK: - Navigation

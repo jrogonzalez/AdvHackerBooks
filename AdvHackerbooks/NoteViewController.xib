@@ -31,6 +31,12 @@
                                         <action selector="goPhotoView:" destination="-1" id="Jva-qs-iDm"/>
                                     </connections>
                                 </barButtonItem>
+                                <barButtonItem style="plain" systemItem="flexibleSpace" id="nFT-LL-IEN"/>
+                                <barButtonItem title="Map" id="BUO-E8-kZN">
+                                    <connections>
+                                        <action selector="goMapView:" destination="-1" id="KtC-dN-zKJ"/>
+                                    </connections>
+                                </barButtonItem>
                             </items>
                         </toolbar>
                     </subviews>

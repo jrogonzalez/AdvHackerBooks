@@ -11,6 +11,7 @@ import CoreData
 import CoreGraphics
 
 class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerDelegate, CALayerDelegate {
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     
 
@@ -27,7 +28,23 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
                                        handler: { (action:UIAlertAction) -> Void in
                                         
                                         let textField = alert.textFields!.first
+                                        if textField?.text != ""{
                                         _ = Note(withBook: self.model, text: textField!.text!, context: self.model.managedObjectContext!)
+                                        }else{
+                                            let alertEmptyString = UIAlertController(title: "Empty note not saved",
+                                                                          message: "",
+                                                                          preferredStyle: .alert)
+                                            
+                                            let okAction = UIAlertAction(title: "Accept",
+                                                                             style: .default) { (action: UIAlertAction) -> Void in
+                                            }
+                                            alertEmptyString.addAction(okAction)
+                                            
+                                            self.present(alertEmptyString,
+                                                    animated: true,
+                                                    completion: nil)
+                                        }
+                                        
                                         
                                         //self.saveName(name: textField!.text!)
                                         //self.tableView.reloadData()
@@ -81,7 +98,6 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
 
     @IBOutlet weak var navigationView: UINavigationItem!
     @IBOutlet weak var pdfView: UIWebView!
-    @IBOutlet weak var activityView: UIActivityIndicatorView!
     @IBAction func notesButton(_ sender: AnyObject) {
     }
     

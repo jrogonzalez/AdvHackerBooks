@@ -105,12 +105,15 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
                 }else{
                     //if we dont have it, we take it from remote
                     let dataImage = NSData(contentsOf: NSURL(string: (book?.photo?.photoURL!)!) as! URL)
-                    let imgData = Data.init(referencing: dataImage!)
-                    imagen = UIImage(data: imgData)
+                    if let img = dataImage {
+                        let imgData = Data.init(referencing: img)
+                        imagen = UIImage(data: imgData)
+                        
+                        //sync with model
+                        book?.photo?.image = imagen
+                        //                    print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
+                    }
                     
-                    //sync with model
-                    book?.photo?.image = imagen
-//                    print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
                 }
                 
                 
@@ -118,7 +121,10 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
                 
                 //load the image in the Main queue
                 DispatchQueue.main.async {
-                    cell.bookPhotoView.image = imagen
+                    if imagen != nil {
+                        cell.bookPhotoView.image = imagen    
+                    }
+                    
                 }
                 
             }

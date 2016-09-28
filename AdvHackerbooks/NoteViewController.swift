@@ -12,6 +12,12 @@ class NoteViewController: UIViewController {
 
     var model : Note?
     
+    @IBAction func goMapView(_ sender: AnyObject) {
+        let mapVC = MapViewController(withLocalization: (model?.location)!)
+        
+        self.navigationController?.pushViewController(mapVC, animated: true)
+        
+    }
     @IBAction func goPhotoView(_ sender: AnyObject) {
         
         

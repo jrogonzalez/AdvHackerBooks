@@ -48,6 +48,8 @@
 		1366EB6E1D882B8100A5CA01 /* BookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1366EB6C1D882B8100A5CA01 /* BookViewController.xib */; };
 		1366EB711D885DBF00A5CA01 /* PdfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1366EB6F1D885DBF00A5CA01 /* PdfViewController.swift */; };
 		1366EB721D885DBF00A5CA01 /* PdfViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1366EB701D885DBF00A5CA01 /* PdfViewController.xib */; };
+		1370302F1D9C201A00B0E8F5 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1370302D1D9C201A00B0E8F5 /* MapViewController.swift */; };
+		137030301D9C201A00B0E8F5 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1370302E1D9C201A00B0E8F5 /* MapViewController.xib */; };
 		13801B1F1D89C38100908887 /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13801B1D1D89C38100908887 /* Note+CoreDataClass.swift */; };
 		13801B201D89C38100908887 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13801B1E1D89C38100908887 /* Note+CoreDataProperties.swift */; };
 		13801B241D89C95500908887 /* NotesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13801B231D89C95500908887 /* NotesTableViewController.swift */; };
@@ -104,6 +106,8 @@
 		1366EB6C1D882B8100A5CA01 /* BookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookViewController.xib; sourceTree = "<group>"; };
 		1366EB6F1D885DBF00A5CA01 /* PdfViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PdfViewController.swift; sourceTree = "<group>"; };
 		1366EB701D885DBF00A5CA01 /* PdfViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PdfViewController.xib; sourceTree = "<group>"; };
+		1370302D1D9C201A00B0E8F5 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		1370302E1D9C201A00B0E8F5 /* MapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		13801B1D1D89C38100908887 /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataClass.swift"; sourceTree = "<group>"; };
 		13801B1E1D89C38100908887 /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		13801B231D89C95500908887 /* NotesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesTableViewController.swift; sourceTree = "<group>"; };
@@ -231,6 +235,8 @@
 				131604881D93FCAC00C58106 /* SelectOrderViewController.xib */,
 				131846E41D9A5B050042DD63 /* NoteViewCell.swift */,
 				131846E51D9A5B050042DD63 /* NoteViewCell.xib */,
+				1370302D1D9C201A00B0E8F5 /* MapViewController.swift */,
+				1370302E1D9C201A00B0E8F5 /* MapViewController.xib */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -307,6 +313,7 @@
 				1316048A1D93FCAC00C58106 /* SelectOrderViewController.xib in Resources */,
 				130980C21D8333A6000244E5 /* filledStar.png in Resources */,
 				1366EB721D885DBF00A5CA01 /* PdfViewController.xib in Resources */,
+				137030301D9C201A00B0E8F5 /* MapViewController.xib in Resources */,
 				132FBF9B1D8CB0B300D4C4BB /* PhotoViewController.xib in Resources */,
 				130980BD1D833237000244E5 /* BookViewCell.xib in Resources */,
 				130980A81D833189000244E5 /* Main.storyboard in Resources */,
@@ -334,6 +341,7 @@
 				1366EB6D1D882B8100A5CA01 /* BookViewController.swift in Sources */,
 				130981231D834283000244E5 /* Foundation.swift in Sources */,
 				130981241D834283000244E5 /* Utils.swift in Sources */,
+				1370302F1D9C201A00B0E8F5 /* MapViewController.swift in Sources */,
 				1318F8031D8EED330038DF84 /* Author+CoreDataProperties.swift in Sources */,
 				130981201D833B65000244E5 /* BookErrors.swift in Sources */,
 				1309810F1D833A99000244E5 /* Tag+CoreDataClass.swift in Sources */,
