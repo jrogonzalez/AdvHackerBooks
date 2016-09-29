@@ -40,6 +40,9 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         
         
         if let fc = fetchedResultsController{
+            guard let sections = fc.sections else {
+                return nil
+            }
             if fc.sections![section].name == "" {
                 return "Books"
             }else{

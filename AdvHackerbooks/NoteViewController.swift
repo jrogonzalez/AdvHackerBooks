@@ -13,7 +13,7 @@ class NoteViewController: UIViewController {
     var model : Note?
     
     @IBAction func goMapView(_ sender: AnyObject) {
-        let mapVC = MapViewController(withLocalization: (model?.location)!)
+        let mapVC = MapViewController(withLocalization: model?.location)
         
         self.navigationController?.pushViewController(mapVC, animated: true)
         
@@ -104,16 +104,6 @@ class NoteViewController: UIViewController {
         return salida
     }
 
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 

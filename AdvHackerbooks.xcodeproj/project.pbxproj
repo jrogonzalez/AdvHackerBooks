@@ -60,6 +60,7 @@
 		139B72AD1D873697004CDD17 /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139B72AC1D873697004CDD17 /* CoreDataTableViewController.swift */; };
 		139B72B11D8739B6004CDD17 /* BooksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139B72B01D8739B6004CDD17 /* BooksTableViewController.swift */; };
 		139B72BB1D87634E004CDD17 /* books_readable.json in Resources */ = {isa = PBXBuildFile; fileRef = 139B72BA1D87634E004CDD17 /* books_readable.json */; };
+		13D563521D9DD7C80089627A /* VCMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D563511D9DD7C80089627A /* VCMapView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +119,7 @@
 		139B72AC1D873697004CDD17 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataTableViewController.swift; path = ../CoreDataTableViewController.swift; sourceTree = "<group>"; };
 		139B72B01D8739B6004CDD17 /* BooksTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BooksTableViewController.swift; path = ../BooksTableViewController.swift; sourceTree = "<group>"; };
 		139B72BA1D87634E004CDD17 /* books_readable.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = books_readable.json; sourceTree = "<group>"; };
+		13D563511D9DD7C80089627A /* VCMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCMapView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +212,7 @@
 			children = (
 				130981211D834283000244E5 /* Foundation.swift */,
 				130981221D834283000244E5 /* Utils.swift */,
+				13D563511D9DD7C80089627A /* VCMapView.swift */,
 			);
 			name = Framework;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13D563521D9DD7C80089627A /* VCMapView.swift in Sources */,
 				130980AB1D833189000244E5 /* AdvHackerbooks.xcdatamodeld in Sources */,
 				131604851D93D58800C58106 /* CoverBookViewController.swift in Sources */,
 				1318F80C1D8F1FC60038DF84 /* BookTag+CoreDataClass.swift in Sources */,

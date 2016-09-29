@@ -31,12 +31,15 @@ class NotesTableViewController: CoreDataTableViewController {
         
         cell.titleView.text = note.text
         cell.modificationDateView.text = note.modificationDate?.description
-        if let longitude = note.location?.longitude.description {
+        if let longitude = note.location?.longitude.description,
+            let latitude = note.location?.latitude.description {
             cell.longitudeView.text = "longitude: \(longitude)"
-        }
-        if let latitude = note.location?.latitude.description {
             cell.latitudeView.text = "latitude: \(latitude)"
+        }else{
+            cell.longitudeView.text = "longitude: Not Available"
+            cell.latitudeView.text = "latitude: Not Available"
         }
+        
         
         
         

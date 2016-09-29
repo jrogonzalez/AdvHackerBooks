@@ -15,9 +15,11 @@ extension Localization {
         return NSFetchRequest<Localization>(entityName: "Localization");
     }
     
+    @NSManaged public var title: String?
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
-    @NSManaged public var address: String?
+    @NSManaged public var locationName: String?
+    @NSManaged public var discipline: String?
     @NSManaged public var notes: NSSet?
     
 }

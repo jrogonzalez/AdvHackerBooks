@@ -15,13 +15,13 @@ class MapViewController: UIViewController {
     @IBOutlet weak var longitudeView: UILabel!
     @IBOutlet weak var latitudeView: UILabel!
     @IBOutlet weak var addressView: UILabel!
-    let loc : Localization
+    let loc : Localization?
     
     // set initial location in Honolulu
     let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
     let regionRadius: CLLocationDistance = 1000
     
-    init(withLocalization localization: Localization){
+    init(withLocalization localization: Localization?){
         self.loc = localization
         super.init(nibName: nil, bundle: nil)
     }
@@ -50,14 +50,21 @@ class MapViewController: UIViewController {
     }
     
     func synchronizeView(){
-        
-        longitudeView.text = self.loc.longitude.description
-        latitudeView.text = self.loc.latitude.description
-        addressView.text = self.loc.locationName?.description
-        let location = CLLocation(latitude: self.loc.latitude, longitude: self.loc.longitude)
-        centerMapOnLocation(location: location)
-        
-        mapView.addAnnotation(self.loc)
+        if let loc = self.loc {
+            longitudeView.text = loc.longitude.description
+            latitudeView.text = loc.latitude.description
+            addressView.text = loc.locationName?.description
+//            let location = CLLocation(latitude: self.loc?.latitude, longitude: self.loc?.longitude)
+//            centerMapOnLocation(location: location)
+            
+            mapView.addAnnotation(self.loc!)
+        }else{
+            longitudeView.text = "Not Available"
+            latitudeView.text = "Not Available"
+            addressView.text = "Not Available"
+             centerMapOnLocation(location: initialLocation)
+        }
+     
     }
     
     func centerMapOnLocation(location: CLLocation) {

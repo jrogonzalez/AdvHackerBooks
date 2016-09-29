@@ -53,31 +53,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         
-        
         //Create the fetchedRequest
         let req = NSFetchRequest<Book>(entityName: Book.entityName)
         req.returnsDistinctResults = true  //not repeated occurences
-        req.propertiesToFetch = ["title"]
-//        req.resultType = NSFetchRequestResultType.dictionaryResultType
         
-//        let title = NSSortDescriptor(key: "tag.tagName", ascending: true)
-        let title = NSSortDescriptor(key: "title", ascending: true)
-        req.sortDescriptors = [title]
-        
+        let sd = NSSortDescriptor(key: "title", ascending: true)
+        req.sortDescriptors = [sd]
         
         //Create the fetchedRequestController
         let reqCtrl = NSFetchedResultsController(fetchRequest: req,
                                                  managedObjectContext: model.context,
-//                                                 sectionNameKeyPath: "tag.tagName", //puede crear los nombres de secciones de las tablas
-                                                sectionNameKeyPath: nil, //puede crear los nombres de secciones de las tablas
+                                                 sectionNameKeyPath: nil,
                                                  cacheName: nil)
-        
-//        do {
-//            let str = try model.context.fetch(req)
-//        }
-//        catch let error as NSError {
-//            print(error.localizedDescription)
-//        }
         
         switch UIDevice.current.userInterfaceIdiom {
         case .phone:

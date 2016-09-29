@@ -2,13 +2,9 @@
 //  VCMapView.swift
 //  AdvHackerbooks
 //
-//  Created by jro on 29/09/16.
+//  Created by jro on 30/09/16.
 //  Copyright © 2016 jro. All rights reserved.
 //
-
-import UIKit
-import Foundation
-
 
 import MapKit
 
