@@ -83,7 +83,7 @@ func decode(book json: JSONDictionary, context: NSManagedObjectContext) throws  
                 inPdf: pdfString,
                 inPhoto: imageURL,
                 inFavourite: false,
-                inNote: "Nota de Prueba",
+                inNote: nil,
                 context: context)
 }
 

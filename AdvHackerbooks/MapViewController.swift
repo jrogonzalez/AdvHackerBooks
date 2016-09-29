@@ -37,6 +37,8 @@ class MapViewController: UIViewController {
         self.addressView.isUserInteractionEnabled = false
         self.longitudeView.isUserInteractionEnabled = false
         self.latitudeView.isUserInteractionEnabled = false
+        
+        mapView.delegate = self
 
         // Do any additional setup after loading the view.
         synchronizeView()
@@ -51,9 +53,11 @@ class MapViewController: UIViewController {
         
         longitudeView.text = self.loc.longitude.description
         latitudeView.text = self.loc.latitude.description
-        addressView.text = self.loc.address?.description
+        addressView.text = self.loc.locationName?.description
         let location = CLLocation(latitude: self.loc.latitude, longitude: self.loc.longitude)
         centerMapOnLocation(location: location)
+        
+        mapView.addAnnotation(self.loc)
     }
     
     func centerMapOnLocation(location: CLLocation) {

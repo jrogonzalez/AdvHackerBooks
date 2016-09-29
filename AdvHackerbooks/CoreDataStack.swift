@@ -65,7 +65,7 @@ struct CoreDataStack {
         }
         
         self.dbURL = docUrl.appendingPathComponent("model.sqlite")
-//         print("RUTA DEL SQLITE : \(self.dbURL)")
+         print("RUTA DEL SQLITE : \(self.dbURL)")
         
         do{
             try addStoreCoordinator(NSSQLiteStoreType, configuration: nil, storeURL: dbURL, options: nil)

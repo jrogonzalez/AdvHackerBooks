@@ -40,13 +40,11 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         
         
         if let fc = fetchedResultsController{
-            //            print("\n SECTION: \(section), name: \(fc.sections![section].name) \n")
             if fc.sections![section].name == "" {
                 return "Books"
             }else{
                 return fc.sections![section].name
             }
-            //            return "CACA";
         }else{
             return nil
         }
@@ -104,9 +102,9 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
                     imagen = auxImg
                 }else{
                     //if we dont have it, we take it from remote
-                    let dataImage = NSData(contentsOf: NSURL(string: (book?.photo?.photoURL!)!) as! URL)
-                    if let img = dataImage {
-                        let imgData = Data.init(referencing: img)
+                    if let url = URL(string: (book?.photo?.photoURL)!),
+                        let dataImage = NSData(contentsOf: url){
+                        let imgData = Data.init(referencing: dataImage)
                         imagen = UIImage(data: imgData)
                         
                         //sync with model

@@ -12,6 +12,17 @@ class PhotoViewController: UIViewController {
     
     var model : Note
     
+    //MARK: - Intializers
+    init(withNote model: Note){
+        self.model = model
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    //MARK: - 
     @IBAction func takePhoto(_ sender: AnyObject) {
         // Crear una instancia de UIImagePicker
         let picker = UIImagePickerController()
@@ -33,7 +44,7 @@ class PhotoViewController: UIViewController {
             // mostrarse el picker
         }
     }
-
+    
     @IBAction func removePhoto(_ sender: AnyObject) {
         let oldBounds = self.photoView.bounds
         
@@ -54,25 +65,15 @@ class PhotoViewController: UIViewController {
             self.model.photo?.image = nil
             self.syncModelView()
         }
-
+        
     }
     @IBOutlet weak var photoView: UIImageView!
     
-    init(withNote model: Note){
-        self.model = model
-        super.init(nibName: nil, bundle: nil)
-    }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
+    //MARK: - Livecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        
-//        syncDataView()
         
     }
     
@@ -94,7 +95,14 @@ class PhotoViewController: UIViewController {
     
     func syncDataView(){
         self.title = model.text
-        self.photoView.image = model.photo?.image
+        
+        if let img = model.photo?.image {
+            self.photoView.image = img
+        }else{
+            self.photoView.image = UIImage(imageLiteralResourceName: "NoImageAvailable.png")
+        }
+            
+        
     }
 
     override func didReceiveMemoryWarning() {
