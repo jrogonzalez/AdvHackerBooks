@@ -71,96 +71,66 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         
         //Create a Cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "BookViewCell", for: indexPath) as! BookViewCell
-//        let cellId = "NotebookCell"
-//        var cell = tableView.dequeueReusableCell(withIdentifier: cellId)
-//        if cell == nil{
-//             cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellId)
-//        }
         
-            // Sincronize cell and book
-            cell.titleView.text = book?.title
+        // Sincronize cell and book
+        cell.titleView.text = book?.title
+        
+        //Show a image whie the real cover is downloading
+        cell.bookPhotoView.image = UIImage(imageLiteralResourceName: "default_cover.png")
+        
+        //Async
+        DispatchQueue.global(qos: .default).async {
+            //Test if have the local data image
             
-            //Async
-            DispatchQueue.global(qos: .default).async {
-                //Test if have the local data image
-                
-                var imagen : UIImage? = nil
-                
-                //load the provisional image in the Main queue
-                DispatchQueue.main.async {
-                    //Show a image whie the real cover is downloading
-                    cell.bookPhotoView.image = UIImage(imageLiteralResourceName: "default_cover.png")
+            var imagen : UIImage? = nil
+            
+            if let auxImg = book?.photo?.image {
+                imagen = auxImg
+            }else{
+                //if we dont have it, we take it from remote
+                if let url = URL(string: (book?.photo?.photoURL)!),
+                    let dataImage = NSData(contentsOf: url){
+                    let imgData = Data.init(referencing: dataImage)
+                    imagen = UIImage(data: imgData)
                     
-                    if (book?.isFavourite)!{
-                        cell.favPhotoView.image = UIImage(imageLiteralResourceName: "filledStar.png")
-                    }else{
-                        cell.favPhotoView.image = UIImage(imageLiteralResourceName: "EmptyStar.jpg")
-                    }
-                }
-                
-                
-                
-                if let auxImg = book?.photo?.image {
-//                    print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
-                    imagen = auxImg
-                }else{
-                    //if we dont have it, we take it from remote
-                    if let url = URL(string: (book?.photo?.photoURL)!),
-                        let dataImage = NSData(contentsOf: url){
-                        let imgData = Data.init(referencing: dataImage)
-                        imagen = UIImage(data: imgData)
-                        
-                        //sync with model
-                        book?.photo?.image = imagen
-                        //                    print(" \n \n  LOAD COVER FROM LOCAL \n \n ")
-                    }
-                    
-                }
-                
-                
-                
-                
-                //load the image in the Main queue
-                DispatchQueue.main.async {
-                    if imagen != nil {
-                        cell.bookPhotoView.image = imagen    
-                    }
-                    
+                    //sync with model
+                    book?.photo?.image = imagen
                 }
                 
             }
             
-            
-            
-            //        let tags = Array(book.tag!.dictionaryWithValues(forKeys: ["data"]))
-            
-            if let caca = book?.bookTags {
-                let tags = Array(caca)
+            //load the image in the Main queue
+            DispatchQueue.main.async {
+                if imagen != nil {
+                    cell.bookPhotoView.image = imagen
+                }
                 
-                // Creamos el array de salida e introducimos el primer elemento el favorito
-                var salida : String  = ""
-                
-                //Iteramos y vamos introduciendo los tags salvo el favorito que ya lo introdujimos en la posicion 0
-                for each in 0..<tags.count{
-//                    print("END INDEX: \(tags.endIndex) ")
-                    let tagName = ((tags[each] as AnyObject).value(forKey: "tag") as! Tag).tagName
+            }
+            
+        }
+        
+        if let caca = book?.bookTags {
+            let tags = Array(caca)
+            
+            // Creamos el array de salida e introducimos el primer elemento el favorito
+            var salida : String  = ""
+            
+            //Iteramos y vamos introduciendo los tags salvo el favorito que ya lo introdujimos en la posicion 0
+            for each in 0..<tags.count{
+                let tagName = ((tags[each] as AnyObject).value(forKey: "tag") as! Tag).tagName
+                if tagName != "Favourite"{
                     if (each == tags.count-1){
                         salida.append("\(tagName!)")
                     }else{
                         salida.append("\(tagName!), ")
                     }
-                    
                 }
-                
-                
-                cell.tagsView.text = salida
-                
             }
-        
-        
-//        print("\n \n TITULO LIBRO: \(book.title) EN SECTION: \(indexPath.section) Y ROW: \(indexPath.row) \n \n ")
-        
-        // Return Cell
+            
+            cell.tagsView.text = salida
+            
+        }
+
         return cell
     }
     
@@ -188,11 +158,6 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         case .phone:
             print("Soy un IPHONE")
             
-            
-            
-            //Search for the Book selected
-//            let bookTag = self.fetchedResultsController?.object(at: indexPath) as! BookTag
-            
             //Push to the new controller
             delegate?.booksTableViewController(vc: self, didSelectBook: book!)
             
@@ -201,18 +166,8 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         case .pad:
             print("Soy un IPAD")
             
-            
-            //Search for the Book selected
-//            let bookTag = self.fetchedResultsController?.object(at: indexPath) as! BookTag
-            
             //Push to the new controller
             delegate?.booksTableViewController(vc: self, didSelectBook: book!)
-            
-            
-//            // Enviamos la misma info via notificaciones
-//            let nc = NotificationCenter.default
-//            let notif = Notification(name: BooksTableViewController.bookDidChangeNotification, object: self, userInfo: [bookKey:bookTag.book!])
-//            nc.postNotification(notif)
             
             break
             
@@ -224,23 +179,15 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
             print("Soy un DEFAULT")
             // Uh, oh! What could it be?
         }
-
         
+        // Send Notification
+        // Define identifier
+        let notificationName = Notification.Name("BookDidChangeNotification")
         
-        
-        
-
+        // Post notification
+//        NotificationCenter.default.post(name: notificationName, object: book)
+        NotificationCenter.default.post(name: notificationName, object: nil, userInfo: ["BookKey": book])
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     //Mark: -
     internal func booksTableViewController(vc: BooksTableViewController, didSelectBook book: Book) {
@@ -249,6 +196,9 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         
         // Push to the navigation Controller
         self.navigationController?.pushViewController(bookVC, animated: true)
+        
+        
+
         
     }
     
@@ -329,14 +279,11 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         
         let sd = NSSortDescriptor(key: keySortDescriptor, ascending: true)
         req.sortDescriptors = [sd]
-        
-//        let searchPredicate = NSPredicate(format: "book.title == %@ OR book.author.name == %@ OR tag.tagName  == %@", text, text ,text)
+
         let searchTitle = NSPredicate(format: "book.title contains[cd] %@", text)
         let searchAuthor = NSPredicate(format: "ANY book.author.name contains[cd] %@", text)
         let searchTags = NSPredicate(format: "tag.tagName contains[cd] %@", text)
-//        req.predicate = searchPredicate
-        
-//        let pre = NSCompoundPredicate.init(orPredicateWithSubpredicates: [searchTitle, searchAuthor, searchTags])
+
         let pre = NSCompoundPredicate.init(orPredicateWithSubpredicates: [searchTitle, searchAuthor, searchTags])
         req.predicate = pre
         
@@ -348,8 +295,6 @@ class BooksTableViewController: CoreDataTableViewController , BooksTableViewCont
         
         self.fetchedResultsController? = reqCtrl as! NSFetchedResultsController<NSFetchRequestResult>
     }
-
-
 
 }
 
@@ -367,15 +312,11 @@ extension BooksTableViewController: BookViewControllerDelegate{
     
     
     func bookViewcontroller(vc: BookViewController, addToFavourite: Book){
-        // Actualizamos el modelo
-//        model.addFavorite(book)
         
         //sincronizamos
         self.tableView.reloadData()
     }
     func bookViewcontroller(vc: BookViewController, removeFromFavourite: Book){
-        // Actualizamos el modelo
-//        model.removeFavorite(book)
         
         //sincronizamos
         self.tableView.reloadData()

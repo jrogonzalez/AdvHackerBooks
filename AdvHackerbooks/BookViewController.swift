@@ -62,13 +62,16 @@ class BookViewController: UIViewController {
             self.navigationItem.hidesBackButton = true
         }
         
+//        self.view.backgroundColor? = UIColor(colorLiteralRed: 0.77, green: 0.77, blue: 0.77, alpha: 1.0)
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        emptyStarView.image = UIImage(imageLiteralResourceName: "EmptyStar.jpg")
-        filledStarView.image = UIImage(imageLiteralResourceName: "filledStar.png")
+        emptyStarView.image = UIImage(imageLiteralResourceName: "EmptyStar2.png")
+        filledStarView.image = UIImage(imageLiteralResourceName: "filled2.png")
         
         synchronizeWithModelView()
         
@@ -108,8 +111,6 @@ class BookViewController: UIViewController {
             let searchFav = NSPredicate(format: "tag.tagName == %@ AND book.title == %@", "Favourite", (model.title)!)
             req.predicate = searchFav
             
-//            let frc = NSFetchedResultsController(fetchRequest: req, managedObjectContext: model.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-            
             do {
                 let str = try model.managedObjectContext?.fetch(req)
                 if (str?.count)! > 0 {
@@ -139,7 +140,6 @@ class BookViewController: UIViewController {
         let authors = Array(auxAuthors)
         for key in 0..<authors.count{
             let authorName = (authors[key] as AnyObject).value(forKey: "name")
-//            authorsName.append("\(authorName), ")
 
             if let name = authorName {
                 if (key == authors.count-1){
@@ -148,9 +148,6 @@ class BookViewController: UIViewController {
                     authorsName.append("\(name), ")
                 }
             }
-            
-            
-            
         }
         
         
@@ -162,11 +159,14 @@ class BookViewController: UIViewController {
         
         for each in 0..<tags.count{
             let tagName = ((tags[each] as AnyObject).value(forKey: "tag") as! Tag).tagName
-            if (each == tags.count-1){
-                salida.append("\(tagName!)")
-            }else{
-                salida.append("\(tagName!), ")
+            if tagName != "Favourite"{
+                if (each == tags.count-1){
+                    salida.append("\(tagName!)")
+                }else{
+                    salida.append("\(tagName!), ")
+                }
             }
+            
             
         }
         

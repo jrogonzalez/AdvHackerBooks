@@ -12,7 +12,6 @@ class BookViewCell: UITableViewCell {
 
     @IBOutlet weak var bookPhotoView: UIImageView!    
     @IBOutlet weak var tagsView: UILabel!
-    @IBOutlet weak var favPhotoView: UIImageView!
     @IBOutlet weak var titleView: UILabel!
     
     override func awakeFromNib() {

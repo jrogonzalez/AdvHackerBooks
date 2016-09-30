@@ -101,7 +101,7 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
     @IBAction func notesButton(_ sender: AnyObject) {
     }
     
-    let model : Book
+    var model : Book
     var delegate: PdfViewControllerDelegate?
     
     
@@ -122,6 +122,14 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // Alta en notificación
+        // Define identifier
+        let notificationName = Notification.Name("BookDidChangeNotification")
+        
+        // Register to receive notification
+        NotificationCenter.default.addObserver(self, selector: #selector(PdfViewController.bookDidChange), name: notificationName, object: nil)
+        
+        
         //synchronize
         synchronizedataWithModel()
     }
@@ -140,9 +148,11 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         
         self.navigationItem.rightBarButtonItem = button
         
-        self.title = self.model.title
+        
        
     }
+    
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -165,7 +175,10 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
     //MARK: - Data Source
     func synchronizedataWithModel(){
         
+        self.activityView.isHidden = false
         self.activityView.startAnimating()
+        
+        self.title = self.model.title
         
         
         DispatchQueue.global(qos: .background).async {
@@ -396,6 +409,25 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         
         return img
     }
+    
+    func bookDidChange(notification: NSNotification)  {
+        
+        // Sacar el userInfo
+        let info = notification.userInfo!
+        
+        activityView.startAnimating()
+        
+        // Sacar el libro
+        let book = info["BookKey"] as? Book
+        
+        // Actualizar el modelo
+        self.model = book!
+        
+        // Sincronizar las vistas
+        synchronizedataWithModel()
+        
+    }
+
 
 
 }
@@ -404,3 +436,4 @@ protocol PdfViewControllerDelegate{
     
     func pdfViewController(vc: PdfViewController, didPdfChanged: Book)
 }
+
