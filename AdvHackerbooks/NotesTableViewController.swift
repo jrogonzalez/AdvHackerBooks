@@ -73,11 +73,35 @@ class NotesTableViewController: CoreDataTableViewController {
         
         // set the title of note´s book
         title = (fc.fetchedObjects?.first as? Note)?.book?.title
+        
+        //Add the edit buttonBar
+//        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(deleteNote))
+        
+        self.navigationItem.rightBarButtonItem = editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func deleteNote(){
+        
+    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            let note = self.fetchedResultsController?.object(at: indexPath) as! Note
+            
+            note.managedObjectContext?.delete(note)
+            
+        } 
+    }
+    
+    // Override to support conditional editing of the table view.
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return true
     }
     
     
