@@ -21,6 +21,8 @@ class MapViewController: UIViewController {
     let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
     let regionRadius: CLLocationDistance = 1000
     
+    
+    //MARK - Initializers
     init(withLocalization localization: Localization?){
         self.loc = localization
         super.init(nibName: nil, bundle: nil)
@@ -30,7 +32,7 @@ class MapViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    //MARK - Livecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,8 +56,8 @@ class MapViewController: UIViewController {
             longitudeView.text = loc.longitude.description
             latitudeView.text = loc.latitude.description
             addressView.text = loc.locationName?.description
-//            let location = CLLocation(latitude: self.loc?.latitude, longitude: self.loc?.longitude)
-//            centerMapOnLocation(location: location)
+            let location = CLLocation(latitude: loc.latitude, longitude: loc.longitude)
+            centerMapOnLocation(location: location)
             
             mapView.addAnnotation(self.loc!)
         }else{
@@ -72,17 +74,5 @@ class MapViewController: UIViewController {
                                                                   regionRadius * 2.0, regionRadius * 2.0)
         mapView.setRegion(coordinateRegion, animated: true)
     }
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

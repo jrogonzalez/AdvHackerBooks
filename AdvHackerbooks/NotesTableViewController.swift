@@ -11,6 +11,32 @@ import CoreLocation
 
 class NotesTableViewController: CoreDataTableViewController {
     
+    //MARK: - Initializers
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+        
+        let nibName = UINib.init(nibName: "NoteViewCell", bundle: nil)
+        
+        self.tableView.register(nibName, forCellReuseIdentifier: "NoteViewCell")
+        
+        guard let fc = fetchedResultsController else{
+            return
+        }
+        
+        // set the title of note´s book
+        title = (fc.fetchedObjects?.first as? Note)?.book?.title
+        
+        //Add the edit buttonBar
+        self.navigationItem.rightBarButtonItem = editButtonItem
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Id
         let cellId = "NoteViewCell"
@@ -30,18 +56,19 @@ class NotesTableViewController: CoreDataTableViewController {
         
         
         cell.titleView.text = note.text
-        cell.modificationDateView.text = note.modificationDate?.description
-        if let longitude = note.location?.longitude.description,
-            let latitude = note.location?.latitude.description {
-            cell.longitudeView.text = "longitude: \(longitude)"
-            cell.latitudeView.text = "latitude: \(latitude)"
-        }else{
-            cell.longitudeView.text = "longitude: Not Available"
-            cell.latitudeView.text = "latitude: Not Available"
-        }
         
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd' 'HH:mm:ss"
         
-        
+        cell.modificationDateView.text = df.string(from: note.modificationDate! as Date)
+//        if let longitude = note.location?.longitude.description,
+//            let latitude = note.location?.latitude.description {
+//            cell.longitudeView.text = "longitude: \(longitude)"
+//            cell.latitudeView.text = "latitude: \(latitude)"
+//        }else{
+//            cell.longitudeView.text = "longitude: Not Available"
+//            cell.latitudeView.text = "latitude: Not Available"
+//        }
         
         // Return the cell
         return cell
@@ -57,37 +84,7 @@ class NotesTableViewController: CoreDataTableViewController {
         //Push
         navigationController?.pushViewController(noteVC, animated: true)
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        
-        let nibName = UINib.init(nibName: "NoteViewCell", bundle: nil)
-        
-        self.tableView.register(nibName, forCellReuseIdentifier: "NoteViewCell")
-        
-        guard let fc = fetchedResultsController else{
-            return
-        }
-        
-        // set the title of note´s book
-        title = (fc.fetchedObjects?.first as? Note)?.book?.title
-        
-        //Add the edit buttonBar
-//        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(deleteNote))
-        
-        self.navigationItem.rightBarButtonItem = editButtonItem
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
-    func deleteNote(){
-        
-    }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
@@ -104,19 +101,5 @@ class NotesTableViewController: CoreDataTableViewController {
         return true
     }
     
-    
-    
-    
-        
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
