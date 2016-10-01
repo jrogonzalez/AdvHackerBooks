@@ -11,10 +11,28 @@ import CoreData
 import CoreGraphics
 
 class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerDelegate, CALayerDelegate {
+    
+    var model : Book
+    var delegate: PdfViewControllerDelegate?
+    
     @IBOutlet weak var activityView: UIActivityIndicatorView!
+    @IBOutlet weak var navigationView: UINavigationItem!
+    @IBOutlet weak var pdfView: UIWebView!
     
+    //MARK: - Initializers
+    init(withModel model: Book){
+        self.model = model
+        super.init(nibName: nil, bundle: nil)
+        
+        
+        
+    }
     
-
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+        
+    //MARK: - IBActions
     @IBAction func createNote(_ sender: AnyObject) {
         //Create a annotation
         //push the note
@@ -96,27 +114,9 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         self.navigationController?.pushViewController(notesVC, animated: true)
     }
 
-    @IBOutlet weak var navigationView: UINavigationItem!
-    @IBOutlet weak var pdfView: UIWebView!
-    @IBAction func notesButton(_ sender: AnyObject) {
-    }
-    
-    var model : Book
-    var delegate: PdfViewControllerDelegate?
-    
-    
-    //MARK: - Initializers
-    init(withModel model: Book){
-        self.model = model
-        super.init(nibName: nil, bundle: nil)
-        
 
-        
-    }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+
     
     //MARK: - Lifec, ycle
     override func viewWillAppear(_ animated: Bool) {
@@ -143,10 +143,10 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         self.pdfView.delegate = self
         self.delegate = self
 
-        //MAke a boton for goin to the last page
-        let button = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(goToLastPage))
-        
-        self.navigationItem.rightBarButtonItem = button
+//        //MAke a boton for goin to the last page
+//        let button = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(goToLastPage))
+//        
+//        self.navigationItem.rightBarButtonItem = button
         
         
        
@@ -184,81 +184,16 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         DispatchQueue.global(qos: .background).async {
             
             var pdfData : Data? = nil
-            let myContentView : UIView?
-            let viewFrame : CGRect?
-            let pageRect: CGRect?
             
             if let thePdf = self.model.pdf?.pdf {
-                print(" \n \n  LOAD PDF FROM LOCAL \n \n ")
                 pdfData = thePdf
 
             }else{
-                
-//                // Load from the RemoteURL and save un model
-//                let url = URL(string: (self.model.pdf?.pdfURL!)!)
-//                pdfData = try? Data(referencing: (NSData(contentsOf: url!)))
-//                
-//                guard let document = CGPDFDocument(url as! CFURL) else { return }
-//                guard let myPageRef = document.page(at: 1) else { return }
-//                
-//                
-////                self.model.pdf!.pdf = document
-//                
-////                myPageRef = CGPDFDocumentGetPage(myDocumentRef, 1);
-//                let pdfBox = CGPDFBox(rawValue: Int32(kCGPDF)!)
-//                pageRect = myPageRef.getBoxRect(pdfBox!).integral;
-////
-//                let  tiledLayer = CATiledLayer.init();
-//                tiledLayer.delegate = self;
-//                tiledLayer.tileSize = CGSize(width: 1024.0, height: 1024.0)
-////                tiledLayer.tileSize = CGSizeMake(1024.0, 1024.0);
-//                
-//                tiledLayer.levelsOfDetail = 1000;
-//                tiledLayer.levelsOfDetailBias = 1000;
-//                tiledLayer.frame = pageRect!;
-////
-//                 myContentView = UIView.init(frame: pageRect!)
-//                myContentView?.layer.addSublayer(tiledLayer)
-////
-//                viewFrame = self.view.frame;
-//                viewFrame?.origin = CGPoint.zero;
-////                let  *scrollView = UIScrollView alloc] initWithFrame:viewFrame];
-////                self.pdfView.frame = viewFrame
-////                self.pdfView.delegate = self;
-////                self.pdfView.contentSize = pageRect.size;
-////                self.pdfView.maximumZoomScale = 1000;
-////                self.pdfView.addSubview(myContentView);
-//
-////                [self.view addSubview:scrollView];
-//
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                //***************************
+
                 // Load from the RemoteURL and save un model
                 let url = URL(string: (self.model.pdf?.pdfURL!)!)
                 pdfData = try? Data(referencing: (NSData(contentsOf: url!)))
-//                let urlReq = URLRequest(url: url!)
-                print(" \n \n  LOAD PDF FROM REMOTE \n \n ")
                 self.model.pdf!.pdf = pdfData
-
-                
-                
-                
-                
             }
             
             // Call the delegate to refresh the view
@@ -268,14 +203,6 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
 
                 if pdfData != nil{
                     self.pdfView.load(pdfData!, mimeType: "application/pdf", textEncodingName: "utf-8", baseURL: URL(fileURLWithPath: "http://www.gogle.es"))
-
-//                    self.pdfView.frame = viewFrame!
-//                    self.pdfView.delegate = self;
-//                    self.pdfView.contentSize = (pageRect?.size)!;
-//                    self.pdfView.maximumZoomScale = 1000;
-//                    self.pdfView.addSubview(myContentView!);
-
-
                 }else{
                     let alert = UIAlertController(title: "Load Error",
                                                   message: "Error in pdf loading",
@@ -294,12 +221,7 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
                     
                     self.activityView.isHidden = true
                 }
-                
-                
             }
-
-            
-            
         }
     }
     
