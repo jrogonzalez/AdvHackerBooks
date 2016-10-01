@@ -1,4 +1,4 @@
-# HackerBooks
+# HackerBooksPRO
 
 ##Descripcion: 
 Aplicacion para ipad/iPhone que permite las siguientes funcionaliddades:
