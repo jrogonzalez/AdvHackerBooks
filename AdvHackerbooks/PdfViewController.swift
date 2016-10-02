@@ -142,13 +142,6 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         
         self.pdfView.delegate = self
         self.delegate = self
-
-//        //MAke a boton for goin to the last page
-//        let button = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(goToLastPage))
-//        
-//        self.navigationItem.rightBarButtonItem = button
-        
-        
        
     }
     
@@ -157,7 +150,6 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-//        self.model.lastPageReaded = self.model.pdf?.pdf
     }
 
     override func didReceiveMemoryWarning() {
@@ -226,21 +218,8 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
     }
     
     internal func pdfViewController(vc: PdfViewController, didPdfChanged: Book) {
-        print(" \n \n  He entrado en el delegado del pdfViewController \n \n ")
+        // TODO
     }
-
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
 
     
     func loadPdf() throws -> NSURLRequest?{
@@ -286,17 +265,9 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         let  selectedPag: CGFloat = 5.0; // i.e. Go to page 5
         
         //get the total height
-        let pageHeight : CGFloat = self.pdfView.scrollView.contentSize.height;
+        let _ : CGFloat = self.pdfView.scrollView.contentSize.height;
         
-//        let pageHeight: Int  = 1000; // i.e. Height of PDF page = 1000 px;
-        
-//        
-//        let data = CGDataProvider(data: <#T##CFData#>)
-//        let pdf : CGPDFDocumentRef = CGPDFDocument.init(<#T##provider: CGDataProvider##CGDataProvider#>)
-//        CGPDFPageRef myPageRef = CGPDFDocumentGetPage(pdf, 1);
-//        int  totalPages= CGPDFDocumentGetNumberOfPages(pdf);
-        
-        let count2: CGFloat = self.pdfView.scrollView.contentSize.width / self.pdfView.scrollView.frame.size.width; // for horizontal paging
+        let _: CGFloat = self.pdfView.scrollView.contentSize.width / self.pdfView.scrollView.frame.size.width; // for horizontal paging
             
         let count3: CGFloat = self.pdfView.scrollView.contentSize.height / self.pdfView.scrollView.frame.size.height; // for vertical paging
     
@@ -309,7 +280,6 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
         
         self.pdfView.scrollView.setContentOffset(CGPoint.init(x: 0, y: y), animated: true)
         
-//        [[webView scrollView] setContentOffset:CGPointMake(0,y) animated:YES];
     }
     
     

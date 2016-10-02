@@ -85,9 +85,6 @@ extension CoreDataTableViewController{
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let fc = fetchedResultsController{
-            guard let sections = fc.sections else {
-                return 0
-            }
             return fc.sections![section].numberOfObjects;
         }else{
             return 0
@@ -98,9 +95,6 @@ extension CoreDataTableViewController{
         
         
         if let fc = fetchedResultsController{
-            guard let sections = fc.sections else {
-                return nil
-            }
             return fc.sections![section].name;
         }else{
             return nil
