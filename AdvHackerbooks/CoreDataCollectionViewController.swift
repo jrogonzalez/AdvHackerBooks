@@ -97,7 +97,7 @@ extension CoreDataCollectionViewController: NSFetchedResultsControllerDelegate{
     
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print("controllerWillChangeContent")
+//        print("controllerWillChangeContent")
         //collectionView.beginUpdates()
     }
     

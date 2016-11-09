@@ -43,15 +43,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Create the window
         window = UIWindow(frame: UIScreen.main.bounds)
 
-        if (defaults.value(forKey: "JSON_Data") == nil){
-            do {
-                try readJSON(context: self.model.context, local: true)
-            }
-            catch let error as NSError {
-                print(error.localizedDescription)
+        //Execute the download od the data in background
+        model.performBackgroundBatchOperation { context in
+            if (defaults.value(forKey: "JSON_Data") == nil){
+                do {
+                    try readJSON(context: context, local: true)
+                    try context.save()
+                }
+                catch let error as NSError {
+                    print(error.localizedDescription)
+                }
             }
         }
-        
         
         //Create the fetchedRequest
         let req = NSFetchRequest<Book>(entityName: Book.entityName)

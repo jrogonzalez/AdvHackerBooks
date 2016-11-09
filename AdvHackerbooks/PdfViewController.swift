@@ -106,12 +106,25 @@ class PdfViewController: UIViewController, UIWebViewDelegate, PdfViewControllerD
                                             sectionNameKeyPath: nil,
                                             cacheName: nil)
         
-        //Crear el controlador
-        let notesVC = NotesTableViewController(fetchedResultsController: fr as! NSFetchedResultsController<NSFetchRequestResult>)
+//        //Crear el controlador
+//        let notesVC = NotesTableViewController(fetchedResultsController: fr as! NSFetchedResultsController<NSFetchRequestResult>)
+//        
+//        
+//        //mostratlo
+//        self.navigationController?.pushViewController(notesVC, animated: true)
         
+        //Llamamos al CoreDataCollectionViewController
+        //Creamos el layout
+        let layout = UICollectionViewFlowLayout.init()
+        layout.itemSize = CGSize(width: 330, height: 100)
+        layout.scrollDirection = UICollectionViewScrollDirection.horizontal
+        layout.minimumLineSpacing = 100
+        
+        let notesCollectionVC = NotesCollectionViewController(withBook: self.model, fetchedResultsController: fr as! NSFetchedResultsController<NSFetchRequestResult>, layout: layout)
         
         //mostratlo
-        self.navigationController?.pushViewController(notesVC, animated: true)
+        self.navigationController?.pushViewController(notesCollectionVC, animated: true)
+        
     }
 
 
